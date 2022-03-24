@@ -1,10 +1,10 @@
-# Newbie-English
+# Newbee-English
 
 
 
 ## Description
 
-**Newbie-English 英语学习平台** 的 Repo。本 Repo 成员一致反内卷，因此决定全部开源。
+**Newbee-English 英语学习平台** 的 Repo。本 Repo 成员一致反内卷，因此决定全部开源。
 
 
 
