@@ -99,9 +99,9 @@
    git submodule add https://github.com/SnapdragonLee/Newbee-backend
    ```
 
-   ③ 这个时候就可以发现在主仓库目录下的 `.gitmodules` 中出现了相关的子仓库引用配置。
+   这个时候就可以发现在主仓库目录下的 `.gitmodules` 中出现了相关的子仓库引用配置。
 
-   ④ 同 “3. 中的②” 进行正常的 commit 操作后，push 到主仓库即可。
+   ③ 同 “3. 中的②” 进行正常的 commit 操作后，push 到主仓库即可。
 
    
 
