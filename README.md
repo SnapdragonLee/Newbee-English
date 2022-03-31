@@ -93,7 +93,7 @@
 
    ① 在子仓库目录下进行提交，push 到子仓库。不要直接在主仓库中进行提交，
 
-   ② 回到主仓库，例如需要添加的子仓库引用地址是 https://github.com/SnapdragonLee/Newbee-backend，则使用命令：
+   ② 回到主仓库，例如需要添加的子仓库引用地址是 https://github.com/SnapdragonLee/Newbee-backend ，则使用命令：
 
    ```
    git submodule add https://github.com/SnapdragonLee/Newbee-backend
