@@ -110,16 +110,31 @@
 请将本仓库文件目录按如下方式部署：
 
 ```
-├─.
-├─backend
-	├─Requirements
-└─docs
-    ├─Requirements
-    │  └─assets
-    └─Weekly
+.
+├── .git
+│   ├── ...
+├── backend
+│   ├── .git
+│   │   ├── ...
+│   ├── LICENSE
+│   ├── ...
+│   └── README.md
+├── ...
+├── docs
+│   ├── Requirements
+│   │   ├── assets
+│   │   │   ├── ...
+│   │   │   └── 总体框架.png
+│   │   ├── ...
+│   │   └── Requirements.pdf
+│   └── Weekly
+│       └── ...
+├── LICENSE
+├── .gitignore
+├── .gitmodules
+├── Newbee English.png
+└── README.md
 ```
-
-
 
 
 
