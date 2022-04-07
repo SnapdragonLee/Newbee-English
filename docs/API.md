@@ -390,26 +390,7 @@ Content-Type: application/json
 
 # 用户端
 
-#### 1、用户注册
-
-##### 请求
-
-**请求头**
-
-```
- POST /api/user/register
-```
-
-**响应头**
-
-```
-200 OK
-Content-Type: application/json
-```
-
-
-
-#### 2、用户登录
+#### 1、用户登录
 
 ##### 请求
 
@@ -429,28 +410,7 @@ set_cookie: sessionid=<sessionid数值>
 
 
 
-#### 3、用户登出
-
-##### 请求
-
-**请求头**
-
-```
- DELETE /api/user/logout
- Cookie: sessionid=<sessionid数值>
-```
-
-**响应头**
-
-```
-200 OK
-Content-Type: application/json
-set_cookie: sessionid=""
-```
-
-
-
-#### 4、用户查看用户名和头像
+#### 2、用户查看用户名和头像
 
 ##### 请求
 
@@ -470,7 +430,7 @@ Content-Type: application/json
 
 
 
-#### 5、用户修改用户名和头像
+#### 3、用户修改用户名
 
 ##### 请求
 
@@ -490,9 +450,7 @@ Content-Type: application/json
 
 
 
-
-
-#### 6、用户查看错题本
+#### 4、用户查看错题本
 
 ##### 请求
 
@@ -512,7 +470,7 @@ Content-Type: application/json
 
 
 
-#### 7、用户删除错题本中的题
+#### 5、用户删除错题本中的题
 
 ##### 请求
 
@@ -532,7 +490,7 @@ Content-Type: application/json
 
 
 
-#### 8、用户查看刷题记录
+#### 6、用户查看刷题记录
 
 ##### 请求
 
@@ -552,7 +510,7 @@ Content-Type: application/json
 
 
 
-#### 9、用户删除刷题记录
+#### 7、用户删除刷题记录
 
 ##### 请求
 
@@ -572,7 +530,7 @@ Content-Type: application/json
 
 
 
-#### 10、用户查看刷题统计
+#### 8、用户查看刷题统计
 
 ##### 请求
 
@@ -592,7 +550,7 @@ Content-Type: application/json
 
 
 
-#### 11、用户清空刷题统计
+#### 9、用户清空刷题统计
 
 ##### 请求
 
