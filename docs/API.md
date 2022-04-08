@@ -52,29 +52,27 @@ set_cookie: sessionid=<sessionid数值>
 
 **消息体**
 
-正常返回(info==='Ok'):
+正常返回(ret=0):
 
 ```
 {
-  "info": 'Ok'
+  "ret": '0'
 }
 ```
 
-异常返回(info==='Error'):
+异常返回(ret≠0):
 
 ```
 {
-"info":'Error'
+"ret":'1'
 }
 ```
 
 **参数信息**
 
-| 参数名 | 示例 | 必要性 | 含义         | 类型   |
-| ------ | ---- | ------ | ------------ | :----- |
-| info   | Ok   | 必有   | 是否正常返回 | string |
-
-
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | :--- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
 
 #### 登出
 
@@ -101,21 +99,19 @@ Set-Cookie: sessionid=""
 
 **消息体**
 
-正常返回(info ===Ok):
+正常返回(ret=0):
 
 ```
 {
-  "info":'OK'
+  "ret": '0'
 }
 ```
 
 **参数信息**
 
-| 参数名 | 示例 | 必要性 | 含义         | 类型   |
-| ------ | ---- | ------ | ------------ | ------ |
-| info   | OK   | 必有   | 是否正常返回 | string |
-
-
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
 
 #### 查看用户信息
 
@@ -126,9 +122,16 @@ Set-Cookie: sessionid=""
 **请求头**
 
 ```
-GET /api/admin/manage_user
+GET /api/admin/manage_user?pagenumber=2&pagesize=12
 Cookie: sessionid=<sessionid数值>
 ```
+
+**参数信息**
+
+| 参数名     | 示例 | 必要性 | 含义               | 类型 |
+| ---------- | ---- | ------ | ------------------ | ---- |
+| pagenumber | 2    | 必有   | 获取第几页的信息   | int  |
+| pagesize   | 12   | 必有   | 每页列出的账号数量 | int  |
 
 ##### 响应
 
@@ -141,28 +144,36 @@ Content-Type: application/json
 
 **消息体**
 
-正常返回(info===Ok):
+正常返回(ret=0):
 
 ```
 {
-  "info": 'Ok',
-  "list": { 
+  "ret": '0',
+  "list": [{ 
     "name": "小赵",
     "numm":"888",
     "numc":"777",
     "numr":"666"
-  }
+  },
+  {
+  "name": "小李",
+  "numm":"888",
+  "numc":"999",
+  "numr":"555"
+  }]，
+  ”total":32
 }
 ```
 
 **参数信息**
 
-| 参数名 | 示例    | 必要性 | 含义         | 类型info   |
-| ------ | ------- | ------ | ------------ | ---------- |
-| info   | OK      | 必有   | 是否正常返回 | string     |
-| list   | [{},{}] | 必有   | 用户信息     | dictionary |
+| 参数名 | 示例    | 必要性 | 含义           | 类型info |
+| ------ | ------- | ------ | -------------- | -------- |
+| ret    | 0       | 必有   | 是否正常返回   | int      |
+| list   | [{},{}] | 必有   | 所有用户的信息 | list     |
+| total  | 32      | 必有   | 所有用户的数量 | int      |
 
-其中`list`中的参数信息如下所示：
+其中`list`是包含多个查找结果的列表，每个结果的参数信息如下所示：
 
 | 参数名 | 示例 | 必要性 | 含义     | 类型   |
 | ------ | ---- | ------ | -------- | ------ |
@@ -171,11 +182,9 @@ Content-Type: application/json
 | numc   | 777  | 必有   | 完型数量 | string |
 | numr   | 666  | 必有   | 阅读数量 | string |
 
-
-
 #### 管理员删除用户
 
-管理员删除用户
+管理员可以通过此api删除用户
 
 ##### 请求
 
@@ -184,7 +193,22 @@ Content-Type: application/json
 ```
  DELETE /api/admin/manage_user
  Cookie: sessionid=<sessionid数值>
+ Content-Type: application/json
 ```
+
+**消息体**
+
+```
+{
+  "username" : "小赵"
+}
+```
+
+**参数信息**
+
+| 参数名   | 示例 | 必要性 | 含义               | 类型   |
+| -------- | ---- | ------ | ------------------ | ------ |
+| username | 小赵 | 必有   | 被删除账户的用户名 | string |
 
 **响应头**
 
@@ -193,7 +217,92 @@ Content-Type: application/json
 Content-Type: application/json
 ```
 
+正常返回(ret=0):
 
+```
+{
+  "ret": 0
+}
+```
+
+异常返回(ret≠0):
+
+```
+{
+"ret":'1'
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | :--- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
+
+#### 管理员创建用户信息
+
+管理员可根据此api创建用户
+
+后端应做用户名重复检查。
+
+##### 请求
+
+**请求头**
+
+```
+PUT /api/admin/user_account
+Cookie: sessionid=<sessionid数值>
+Content-Type: application/json
+```
+
+**消息体**
+
+```
+{
+  "username" : "小王"
+  "userpwd":"123456"
+}
+```
+
+**参数信息**
+
+| 参数名   | 示例   | 必要性 | 含义               | 类型   |
+| -------- | ------ | ------ | ------------------ | ------ |
+| username | 小王   | 必有   | 创建账户时的用户名 | string |
+| userpwd  | 123456 | 必有   | 创建账户时的密码   | string |
+
+##### 响应
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0):
+
+```
+{
+  "ret": 0
+}
+```
+
+异常返回(ret≠0):
+
+```
+{
+"ret":'1'
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
 
 #### 管理员查看题目
 
@@ -213,8 +322,6 @@ Content-Type: application/json
 Content-Type: application/json
 ```
 
-
-
 #### 管理员上传题目
 
 管理员上传题目
@@ -226,7 +333,57 @@ Content-Type: application/json
 ```
  POST /api/admin/question
  Cookie: sessionid=<sessionid数值>
+ Content-Type: application/json
 ```
+
+**消息体**
+
+```
+{
+  "type": "multiple",
+  "text":"",
+  "sub_que_num":2，
+  sub_que[
+  {
+      "stem":"Lily was so ___looking at the picture that she forgot the time."
+      "options":[
+        "carefully",
+        "careful",
+        "busily",
+        "busy"
+      ],
+      "answer": "B"
+  },
+  {
+      "stem":"Lily was so ___looking at the picture that she forgot the time."
+      "options":[
+        "carefully",
+        "careful",
+        "busily",
+        "busy"
+      ],
+      "answer": "B"
+  }
+  ]
+}
+```
+
+**参数信息**
+
+| 参数名      | 示例                                          | 必要性 | 含义                             | 类型   |
+| ----------- | --------------------------------------------- | ------ | -------------------------------- | ------ |
+| type        | "multiple" / "cloze" / "readingcomprehension" | 必有   | 题目类型                         | string |
+| text        | " "                                           | 必有   | 阅读、完形的文章，选择题此项为空 | string |
+| sub_que_num | 4                                             | 必有   | 子题目数目                       | int    |
+| sub_que     | [{},{}]                                       | 必有   | 子题目的信息                     | list   |
+
+其中sub_que是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
+
+| 参数名  | 示例                                                         | 必要性 | 含义                       | 类型   |
+| ------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
+| "stem"  | Lily was so ___looking at the picture that she forgot the time. | 必有   | 子题目的题面，完型此项为空 | string |
+| options | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
+| answer  | "B"                                                          | 必有   | 答案                       | string |
 
 **响应头**
 
@@ -235,18 +392,99 @@ Content-Type: application/json
 Content-Type: application/json
 ```
 
+**消息体**
 
+正常返回(ret = 0):
+
+```
+{
+  "ret": 0
+}
+```
+
+异常返回(ret≠0):
+
+```
+{
+"ret":'1'
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
 
 #### 管理员修改题目
 
+管理员可通过此api修改题目
+
 ##### 请求
 
 **请求头**
 
 ```
- PUT /api/admin/question
- Cookie: sessionid=<sessionid数值>
+POST /api/admin/
+Cookie: sessionid=<sessionid数值>
+Content-Type: application/json
 ```
+
+**消息体**
+
+```
+{
+  "problemid": 1,
+  "newdata": {  
+      text:" "
+      sub_que[
+          {
+              "stem":"Lily was so ___looking at the picture that she forgot the time."
+              "options":[
+                "carefully",
+                "careful",
+                "busily",
+                "busy"
+              ],
+              "answer": "B"
+          },
+          {
+              "stem":"Lily was so ___looking at the picture that she forgot the time."
+              "options":[
+                "carefully",
+                "careful",
+                "busily",
+                "busy"
+              ],
+              "answer": "B"
+          }
+          ]
+}
+```
+
+**参数信息**
+
+| 参数名    | 示例 | 必要性 | 含义           | 类型       |
+| --------- | ---- | ------ | -------------- | ---------- |
+| problemid | 1    | 必有   | 题目id         | int        |
+| newdata   | { }  | 必有   | 需要修改的信息 | dictionary |
+
+其中`newdata`中的参数信息如下所示：
+
+| 参数名  | 示例    | 必要性 | 含义                             | 类型   |
+| ------- | ------- | ------ | -------------------------------- | ------ |
+| text    | ' '     | 可选   | 阅读、完形的文章，选择题此项为空 | string |
+| sub_que | [{},{}] | 可选   | 子题目的信息                     | list   |
+
+其中`sub_que`中的参数信息如下所示：
+
+| 参数名  | 示例                                                         | 必要性 | 含义                       | 类型   |
+| ------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
+| "stem"  | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
+| options | ["carefully","careful", "busily","busy"]                     | 可选   | 选项                       | list   |
+| answer  | "B"                                                          | 可选   | 答案                       | string |
+
+##### 响应
 
 **响应头**
 
@@ -255,18 +493,62 @@ Content-Type: application/json
 Content-Type: application/json
 ```
 
+**消息体**
 
+正常返回(ret = 0):
+
+```
+{
+  "ret": 0,
+}
+```
+
+异常返回(ret ≠ 0):
+
+```
+{
+  "ret": 1,
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
 
 #### 管理员删除题目
 
+管理员可通过此api删除题目
+
 ##### 请求
 
 **请求头**
 
 ```
- DELETE /api/admin/question
- Cookie: sessionid=<sessionid数值>
+DELETE /api/admin/question
+Cookie: sessionid=<sessionid数值>
+Content-Type: application/json
 ```
+
+**消息体**
+
+```
+{
+  "question": [
+    11,
+    21
+  ]
+}
+```
+
+**参数信息**
+
+| 参数名   | 示例 | 必要性 | 含义               | 类型 |
+| -------- | ---- | ------ | ------------------ | ---- |
+| question | [ ]  | 必有   | 需要被删除的题目id | list |
+
+##### 响应
 
 **响应头**
 
@@ -275,7 +557,29 @@ Content-Type: application/json
 Content-Type: application/json
 ```
 
+**消息体**
 
+正常返回(ret = 0):
+
+```
+{
+  "ret": 0
+}
+```
+
+异常返回(ret ≠ 0):
+
+```
+{
+  "ret": 1
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
 
 #### 管理员查看题解
 
@@ -324,26 +628,6 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/admin/notice
- Cookie: sessionid=<sessionid数值>
-```
-
-**响应头**
-
-```
-200 OK
-Content-Type: application/json
-```
-
-
-
-#### 管理员创建公告
-
-##### 请求
-
-**请求头**
-
-```
  POST /api/admin/notice
  Cookie: sessionid=<sessionid数值>
 ```
@@ -355,7 +639,29 @@ Content-Type: application/json
 Content-Type: application/json
 ```
 
+##### 消息体（正常返回ret=0）
 
+```
+{
+  ret:0
+  "ancontent" : "welcome to NewBee English"
+}
+```
+
+异常返回(ret ≠ 0):
+
+```
+{
+  "ret": 1
+}
+```
+
+**参数信息**
+
+| 参数名    | 示例        | 必要性 | 含义         | 类型   |
+| --------- | ----------- | ------ | ------------ | ------ |
+| ret       | 1           | 必有   | 是否正常返回 | int    |
+| ancontent | welcom to.. | 必有   | 公告内容     | string |
 
 #### 管理员修改公告
 
@@ -368,6 +674,42 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+##### 消息体
+
+```
+{
+  "ancontent" : "welcome to NewBee English"
+  "antime": { 
+    "year": "2022",
+    "month":"5",
+    "day":"9",
+    "hour":"14"
+    "min":"23",
+    "sec":"25"
+  }
+}
+```
+
+**参数信息**
+
+| 参数名    | 示例        | 必要性 | 含义     | 类型       |
+| --------- | ----------- | ------ | -------- | ---------- |
+| ancontent | welcom to.. | 必有   | 公告内容 | string     |
+| ant       | {}          | 必有   | 发布时间 | dictionary |
+
+其中`ant`中的参数信息如下所示：
+
+| 参数名 | 示例 | 必要性 | 含义     | 类型 |
+| ------ | ---- | ------ | -------- | ---- |
+| year   | 2022 | 必有   | 发布年份 | int  |
+| month  | 5    | 必有   | 发布月份 | int  |
+| day    | 9    | 必有   | 发布天   | int  |
+| hour   | 14   | 必有   | 发布小时 | int  |
+| min    | 23   | 必有   | 发布分钟 | int  |
+| sec    | 25   | 必有   | 发布秒   | int  |
+
+##### 响应
+
 **响应头**
 
 ```
@@ -375,29 +717,29 @@ Content-Type: application/json
 Content-Type: application/json
 ```
 
+**消息体**
 
-
-#### 管理员删除公告
-
-##### 请求
-
-**请求头**
+正常返回(ret=0):
 
 ```
- DELETE /api/admin/notice
- Cookie: sessionid=<sessionid数值>
+{
+  "ret": 0
+}
 ```
 
-**响应头**
+异常返回(ret≠0):
 
 ```
-200 OK
-Content-Type: application/json
+{
+"ret":'1'
+}
 ```
 
+**参数信息**
 
-
-
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
 
 # 用户端
 
