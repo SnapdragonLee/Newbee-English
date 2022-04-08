@@ -1,6 +1,17 @@
+## 返回值(ret)规定
+
+| ret值 | 含义            | 后续操作                 | 备注                       |
+| ----- | --------------- | ------------------------ | -------------------------- |
+| 0     | 正常返回        | 继续执行                 |                            |
+| 1     | 一般错误        | 返回到执行前重新执行     | 权限不足、查询信息不存在等 |
+| 2     | 请求无sessionid | 返回登录界面             | 所有接口均可能返回该值     |
+| 3     | 其他错误        | 查看后台报错信息尝试修复 | 所有接口均可能返回该值     |
+
+
+
 # 管理端
 
-#### 1、登录
+#### 登录
 
 管理员使用该接口进行登录。前端发送的登录请求中包含用户名、密码。 后端接收后，对账号密码的正确性进行校验。 如果校验通过，服务端在响应消息头使用set_cookie 存入sessionid。
 
@@ -65,7 +76,7 @@ set_cookie: sessionid=<sessionid数值>
 
 
 
-#### 2、登出
+#### 登出
 
 ##### 请求
 
@@ -106,7 +117,7 @@ Set-Cookie: sessionid=""
 
 
 
-#### 3、查看用户信息
+#### 查看用户信息
 
 管理员查看用户信息。
 
@@ -162,7 +173,7 @@ Content-Type: application/json
 
 
 
-#### 4、管理员删除用户
+#### 管理员删除用户
 
 管理员删除用户
 
@@ -184,7 +195,7 @@ Content-Type: application/json
 
 
 
-#### 5、管理员查看题目
+#### 管理员查看题目
 
 ##### 请求
 
@@ -204,7 +215,7 @@ Content-Type: application/json
 
 
 
-#### 6、管理员上传题目
+#### 管理员上传题目
 
 管理员上传题目
 
@@ -226,7 +237,7 @@ Content-Type: application/json
 
 
 
-#### 7、管理员修改题目
+#### 管理员修改题目
 
 ##### 请求
 
@@ -246,7 +257,7 @@ Content-Type: application/json
 
 
 
-#### 8、管理员删除题目
+#### 管理员删除题目
 
 ##### 请求
 
@@ -266,7 +277,7 @@ Content-Type: application/json
 
 
 
-#### 9、管理员查看题解
+#### 管理员查看题解
 
 ##### 请求
 
@@ -286,7 +297,7 @@ Content-Type: application/json
 
 
 
-#### 10、管理员删除题解
+#### 管理员删除题解
 
 ##### 请求
 
@@ -306,7 +317,7 @@ Content-Type: application/json
 
 
 
-#### 11、管理员查看公告
+#### 管理员查看公告
 
 ##### 请求
 
@@ -326,7 +337,7 @@ Content-Type: application/json
 
 
 
-#### 12、管理员创建公告
+#### 管理员创建公告
 
 ##### 请求
 
@@ -346,7 +357,7 @@ Content-Type: application/json
 
 
 
-#### 13、管理员修改公告
+#### 管理员修改公告
 
 ##### 请求
 
@@ -366,7 +377,7 @@ Content-Type: application/json
 
 
 
-#### 14、管理员删除公告
+#### 管理员删除公告
 
 ##### 请求
 
@@ -390,7 +401,7 @@ Content-Type: application/json
 
 # 用户端
 
-#### 1、用户登录
+#### 用户登录
 
 ##### 请求
 
@@ -410,7 +421,7 @@ set_cookie: sessionid=<sessionid数值>
 
 
 
-#### 2、用户查看用户名和头像
+#### 用户查看用户名
 
 ##### 请求
 
@@ -430,7 +441,7 @@ Content-Type: application/json
 
 
 
-#### 3、用户修改用户名
+#### 用户修改用户名
 
 ##### 请求
 
@@ -450,7 +461,7 @@ Content-Type: application/json
 
 
 
-#### 4、用户查看错题本
+#### 用户查看错题本
 
 ##### 请求
 
@@ -470,7 +481,27 @@ Content-Type: application/json
 
 
 
-#### 5、用户删除错题本中的题
+#### 用户向错题本添加错题
+
+##### 请求
+
+**请求头**
+
+```
+ POST /api/user/wrong_que_book
+ Cookie: sessionid=<sessionid数值>
+```
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+
+
+#### 用户删除错题本中的题
 
 ##### 请求
 
@@ -490,7 +521,7 @@ Content-Type: application/json
 
 
 
-#### 6、用户查看刷题记录
+#### 用户查看刷题记录
 
 ##### 请求
 
@@ -510,27 +541,7 @@ Content-Type: application/json
 
 
 
-#### 7、用户删除刷题记录
-
-##### 请求
-
-**请求头**
-
-```
- DELETE /api/user/record
- Cookie: sessionid=<sessionid数值>
-```
-
-**响应头**
-
-```
-200 OK
-Content-Type: application/json
-```
-
-
-
-#### 8、用户查看刷题统计
+#### 用户查看刷题统计
 
 ##### 请求
 
@@ -550,7 +561,7 @@ Content-Type: application/json
 
 
 
-#### 9、用户清空刷题统计
+#### 用户清空刷题统计
 
 ##### 请求
 
@@ -569,4 +580,166 @@ Content-Type: application/json
 ```
 
 
+
+#### 用户获取题目题面
+
+待定：用户既可以随机获取题目，也可指定获取某道题，“指定获取”或许可用在错题本和刷题记录上
+
+##### 请求
+
+**请求头**
+
+```
+ GET /api/user/get_question
+ Cookie: sessionid=<sessionid数值>
+```
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+
+
+#### 用户获取题目答案
+
+##### 请求
+
+**请求头**
+
+```
+ GET /api/user/check_question
+ Cookie: sessionid=<sessionid数值>
+```
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+
+
+#### 用户查看某道题的题解
+
+##### 请求
+
+**请求头**
+
+```
+ GET /api/user/que_solution
+ Cookie: sessionid=<sessionid数值>
+```
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+
+
+#### 用户发表某道题的题解
+
+##### 请求
+
+**请求头**
+
+```
+ POST /api/user/que_solution
+ Cookie: sessionid=<sessionid数值>
+```
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+
+
+#### 用户为某道题解点赞
+
+##### 请求
+
+**请求头**
+
+```
+ PATCH /api/user/que_soluton_like
+ Cookie: sessionid=<sessionid数值>
+```
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+
+
+#### 用户举报某个题解
+
+##### 请求
+
+**请求头**
+
+```
+ PATCH /api/user/que_soluton_report
+ Cookie: sessionid=<sessionid数值>
+```
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+
+
+#### 用户查看排名
+
+前端需要提供参数供后端查询，参数包括题目类型
+
+##### 请求
+
+**请求头**
+
+```
+ GET /api/user/rank
+ Cookie: sessionid=<sessionid数值>
+```
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+
+
+#### 用户查看公告
+
+##### 请求
+
+**请求头**
+
+```
+ GET /api/user/notice
+ Cookie: sessionid=<sessionid数值>
+```
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
 
