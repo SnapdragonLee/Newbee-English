@@ -13,7 +13,7 @@
 | 小组                | 仓库地址                                                     |
 | ------------------- | ------------------------------------------------------------ |
 | Backend             | [SnapdragonLee/Newbee-backend (github.com)](https://github.com/SnapdragonLee/Newbee-backend) |
-| Frontend            | Not created                                                  |
+| Frontend            | [zrjzrj0403/Newbee-Frontend (github.com)](https://github.com/zrjzrj0403/Newbee-Frontend) |
 | Weixin Mini Program | Not created                                                  |
 
 

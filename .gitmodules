@@ -1,3 +1,6 @@
 [submodule "backend"]
 	path = backend
 	url = https://github.com/SnapdragonLee/Newbee-backend
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/zrjzrj0403/Newbee-Frontend
