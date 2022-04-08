@@ -126,6 +126,15 @@ GET /api/admin/manage_user?pagenumber=2&pagesize=12
 Cookie: sessionid=<sessionid数值>
 ```
 
+**消息体**
+
+```
+{
+  "pagenumber" : "2",
+  "pagesize" : "12"
+}
+```
+
 **参数信息**
 
 | 参数名     | 示例 | 必要性 | 含义               | 类型 |
@@ -239,7 +248,7 @@ Content-Type: application/json
 | ------ | ---- | ------ | ------------ | :--- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
-#### 管理员创建用户信息
+#### 管理员创建用户
 
 管理员可根据此api创建用户
 
@@ -304,16 +313,36 @@ Content-Type: application/json
 | ------ | ---- | ------ | ------------ | ---- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
-#### 管理员查看题目
+#### 管理员查看题目列表
 
 ##### 请求
 
 **请求头**
 
 ```
- GET /api/admin/question
+ GET /api/admin/question?pagenumber=2&pagesize=12&type=multiple
  Cookie: sessionid=<sessionid数值>
 ```
+
+**消息体**
+
+```
+{
+  "pagenumber" : "2",
+  "pagesize" : "12",
+  "type":"multiple"
+}
+```
+
+**参数信息**
+
+| 参数名     | 示例     | 必要性 | 含义               | 类型   |
+| ---------- | -------- | ------ | ------------------ | ------ |
+| pagenumber | 2        | 必有   | 获取第几页的信息   | int    |
+| pagesize   | 12       | 必有   | 每页列出的题目数量 | int    |
+| type       | multiple | 必有   | 要查看题目的类型   | string |
+
+##### 响应
 
 **响应头**
 
@@ -322,9 +351,128 @@ Content-Type: application/json
 Content-Type: application/json
 ```
 
-#### 管理员上传题目
+**消息体**
 
-管理员上传题目
+正常返回(ret=0):
+
+```
+{
+  "ret": '0',
+  "list": [{ 
+    "text": "Lily was so ___looking at the picture that she forgot the time",
+    "sub_que_num":"2",
+  },
+  {
+    "text": "Lily was so ___looking at the picture that she forgot the time",
+    "sub_que_num":"3",
+  }]，
+  ”total":32
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例    | 必要性 | 含义                   | 类型info |
+| ------ | ------- | ------ | ---------------------- | -------- |
+| ret    | 0       | 必有   | 是否正常返回           | int      |
+| list   | [{},{}] | 必有   | 某个类型所有题目的信息 | list     |
+| total  | 32      | 必有   | 某个类型题目的总数量   | int      |
+
+其中`list`是包含多个查找结果的列表，每个结果的参数信息如下所示：
+
+| 参数名      | 示例                                                         | 必要性 | 含义                                      | 类型   |
+| ----------- | ------------------------------------------------------------ | ------ | ----------------------------------------- | ------ |
+| text        | Lily was so ___looking at the picture that she forgot the time | 必有   | 阅读/完型文章第一句话或单选子题目第一句话 | string |
+| sub_que_num | 2                                                            | 必有   | 所含小题数量                              | int    |
+
+#### 管理员查看题目详细信息
+
+##### 请求
+
+**请求头**
+
+```
+ POST /api/admin/question
+ Cookie: sessionid=<sessionid数值>
+```
+
+**消息体**
+
+```
+{
+  "ID" : "2",
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义             | 类型   |
+| ------ | ---- | ------ | ---------------- | ------ |
+| ID     | 2    | 必有   | 被查看的题目的ID | string |
+
+##### 响应
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0):
+
+```
+{
+  "ret": '0',
+   "text":"",
+  "sub_que_num":2，
+  sub_que[
+  {
+      "stem":"Lily was so ___looking at the picture that she forgot the time."
+      "options":[
+        "carefully",
+        "careful",
+        "busily",
+        "busy"
+      ],
+      "answer": "B"，
+      answer key:["这个题的关键在于认真审题"，"站在父亲的角度来就可以更好的理解本题"]
+  },
+  {
+      "stem":"Lily was so ___looking at the picture that she forgot the time."
+      "options":[
+        "carefully",
+        "careful",
+        "busily",
+        "busy"
+      ],
+      "answer": "B"，
+      answer key:["这个题的关键在于认真审题"，"站在父亲的角度来就可以更好的理解本题"]
+  }，
+}
+```
+
+**参数信息**
+
+| 参数名      | 示例    | 必要性 | 含义                             | 类型info |
+| ----------- | ------- | ------ | -------------------------------- | -------- |
+| ret         | 0       | 必有   | 是否正常返回                     | int      |
+| text        | " "     | 可选   | 阅读、完形的文章，选择题此项为空 | string   |
+| sub_que_num | 4       | 必有   | 子题目数目                       | int      |
+| sub_que     | [{},{}] | 必有   | 子题目的信息                     | list     |
+
+其中sub_que是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
+
+| 参数名     | 示例                                                         | 必要性 | 含义                       | 类型   |
+| ---------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
+| "stem"     | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
+| options    | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
+| answer     | "B"                                                          | 必有   | 答案                       | string |
+| answer key | ["认真审题"，"站在父亲的角度来就可以更好的理解第二小题"]     | 可选   | 子题目的题解               | list   |
+
+#### 管理员上传题目
 
 ##### 请求
 
@@ -373,7 +521,7 @@ Content-Type: application/json
 | 参数名      | 示例                                          | 必要性 | 含义                             | 类型   |
 | ----------- | --------------------------------------------- | ------ | -------------------------------- | ------ |
 | type        | "multiple" / "cloze" / "readingcomprehension" | 必有   | 题目类型                         | string |
-| text        | " "                                           | 必有   | 阅读、完形的文章，选择题此项为空 | string |
+| text        | " "                                           | 可选   | 阅读、完形的文章，选择题此项为空 | string |
 | sub_que_num | 4                                             | 必有   | 子题目数目                       | int    |
 | sub_que     | [{},{}]                                       | 必有   | 子题目的信息                     | list   |
 
@@ -381,7 +529,7 @@ Content-Type: application/json
 
 | 参数名  | 示例                                                         | 必要性 | 含义                       | 类型   |
 | ------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
-| "stem"  | Lily was so ___looking at the picture that she forgot the time. | 必有   | 子题目的题面，完型此项为空 | string |
+| "stem"  | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
 | options | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
 | answer  | "B"                                                          | 必有   | 答案                       | string |
 
@@ -581,26 +729,6 @@ Content-Type: application/json
 | ------ | ---- | ------ | ------------ | ---- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
-#### 管理员查看题解
-
-##### 请求
-
-**请求头**
-
-```
- GET /api/admin/que_solution
- Cookie: sessionid=<sessionid数值>
-```
-
-**响应头**
-
-```
-200 OK
-Content-Type: application/json
-```
-
-
-
 #### 管理员删除题解
 
 ##### 请求
@@ -612,6 +740,20 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+**消息体**
+
+```
+{
+  "id" : "3"
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义           | 类型   |
+| ------ | ---- | ------ | -------------- | ------ |
+| id     | 3    | 必有   | 被删除的题解ID | string |
+
 **响应头**
 
 ```
@@ -619,7 +761,27 @@ Content-Type: application/json
 Content-Type: application/json
 ```
 
+正常返回(ret=0):
 
+```
+{
+  "ret": 0
+}
+```
+
+异常返回(ret≠0):
+
+```
+{
+"ret":'1'
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | :--- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
 
 #### 管理员查看公告
 
