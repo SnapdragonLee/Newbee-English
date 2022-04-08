@@ -1,21 +1,37 @@
-## 返回值(ret)规定
+[TOC]
 
-| ret值 | 含义            | 后续操作                 | 备注                       |
-| ----- | --------------- | ------------------------ | -------------------------- |
-| 0     | 正常返回        | 继续执行                 |                            |
-| 1     | 一般错误        | 返回到执行前重新执行     | 权限不足、查询信息不存在等 |
-| 2     | 请求无sessionid | 返回登录界面             | 所有接口均可能返回该值     |
-| 3     | 其他错误        | 查看后台报错信息尝试修复 | 所有接口均可能返回该值     |
+# API 参考文档
+
+本文档为 Newbee-English API 文档，参考请参见 Reference.
 
 
 
-# 管理端
+## 全局设置
 
-#### 登录
+### 返回值设置(ret)
+
+| ret值 | 含义            | 后续操作                                      | 备注                       |
+| ----- | --------------- | --------------------------------------------- | -------------------------- |
+| 0     | 正常            | 继续执行                                      |                            |
+| 1     | 一般错误        | 返回到执行前重新执行(lxl：我认为这里有点问题) | 权限不足、查询信息不存在等 |
+| 2     | 请求无sessionid | 返回登录界面                                  | 所有接口均可能返回该值     |
+| 3     | 其他错误        | 查看后台报错信息尝试修复                      | 所有接口均可能返回该值     |
+
+
+
+
+
+## 管理端
+
+本域提到的 api 权限归于管理员。
+
+### 登录
 
 管理员使用该接口进行登录。前端发送的登录请求中包含用户名、密码。 后端接收后，对账号密码的正确性进行校验。 如果校验通过，服务端在响应消息头使用set_cookie 存入sessionid。
 
-##### 请求
+
+
+#### 请求
 
 **请求头**
 
@@ -26,7 +42,7 @@ Content-Type: application/json
 
 **消息体**
 
-```
+```json
 {
   "name" : "张三",
   "pwd" : "123456"
@@ -40,7 +56,9 @@ Content-Type: application/json
 | name   | 张三   | 必有   | 管理员登录的用户名 | string |
 | pwd    | 123456 | 必有   | 管理员登录的密码   | string |
 
-##### 响应
+
+
+#### 响应
 
 **响应头**
 
@@ -54,7 +72,7 @@ set_cookie: sessionid=<sessionid数值>
 
 正常返回(ret=0):
 
-```
+```json
 {
   "ret": '0'
 }
@@ -62,7 +80,7 @@ set_cookie: sessionid=<sessionid数值>
 
 异常返回(ret≠0):
 
-```
+```json
 {
 "ret":'1'
 }
@@ -74,9 +92,11 @@ set_cookie: sessionid=<sessionid数值>
 | ------ | ---- | ------ | ------------ | :--- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
-#### 登出
 
-##### 请求
+
+### 登出
+
+#### 请求
 
 **请求头**
 
@@ -85,7 +105,9 @@ DELETE /api/admin/logout
 Cookie: sessionid=<sessionid数值>
 ```
 
-##### 响应
+
+
+#### 响应
 
 后端清除对应session，然后返回响应消息。
 
@@ -101,7 +123,7 @@ Set-Cookie: sessionid=""
 
 正常返回(ret=0):
 
-```
+```json
 {
   "ret": '0'
 }
@@ -113,11 +135,13 @@ Set-Cookie: sessionid=""
 | ------ | ---- | ------ | ------------ | ---- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
-#### 查看用户信息
+
+
+### 查看用户信息
 
 管理员查看用户信息。
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -128,7 +152,7 @@ Cookie: sessionid=<sessionid数值>
 
 **消息体**
 
-```
+```json
 {
   "pagenumber" : "2",
   "pagesize" : "12"
@@ -142,7 +166,9 @@ Cookie: sessionid=<sessionid数值>
 | pagenumber | 2    | 必有   | 获取第几页的信息   | int  |
 | pagesize   | 12   | 必有   | 每页列出的账号数量 | int  |
 
-##### 响应
+
+
+#### 响应
 
 **响应头**
 
@@ -155,7 +181,7 @@ Content-Type: application/json
 
 正常返回(ret=0):
 
-```
+```json
 {
   "ret": '0',
   "list": [{ 
@@ -182,7 +208,7 @@ Content-Type: application/json
 | list   | [{},{}] | 必有   | 所有用户的信息 | list     |
 | total  | 32      | 必有   | 所有用户的数量 | int      |
 
-其中`list`是包含多个查找结果的列表，每个结果的参数信息如下所示：
+其中 `list` 是包含多个查找结果的列表，每个结果的参数信息如下所示：
 
 | 参数名 | 示例 | 必要性 | 含义     | 类型   |
 | ------ | ---- | ------ | -------- | ------ |
@@ -191,11 +217,13 @@ Content-Type: application/json
 | numc   | 777  | 必有   | 完型数量 | string |
 | numr   | 666  | 必有   | 阅读数量 | string |
 
-#### 管理员删除用户
 
-管理员可以通过此api删除用户
 
-##### 请求
+### 删除用户信息
+
+管理员可以通过此 api 删除用户信息
+
+#### 请求
 
 **请求头**
 
@@ -207,7 +235,7 @@ Content-Type: application/json
 
 **消息体**
 
-```
+```json
 {
   "username" : "小赵"
 }
@@ -219,6 +247,10 @@ Content-Type: application/json
 | -------- | ---- | ------ | ------------------ | ------ |
 | username | 小赵 | 必有   | 被删除账户的用户名 | string |
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -226,17 +258,17 @@ Content-Type: application/json
 Content-Type: application/json
 ```
 
-正常返回(ret=0):
+正常返回(ret = 0):
 
-```
+```json
 {
   "ret": 0
 }
 ```
 
-异常返回(ret≠0):
+异常返回 (ret ≠ 0):
 
-```
+```json
 {
 "ret":'1'
 }
@@ -248,13 +280,15 @@ Content-Type: application/json
 | ------ | ---- | ------ | ------------ | :--- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
-#### 管理员创建用户
+
+
+### 创建用户
 
 管理员可根据此api创建用户
 
 后端应做用户名重复检查。
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -266,10 +300,10 @@ Content-Type: application/json
 
 **消息体**
 
-```
+```json
 {
   "username" : "小王"
-  "userpwd":"123456"
+  "userpwd" : "123456"
 }
 ```
 
@@ -280,7 +314,9 @@ Content-Type: application/json
 | username | 小王   | 必有   | 创建账户时的用户名 | string |
 | userpwd  | 123456 | 必有   | 创建账户时的密码   | string |
 
-##### 响应
+
+
+#### 响应
 
 **响应头**
 
@@ -293,7 +329,7 @@ Content-Type: application/json
 
 正常返回(ret=0):
 
-```
+```json
 {
   "ret": 0
 }
@@ -301,7 +337,7 @@ Content-Type: application/json
 
 异常返回(ret≠0):
 
-```
+```json
 {
 "ret":'1'
 }
@@ -313,9 +349,11 @@ Content-Type: application/json
 | ------ | ---- | ------ | ------------ | ---- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
-#### 管理员查看题目列表
 
-##### 请求
+
+### 查看题目列表
+
+#### 请求
 
 **请求头**
 
@@ -326,7 +364,7 @@ Content-Type: application/json
 
 **消息体**
 
-```
+```json
 {
   "pagenumber" : "2",
   "pagesize" : "12",
@@ -342,7 +380,9 @@ Content-Type: application/json
 | pagesize   | 12       | 必有   | 每页列出的题目数量 | int    |
 | type       | multiple | 必有   | 要查看题目的类型   | string |
 
-##### 响应
+
+
+#### 响应
 
 **响应头**
 
@@ -355,7 +395,7 @@ Content-Type: application/json
 
 正常返回(ret=0):
 
-```
+```json
 {
   "ret": '0',
   "list": [{ 
@@ -385,9 +425,11 @@ Content-Type: application/json
 | text        | Lily was so ___looking at the picture that she forgot the time | 必有   | 阅读/完型文章第一句话或单选子题目第一句话 | string |
 | sub_que_num | 2                                                            | 必有   | 所含小题数量                              | int    |
 
-#### 管理员查看题目详细信息
 
-##### 请求
+
+### 查看题目信息
+
+#### 请求
 
 **请求头**
 
@@ -398,7 +440,7 @@ Content-Type: application/json
 
 **消息体**
 
-```
+```json
 {
   "ID" : "2",
 }
@@ -410,7 +452,9 @@ Content-Type: application/json
 | ------ | ---- | ------ | ---------------- | ------ |
 | ID     | 2    | 必有   | 被查看的题目的ID | string |
 
-##### 响应
+
+
+#### 响应
 
 **响应头**
 
@@ -423,7 +467,7 @@ Content-Type: application/json
 
 正常返回(ret=0):
 
-```
+```json
 {
   "ret": '0',
    "text":"",
@@ -472,9 +516,11 @@ Content-Type: application/json
 | answer     | "B"                                                          | 必有   | 答案                       | string |
 | answer key | ["认真审题"，"站在父亲的角度来就可以更好的理解第二小题"]     | 可选   | 子题目的题解               | list   |
 
-#### 管理员上传题目
 
-##### 请求
+
+### 上传题目
+
+#### 请求
 
 **请求头**
 
@@ -486,7 +532,7 @@ Content-Type: application/json
 
 **消息体**
 
-```
+```json
 {
   "type": "multiple",
   "text":"",
@@ -533,6 +579,10 @@ Content-Type: application/json
 | options | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
 | answer  | "B"                                                          | 必有   | 答案                       | string |
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -544,7 +594,7 @@ Content-Type: application/json
 
 正常返回(ret = 0):
 
-```
+```json
 {
   "ret": 0
 }
@@ -552,7 +602,7 @@ Content-Type: application/json
 
 异常返回(ret≠0):
 
-```
+```json
 {
 "ret":'1'
 }
@@ -564,11 +614,13 @@ Content-Type: application/json
 | ------ | ---- | ------ | ------------ | ---- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
-#### 管理员修改题目
+
+
+### 修改题目
 
 管理员可通过此api修改题目
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -580,7 +632,7 @@ Content-Type: application/json
 
 **消息体**
 
-```
+```json
 {
   "problemid": 1,
   "newdata": {  
@@ -632,7 +684,9 @@ Content-Type: application/json
 | options | ["carefully","careful", "busily","busy"]                     | 可选   | 选项                       | list   |
 | answer  | "B"                                                          | 可选   | 答案                       | string |
 
-##### 响应
+
+
+#### 响应
 
 **响应头**
 
@@ -645,17 +699,17 @@ Content-Type: application/json
 
 正常返回(ret = 0):
 
-```
+```json
 {
-  "ret": 0,
+  "ret": 0
 }
 ```
 
 异常返回(ret ≠ 0):
 
-```
+```json
 {
-  "ret": 1,
+  "ret": 1
 }
 ```
 
@@ -665,11 +719,13 @@ Content-Type: application/json
 | ------ | ---- | ------ | ------------ | ---- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
-#### 管理员删除题目
+
+
+### 删除题目
 
 管理员可通过此api删除题目
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -681,7 +737,7 @@ Content-Type: application/json
 
 **消息体**
 
-```
+```json
 {
   "question": [
     11,
@@ -696,7 +752,9 @@ Content-Type: application/json
 | -------- | ---- | ------ | ------------------ | ---- |
 | question | [ ]  | 必有   | 需要被删除的题目id | list |
 
-##### 响应
+
+
+#### 响应
 
 **响应头**
 
@@ -709,7 +767,7 @@ Content-Type: application/json
 
 正常返回(ret = 0):
 
-```
+```json
 {
   "ret": 0
 }
@@ -717,7 +775,7 @@ Content-Type: application/json
 
 异常返回(ret ≠ 0):
 
-```
+```json
 {
   "ret": 1
 }
@@ -729,9 +787,11 @@ Content-Type: application/json
 | ------ | ---- | ------ | ------------ | ---- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
-#### 管理员删除题解
 
-##### 请求
+
+### 删除题解
+
+#### 请求
 
 **请求头**
 
@@ -742,7 +802,7 @@ Content-Type: application/json
 
 **消息体**
 
-```
+```json
 {
   "id" : "3"
 }
@@ -754,6 +814,10 @@ Content-Type: application/json
 | ------ | ---- | ------ | -------------- | ------ |
 | id     | 3    | 必有   | 被删除的题解ID | string |
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -763,7 +827,7 @@ Content-Type: application/json
 
 正常返回(ret=0):
 
-```
+```json
 {
   "ret": 0
 }
@@ -771,7 +835,7 @@ Content-Type: application/json
 
 异常返回(ret≠0):
 
-```
+```json
 {
 "ret":'1'
 }
@@ -783,9 +847,11 @@ Content-Type: application/json
 | ------ | ---- | ------ | ------------ | :--- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
-#### 管理员查看公告
 
-##### 请求
+
+### 查看公告
+
+#### 请求
 
 **请求头**
 
@@ -794,6 +860,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -801,9 +871,11 @@ Content-Type: application/json
 Content-Type: application/json
 ```
 
-##### 消息体（正常返回ret=0）
+**消息体**
 
-```
+正常返回(ret=0)
+
+```json
 {
   ret:0
   "ancontent" : "welcome to NewBee English"
@@ -812,7 +884,7 @@ Content-Type: application/json
 
 异常返回(ret ≠ 0):
 
-```
+```json
 {
   "ret": 1
 }
@@ -825,9 +897,11 @@ Content-Type: application/json
 | ret       | 1           | 必有   | 是否正常返回 | int    |
 | ancontent | welcom to.. | 必有   | 公告内容     | string |
 
-#### 管理员修改公告
 
-##### 请求
+
+### 修改公告
+
+#### 请求
 
 **请求头**
 
@@ -836,9 +910,9 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
-##### 消息体
+**消息体**
 
-```
+```json
 {
   "ancontent" : "welcome to NewBee English"
   "antime": { 
@@ -870,7 +944,9 @@ Content-Type: application/json
 | min    | 23   | 必有   | 发布分钟 | int  |
 | sec    | 25   | 必有   | 发布秒   | int  |
 
-##### 响应
+
+
+#### 响应
 
 **响应头**
 
@@ -883,7 +959,7 @@ Content-Type: application/json
 
 正常返回(ret=0):
 
-```
+```json
 {
   "ret": 0
 }
@@ -891,9 +967,9 @@ Content-Type: application/json
 
 异常返回(ret≠0):
 
-```
+```json
 {
-"ret":'1'
+  "ret":'1'
 }
 ```
 
@@ -903,17 +979,27 @@ Content-Type: application/json
 | ------ | ---- | ------ | ------------ | ---- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
-# 用户端
 
-#### 用户登录
 
-##### 请求
+
+
+## 用户端
+
+本块提到的 api 权限归于用户。
+
+### 登录
+
+#### 请求
 
 **请求头**
 
 ```
  POST /api/user/login
 ```
+
+
+
+#### 响应
 
 **响应头**
 
@@ -925,9 +1011,9 @@ set_cookie: sessionid=<sessionid数值>
 
 
 
-#### 用户查看用户名
+### 查看用户名(lxl:这个名字应该写具体一些，可能你想描述的是昵称)
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -936,6 +1022,8 @@ set_cookie: sessionid=<sessionid数值>
  Cookie: sessionid=<sessionid数值>
 ```
 
+#### 响应
+
 **响应头**
 
 ```
@@ -945,9 +1033,9 @@ Content-Type: application/json
 
 
 
-#### 用户修改用户名
+### 修改用户名(lxl:和上面相同的问题)
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -956,6 +1044,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -965,9 +1057,9 @@ Content-Type: application/json
 
 
 
-#### 用户查看错题本
+### 查看错题本
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -976,6 +1068,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -985,9 +1081,9 @@ Content-Type: application/json
 
 
 
-#### 用户向错题本添加错题
+### 向错题本添加错题
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -996,6 +1092,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -1005,9 +1105,9 @@ Content-Type: application/json
 
 
 
-#### 用户删除错题本中的题
+### 删除错题本中的题
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -1016,6 +1116,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -1025,9 +1129,9 @@ Content-Type: application/json
 
 
 
-#### 用户查看刷题记录
+### 查看刷题记录
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -1036,6 +1140,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -1045,9 +1153,9 @@ Content-Type: application/json
 
 
 
-#### 用户查看刷题统计
+### 查看刷题统计
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -1056,6 +1164,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -1065,9 +1177,9 @@ Content-Type: application/json
 
 
 
-#### 用户清空刷题统计
+### 用户清空刷题统计
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -1076,6 +1188,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -1085,11 +1201,11 @@ Content-Type: application/json
 
 
 
-#### 用户获取题目题面
+### 获取题目题面
 
 待定：用户既可以随机获取题目，也可指定获取某道题，“指定获取”或许可用在错题本和刷题记录上
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -1098,6 +1214,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -1107,9 +1227,9 @@ Content-Type: application/json
 
 
 
-#### 用户获取题目答案
+### 获取题目答案
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -1118,6 +1238,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -1127,9 +1251,9 @@ Content-Type: application/json
 
 
 
-#### 用户查看某道题的题解
+### 查看题解
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -1138,6 +1262,8 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+#### 响应
+
 **响应头**
 
 ```
@@ -1147,9 +1273,9 @@ Content-Type: application/json
 
 
 
-#### 用户发表某道题的题解
+### 发表题解
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -1158,6 +1284,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -1167,9 +1297,9 @@ Content-Type: application/json
 
 
 
-#### 用户为某道题解点赞
+### 为题解点赞
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -1178,6 +1308,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -1187,9 +1321,9 @@ Content-Type: application/json
 
 
 
-#### 用户举报某个题解
+### 举报题解
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -1198,6 +1332,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -1207,11 +1345,11 @@ Content-Type: application/json
 
 
 
-#### 用户查看排名
+### 查看排名
 
 前端需要提供参数供后端查询，参数包括题目类型
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -1220,6 +1358,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -1229,9 +1371,9 @@ Content-Type: application/json
 
 
 
-#### 用户查看公告
+### 查看公告
 
-##### 请求
+#### 请求
 
 **请求头**
 
@@ -1240,6 +1382,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
+#### 响应
+
 **响应头**
 
 ```
@@ -1249,5 +1395,15 @@ Content-Type: application/json
 
 
 
-##### Reference: [SE-BSsystem/API.md at master · HK-vv/SE-BSsystem (github.com)](https://github.com/HK-vv/SE-BSsystem/blob/master/API.md)
+
+
+
+
+------
+
+## Reference:
+
+We cannot generate this doc without exsiting help from project list below:
+
+ [SE-BSsystem](https://github.com/HK-vv/SE-BSsystem/)
 
