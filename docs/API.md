@@ -997,7 +997,19 @@ Content-Type: application/json
  POST /api/user/login
 ```
 
+**消息体**
 
+```json
+{
+  "code": xxxxx
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义                   | 类型   |
+| ------ | ---- | ------ | ---------------------- | ------ |
+| code   |      | 必须   | 小程序前端发过来的code | string |
 
 #### 响应
 
@@ -1007,6 +1019,24 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 set_cookie: sessionid=<sessionid数值>
+```
+
+**消息体**
+
+正常返回(ret=0):
+
+```json
+{
+  "ret": 0
+}
+```
+
+异常返回(ret≠0):
+
+```json
+{
+  "ret":'2'
+}
 ```
 
 
