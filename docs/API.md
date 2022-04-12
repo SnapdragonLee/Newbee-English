@@ -1,5 +1,7 @@
 [TOC]
 
+
+
 # API 参考文档
 
 本文档为 Newbee-English API 文档，参考请参见 Reference.
@@ -136,6 +138,50 @@ Set-Cookie: sessionid=""
 
 
 
+### 查看管理员用户名
+
+此api可返回管理员的昵称
+
+#### 请求
+
+**请求头**
+
+```
+POST /api/admin/getname
+Cookie: sessionid=<sessionid数值>
+```
+
+
+
+#### 响应
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0):
+
+```json
+{
+  "ret": '0'
+  "name":'小赵'
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型   |
+| ------ | ---- | ------ | ------------ | ------ |
+| ret    | 0    | 必有   | 是否正常返回 | int    |
+| name   | 小赵 | 必有   | 管理员昵称   | string |
+
+
+
 ### 查看用户信息
 
 管理员查看用户信息。
@@ -220,14 +266,14 @@ Content-Type: application/json
 
 ### 删除用户信息
 
-管理员可以通过此 api 删除用户信息
+管理员可以通过此 api 删除用户信息，支持批量删除
 
 #### 请求
 
 **请求头**
 
 ```
- DELETE /api/admin/manage_user
+ DELETE /api/admin/manage_user?userid=1&userid=22
  Cookie: sessionid=<sessionid数值>
  Content-Type: application/json
 ```
@@ -236,15 +282,15 @@ Content-Type: application/json
 
 ```json
 {
-  "username" : "小赵"
+    ”userid“：['1'，'22']
 }
 ```
 
 **参数信息**
 
-| 参数名   | 示例 | 必要性 | 含义               | 类型   |
-| -------- | ---- | ------ | ------------------ | ------ |
-| username | 小赵 | 必有   | 被删除账户的用户名 | string |
+| 参数名 | 示例        | 必要性 | 含义               | 类型 |
+| ------ | ----------- | ------ | ------------------ | ---- |
+| userid | ['1'，'22'] | 必有   | 被删除账户的用户ID | list |
 
 
 
@@ -729,7 +775,7 @@ Content-Type: application/json
 **请求头**
 
 ```
-DELETE /api/admin/question
+DELETE /api/admin/question?question=11&question=21
 Cookie: sessionid=<sessionid数值>
 Content-Type: application/json
 ```
@@ -738,7 +784,7 @@ Content-Type: application/json
 
 ```json
 {
-  "question": [
+  "questionid": [
     11,
     21
   ]
