@@ -264,6 +264,90 @@ Content-Type: application/json
 
 
 
+### 搜索用户信息
+
+管理员通过此api根据用户的用户名搜索用户信息。
+
+#### 请求
+
+**请求头**
+
+```
+GET /api/api_search?name=test&pagesize=12&pagenumber=1
+Cookie: sessionid=<sessionid数值>
+```
+
+**消息体**
+
+```json
+{
+  "username" : "test",
+  "pagenumber" : "2",
+  "pagesize" : "12"
+}
+```
+
+**参数信息**
+
+| 参数名     | 示例 | 必要性 | 含义               | 类型   |
+| ---------- | ---- | ------ | ------------------ | ------ |
+| username   | test | 必有   | 待搜索的用户名     | string |
+| pagenumber | 2    | 必有   | 获取第几页的信息   | int    |
+| pagesize   | 12   | 必有   | 每页列出的账号数量 | int    |
+
+
+
+#### 响应
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0):
+
+```json
+{
+  "ret": '0',
+  "list": [{ 
+    "name": "test",
+    "numm":"888",
+    "numc":"777",
+    "numr":"666"
+  },
+  {
+  "name": "test",
+  "numm":"888",
+  "numc":"999",
+  "numr":"555"
+  }]，
+  ”total":32
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例    | 必要性 | 含义               | 类型info |
+| ------ | ------- | ------ | ------------------ | -------- |
+| ret    | 0       | 必有   | 是否正常返回       | int      |
+| list   | [{},{}] | 必有   | 搜索到的用户的信息 | list     |
+| total  | 32      | 必有   | 搜索到的用户的数量 | int      |
+
+其中 `list` 是包含多个查找结果的列表，每个结果的参数信息如下所示：
+
+| 参数名 | 示例 | 必要性 | 含义     | 类型   |
+| ------ | ---- | ------ | -------- | ------ |
+| name   | test | 必有   | 用户名   | string |
+| numm   | 888  | 必有   | 单选数量 | string |
+| numc   | 777  | 必有   | 完型数量 | string |
+| numr   | 666  | 必有   | 阅读数量 | string |
+
+
+
 ### 删除用户信息
 
 管理员可以通过此 api 删除用户信息，支持批量删除
