@@ -147,7 +147,7 @@ Set-Cookie: sessionid=""
 **请求头**
 
 ```
-POST /api/admin/getname
+GET /api/admin/getname
 Cookie: sessionid=<sessionid数值>
 ```
 
