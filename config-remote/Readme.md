@@ -186,9 +186,48 @@ source /etc/profile
 
 #### 配置 Nginx
 
+```bash
+cd /usr/local/nginx/conf
+vim nginx.conf
+```
+
+需要哪个server，你就加一个，监听和host要同步加。可以在 location 关键字内，添加一个键 `proxy_pass` ，值可以写任何主机地址，例如：`127.0.0.1:xxxx`，`localhost:xxxx`。
+
+有多种方式启动前后端，不只是靠 Nginx 代理。例如在 Django 后端直接启动 vue，或者 vue、Django 同时启动，但在 config 中手写路由。
 
 
 
+**修改好了以后，不要忘记刷新 Nginx 代理：**
+
+```bash
+nginx -s reload
+```
+
+
+
+在 Nginx 启动之前，要启动所有的被反向代理服务，且挂在后台。此处给一个例子：
+
+```bash
+python ./backend/src/mysite/manage.py runserver (8000) &
+
+cd ./frontend/
+npm run dev &
+
+```
+
+此时，你就会获得一个 24h 在后台运行的服务器，每一次更新代码的时候，Django 后端不需要重新启动，vue 前端建议重新启动。
+
+
+
+**当你发现新的服务启动在了非监听端口上**，你需要 **强制 kill 掉后台的进程**，(例如强制关闭 npm 有关进程)：
+
+```bash
+kill -9 $(pidof npm)
+
+kill -9 $(ps -w | grep npm | awk '$0 !~/grep/ {print $1}'）
+
+# 还可以先 top，浏览后锁定 PID，直接 kill 掉
+```
 
 
 
@@ -396,5 +435,22 @@ npm run build  # can skip
 npm run dev
 ```
 
-经过测试，可以正常运行！
+经过测试，可以正常运行！正常作为服务运行的时候，还请参阅配置 Nginx。
 
+
+
+
+
+------
+
+
+
+## 试运行 NB-vue
+
+至此，一个华为云 server 可以正常提供公网访问服务，下面是示例：
+
+网址：[NB-vue](https://122.9.32.180/)
+
+![image-20220415231459811](Readme.assets/image-20220415231459811.png)
+
+直接监听 8080 端口，依靠 vue 和 django 的路由，不需要 Nginx 再写代理。
