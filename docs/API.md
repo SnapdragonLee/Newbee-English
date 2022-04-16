@@ -12,13 +12,12 @@
 
 ### 返回值设置(ret)
 
-| ret值 | 含义                    | 后续操作                                      | 备注                       |
-| ----- | ----------------------- | --------------------------------------------- | -------------------------- |
-| 0     | 正常                    | 继续执行                                      |                            |
-| 1     | 一般错误                | 返回到执行前重新执行(lxl：我认为这里有点问题) | 权限不足、查询信息不存在等 |
-| 2     | 请求无sessionid，未登录 | 返回登录界面                                  | 所有接口均可能返回该值     |
-
-
+| ret值 | 含义                              | 后续操作     | 备注                               |
+| ----- | --------------------------------- | ------------ | ---------------------------------- |
+| 0     | 正常                              | 继续执行     |                                    |
+| 1     | 用户sessionid错误，处于未登录态   | 返回登录界面 | 除登录接口外，所有接口均可返回此值 |
+| 2     | 管理员sessionid错误，处于未登录态 | 返回登录界面 | 除登录接口外，所有接口均可返回此值 |
+| 3     | 其他错误                          |              | msg信息表示错误原因                |
 
 
 
@@ -75,7 +74,8 @@ set_cookie: sessionid=<sessionid数值>
 
 ```json
 {
-  "ret": '0'
+  "ret": 0,
+    "msg": '******'
 }
 ```
 
@@ -83,7 +83,8 @@ set_cookie: sessionid=<sessionid数值>
 
 ```json
 {
-"ret":'1'
+	"ret":3,
+    'msg': '用户名或密码错误'
 }
 ```
 
@@ -126,7 +127,8 @@ Set-Cookie: sessionid=""
 
 ```json
 {
-  "ret": '0'
+  "ret": 0,
+    "msg": '******',
 }
 ```
 
@@ -168,7 +170,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": '0'
+  "ret": 0,
+  "msg": '******',
   "name":'小赵'
 }
 ```
@@ -228,7 +231,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": '0',
+  "ret": 0,
+    "msg": '******',
   "list": [{ 
     "name": "小赵",
     "numm":"888",
@@ -312,7 +316,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": '0',
+  "ret": 0,
+    "msg": '******',
   "list": [{ 
     "name": "test",
     "numm":"888",
@@ -391,7 +396,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": 0
+  "ret": 0,
+    "msg": '******',
 }
 ```
 
@@ -399,7 +405,8 @@ Content-Type: application/json
 
 ```json
 {
-"ret":'1'
+	"ret":3，
+    "msg": '******'
 }
 ```
 
@@ -460,7 +467,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": 0
+  "ret": 0,
+    "msg": '******',
 }
 ```
 
@@ -468,7 +476,8 @@ Content-Type: application/json
 
 ```json
 {
-"ret":'1'
+	"ret":3，
+    "msg": '******'
 }
 ```
 
@@ -526,7 +535,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": '0',
+  "ret": 0,
+    "msg": '******',
   "list": [{ 
     "text": "Lily was so ___looking at the picture that she forgot the time",
     "sub_que_num":"2",
@@ -598,7 +608,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": '0',
+  "ret": 0,
+  "msg": '******',
    "text":"",
   "sub_que_num":2，
   sub_que[
@@ -624,6 +635,15 @@ Content-Type: application/json
       "answer": "B"，
       answer key:["这个题的关键在于认真审题"，"站在父亲的角度来就可以更好的理解本题"]
   }，
+}
+```
+
+错误返回(ret>0):
+
+```json
+{
+	"ret":3，
+    "msg": '******'
 }
 ```
 
@@ -725,7 +745,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": 0
+  "ret": 0,
+    "msg": '******',
 }
 ```
 
@@ -733,7 +754,8 @@ Content-Type: application/json
 
 ```json
 {
-"ret":'1'
+	"ret": 3，
+    "msg": '******'
 }
 ```
 
@@ -830,7 +852,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": 0
+  "ret": 0,
+    "msg": '******',
 }
 ```
 
@@ -838,7 +861,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": 1
+	"ret": 3，
+    "msg": '******'
 }
 ```
 
@@ -898,7 +922,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": 0
+  "ret": 0,
+  "msg": '******',
 }
 ```
 
@@ -906,7 +931,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": 1
+	"ret":3，
+    "msg": '******'
 }
 ```
 
@@ -958,7 +984,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": 0
+  "ret": 0,
+  "msg": '******'
 }
 ```
 
@@ -966,7 +993,8 @@ Content-Type: application/json
 
 ```json
 {
-"ret":'1'
+	"ret":3，
+    "msg": '******'
 }
 ```
 
@@ -1006,7 +1034,8 @@ Content-Type: application/json
 
 ```json
 {
-  ret:0
+  ret:0,
+  "msg": '******',
   "ancontent" : "welcome to NewBee English"
 }
 ```
@@ -1015,7 +1044,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": 1
+	"ret": 3，
+    "msg": '******'
 }
 ```
 
@@ -1090,7 +1120,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": 0
+  "ret": 0,
+  "msg": '******'
 }
 ```
 
@@ -1098,7 +1129,8 @@ Content-Type: application/json
 
 ```json
 {
-  "ret":'1'
+	"ret": 3，
+    "msg": '******'
 }
 ```
 
@@ -1156,7 +1188,8 @@ set_cookie: sessionid=<sessionid数值>
 
 ```json
 {
-  "ret": 0
+  "ret": 0,
+  "msg": '******'
 }
 ```
 
@@ -1164,7 +1197,8 @@ set_cookie: sessionid=<sessionid数值>
 
 ```json
 {
-  "ret":'2'
+  "ret": 3
+  "msg": '获取openid失败'
 }
 ```
 
