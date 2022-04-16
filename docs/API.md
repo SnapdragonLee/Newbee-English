@@ -194,7 +194,7 @@ Content-Type: application/json
 **请求头**
 
 ```
-GET /api/admin/manage_user?pagenumber=2&pagesize=12
+GET /api/admin/list_user?pagenumber=2&pagesize=12
 Cookie: sessionid=<sessionid数值>
 ```
 
@@ -277,7 +277,7 @@ Content-Type: application/json
 **请求头**
 
 ```
-GET /api/api_search?name=test&pagesize=12&pagenumber=1
+GET /api/admin/designated_user?name=test&pagesize=12&pagenumber=1
 Cookie: sessionid=<sessionid数值>
 ```
 
@@ -362,7 +362,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- DELETE /api/admin/manage_user?userid=1&userid=22
+ DELETE /api/admin/list_user?userid=1&userid=22
  Cookie: sessionid=<sessionid数值>
  Content-Type: application/json
 ```
@@ -418,75 +418,6 @@ Content-Type: application/json
 
 
 
-### 创建用户
-
-管理员可根据此api创建用户
-
-后端应做用户名重复检查。
-
-#### 请求
-
-**请求头**
-
-```
-PUT /api/admin/user_account
-Cookie: sessionid=<sessionid数值>
-Content-Type: application/json
-```
-
-**消息体**
-
-```json
-{
-  "username" : "小王"
-  "userpwd" : "123456"
-}
-```
-
-**参数信息**
-
-| 参数名   | 示例   | 必要性 | 含义               | 类型   |
-| -------- | ------ | ------ | ------------------ | ------ |
-| username | 小王   | 必有   | 创建账户时的用户名 | string |
-| userpwd  | 123456 | 必有   | 创建账户时的密码   | string |
-
-
-
-#### 响应
-
-**响应头**
-
-```
-200 OK
-Content-Type: application/json
-```
-
-**消息体**
-
-正常返回(ret=0):
-
-```json
-{
-  "ret": 0,
-    "msg": '******',
-}
-```
-
-异常返回(ret≠0):
-
-```json
-{
-	"ret":3，
-    "msg": '******'
-}
-```
-
-**参数信息**
-
-| 参数名 | 示例 | 必要性 | 含义         | 类型 |
-| ------ | ---- | ------ | ------------ | ---- |
-| ret    | 0    | 必有   | 是否正常返回 | int  |
-
 
 
 ### 查看题目列表
@@ -496,7 +427,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/admin/question?pagenumber=2&pagesize=12&type=multiple
+ GET /api/admin/list_question?pagenumber=2&pagesize=12&type=multiple
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -573,7 +504,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- POST /api/admin/question
+ GET /api/admin/designated_question?id=1
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -674,7 +605,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- POST /api/admin/question
+ POST /api/admin/designated_question
  Cookie: sessionid=<sessionid数值>
  Content-Type: application/json
 ```
@@ -776,7 +707,7 @@ Content-Type: application/json
 **请求头**
 
 ```
-POST /api/admin/
+PUT /api/admin/designated_question
 Cookie: sessionid=<sessionid数值>
 Content-Type: application/json
 ```
@@ -883,7 +814,7 @@ Content-Type: application/json
 **请求头**
 
 ```
-DELETE /api/admin/question?question=11&question=21
+DELETE /api/admin/list_question?question=11&question=21
 Cookie: sessionid=<sessionid数值>
 Content-Type: application/json
 ```
@@ -951,7 +882,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- DELETE /api/admin/que_solution
+ DELETE /api/admin/solution
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1013,7 +944,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- POST /api/admin/notice
+ GET /api/admin/notice
  Cookie: sessionid=<sessionid数值>
 ```
 
