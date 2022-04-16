@@ -198,14 +198,7 @@ GET /api/admin/list_user?pagenumber=2&pagesize=12
 Cookie: sessionid=<sessionid数值>
 ```
 
-**消息体**
 
-```json
-{
-  "pagenumber" : "2",
-  "pagesize" : "12"
-}
-```
 
 **参数信息**
 
