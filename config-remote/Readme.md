@@ -231,6 +231,8 @@ kill -9 $(ps -w | grep npm | awk '$0 !~/grep/ {print $1}'）
 
 
 
+
+
 ### 安装 Git 2.35
 
 与上面原因相同，需要手动 build 出 git 的二进制文件。
@@ -454,3 +456,28 @@ npm run dev
 ![image-20220415231459811](Readme.assets/image-20220415231459811.png)
 
 直接监听 8080 端口，依靠 vue 和 django 的路由，不需要 Nginx 再写代理。
+
+
+
+
+
+------
+
+### Logs
+
+
+
+###### 4.17 配置更新
+
+在最新的服务器配置中，我们更改了前后端联合启动的方式，由 Django 后端启动代替双服务启动。因此 Nginx 启动服务中，我只监听了 8000 一个端口即可完成代理工作。
+
+
+
+我们增加了无人值守设置，将服务器的后端一直放在 CentOS 的后台运行，使用以下指令进行部署：
+
+```bash
+yum install coreutils # 安装 nohup
+nohup python3 backend/src/mysite/manage.py runserver 8000 &
+```
+
+注意，nohup 无人值守会将记录下的 output 重定向到命令的启动目录，例如示例中的指令会在 backend 的同级目录下产生 `nohup.out` 文件。如果对 `nohup` 有任何问题，可以使用 `nohup --help` 查看帮助。
