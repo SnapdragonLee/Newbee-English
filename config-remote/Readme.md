@@ -231,6 +231,8 @@ kill -9 $(ps -w | grep npm | awk '$0 !~/grep/ {print $1}'）
 
 
 
+
+
 ### 安装 Git 2.35
 
 与上面原因相同，需要手动 build 出 git 的二进制文件。
