@@ -1,4 +1,4 @@
-## Website deploy on CentOS 8 - Huawei Cloud
+# Website deploy on CentOS 8 - Huawei Cloud
 
 [TOC]
 
@@ -494,7 +494,7 @@ npm run dev
 
 
 
-###### 4.17 配置更新
+#### 4.17 配置更新
 
 在最新的服务器配置中，我们更改了前后端联合启动的方式，由 Django 后端启动代替双服务启动。因此 Nginx 启动服务中，我只监听了 8000 一个端口即可完成代理工作。
 
