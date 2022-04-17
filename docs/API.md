@@ -420,7 +420,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/admin/list_question?pagenumber=2&pagesize=12&type=multiple
+ GET /api/admin/list_question?pagenumber=2&pagesize=12&type=choice_question
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -436,11 +436,11 @@ Content-Type: application/json
 
 **参数信息**
 
-| 参数名     | 示例     | 必要性 | 含义               | 类型   |
-| ---------- | -------- | ------ | ------------------ | ------ |
-| pagenumber | 2        | 必有   | 获取第几页的信息   | int    |
-| pagesize   | 12       | 必有   | 每页列出的题目数量 | int    |
-| type       | multiple | 必有   | 要查看题目的类型   | string |
+| 参数名     | 示例                                                         | 必要性 | 含义               | 类型   |
+| ---------- | ------------------------------------------------------------ | ------ | ------------------ | ------ |
+| pagenumber | 2                                                            | 必有   | 获取第几页的信息   | int    |
+| pagesize   | 12                                                           | 必有   | 每页列出的题目数量 | int    |
+| type       | choice_question 选择题<br />cloze_question 完形题<br />reading_question阅读题 | 必有   | 要查看题目的类型   | string |
 
 
 
