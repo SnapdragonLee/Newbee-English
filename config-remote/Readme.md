@@ -205,7 +205,7 @@ nginx -s reload
 
 
 
-在 Nginx 启动之前，要启动所有的被反向代理服务，且挂在后台。此处给一个例子：
+**在 Nginx 启动之前，要启动所有的被反向代理服务，且挂在后台**。此处给一个例子（但注意，这个例子用于测试，不用于正式服务）：
 
 ```bash
 python ./backend/src/mysite/manage.py runserver (8000) &
@@ -215,7 +215,11 @@ npm run dev &
 
 ```
 
-此时，你就会获得一个 24h 在后台运行的服务器，每一次更新代码的时候，Django 后端不需要重新启动，vue 前端建议重新启动。
+此时，你就会获得一个在后台运行的服务器，但不代表可以一直在后台运行。经过测试，一旦退出登录，由任何角色用户启动的进程貌似会被挂起（暂停）。因此请使用 [无人值守的 nohup 使用](####无人值守的 nohup 使用) 配置服务方式进行部署。
+
+
+
+每一次更新代码的时候，Django 后端不需要重新启动，vue 前端建议重新启动。
 
 
 
@@ -223,11 +227,30 @@ npm run dev &
 
 ```bash
 kill -9 $(pidof npm)
-
+# or
 kill -9 $(ps -w | grep npm | awk '$0 !~/grep/ {print $1}'）
 
 # 还可以先 top，浏览后锁定 PID，直接 kill 掉
 ```
+
+
+
+#### 无人值守的 nohup 使用
+
+无人值守的设置，即将服务器的后端一直放在 CentOS 的后台运行。我们可以使用以下样例指令进行服务部署：
+
+```bash
+yum install coreutils # 安装 nohup
+nohup python3 backend/src/mysite/manage.py runserver 8000 &
+```
+
+注意，nohup 无人值守会将记录下的 output 重定向到命令的启动目录，例如示例中的指令会在 backend 的同级目录下产生 `nohup.out` 文件。
+
+这样一来，每一次在遇到前后端的任何问题时，你可以选择打印 `nohup.out` 文件的倒数几行进行简单的调试。但依然不推荐在服务器上直接 debug，**即请在开发端进行充分测试后，再上传到服务器，谢谢！**
+
+
+
+如果对 `nohup` 有任何问题，可以使用 `nohup --help` 查看帮助。
 
 
 
@@ -306,7 +329,9 @@ source /etc/profile
 
 
 
-很遗憾，华为云的 Git 无法访问到 `github.com`，只能通过本地的 **SFTP** 文件服务，或 `scp` 指令将本地的所有文件一起发上去，很鸡肋。
+很遗憾，CentOS 8 华为云服务器无法访问到 `github.com`，这时候我们找到了一个解决方法：在 gitee.com 上注册账号，并开设 github.com 的镜像仓库。每一次需要更新代码的时候，首先从 gitee.com 上手动同步 github.com 上的代码，再在服务器上进行 `git pull` 操作，这样应该是部署代码更新最为直接的方式，且对于 Django 后端来说，不需要重新启动服务，即只需要一条同步代码的指令。
+
+其余的方式只能通过本地的 **SFTP** 文件服务，或 `scp` 指令将本地的所有文件先打包成特定格式 (.zip, .tar, .tar.gz等) ，再一起发上去，这就很鸡肋。
 
 
 
@@ -336,7 +361,7 @@ Django 后端项目默认启用 8000 端口运行。
 python3 ~/Project/backend/src/mysite/manage.py runserver (8000)
 ```
 
-
+经过测试，没有产生任何问题。
 
 
 
@@ -364,6 +389,8 @@ Please upgrade your Node version.
 ```
 
 
+
+#### 手动上传 bin
 
 无奈之下只能再次去官网下载 bin 文件，并上传到服务器解压使用：
 
@@ -419,7 +446,7 @@ npm install -g @vue/cli
 
 
 
-查询 vue2 脚手架工具版本，正常结果应显示为 `@vue/cli 5.0.4`：
+查询 vue 脚手架工具版本，正常结果应显示为 `@vue/cli 5.0.4`：
 
 ```bash
 vue --version
@@ -437,7 +464,7 @@ npm run build  # can skip
 npm run dev
 ```
 
-经过测试，可以正常运行！正常作为服务运行的时候，还请参阅配置 Nginx。
+经过测试，可以正常运行前端！正常作为服务运行的时候，还请参阅 [配置 Nginx](####配置 Nginx)。
 
 
 
@@ -451,11 +478,11 @@ npm run dev
 
 至此，一个华为云 server 可以正常提供公网访问服务，下面是示例：
 
-网址：[NB-vue](https://122.9.32.180/)
+网址：[NB-vue](http://122.9.32.180/)
 
 ![image-20220415231459811](Readme.assets/image-20220415231459811.png)
 
-直接监听 8080 端口，依靠 vue 和 django 的路由，不需要 Nginx 再写代理。
+直接监听 8000 端口，依靠 vue 和 django 的路由，不需要 Nginx 再写代理单独配置前后端的联系。
 
 
 
@@ -473,11 +500,6 @@ npm run dev
 
 
 
-我们增加了无人值守设置，将服务器的后端一直放在 CentOS 的后台运行，使用以下指令进行部署：
+新增了使用 nohup 无人值守的服务配置，具体配置 **请参考** [Nohup 无人值守](####无人值守的 nohup 使用) 。
 
-```bash
-yum install coreutils # 安装 nohup
-nohup python3 backend/src/mysite/manage.py runserver 8000 &
-```
 
-注意，nohup 无人值守会将记录下的 output 重定向到命令的启动目录，例如示例中的指令会在 backend 的同级目录下产生 `nohup.out` 文件。如果对 `nohup` 有任何问题，可以使用 `nohup --help` 查看帮助。
