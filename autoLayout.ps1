@@ -1,5 +1,5 @@
 git pull
-git pull --recurse-submodules
+git submodule update --init --recursive --force
 
 rm -r ./backend/src/mysite/dist
 

@@ -1,5 +1,5 @@
 git pull
-git pull --recurse-submodules
+git submodule update --init --recursive --force
 
 cd frontend
 npm run build
