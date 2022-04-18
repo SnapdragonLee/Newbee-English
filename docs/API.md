@@ -424,15 +424,7 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
-**消息体**
 
-```json
-{
-  "pagenumber" : "2",
-  "pagesize" : "12",
-  "type":"multiple"
-}
-```
 
 **参数信息**
 
@@ -501,13 +493,7 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
-**消息体**
 
-```json
-{
-  "ID" : "2",
-}
-```
 
 **参数信息**
 
@@ -534,31 +520,32 @@ Content-Type: application/json
 {
   "ret": 0,
   "msg": '******',
-   "text":"",
+  "text":"",
   "sub_que_num":2，
-  sub_que[
-  {
-      "stem":"Lily was so ___looking at the picture that she forgot the time."
-      "options":[
-        "carefully",
-        "careful",
-        "busily",
-        "busy"
-      ],
-      "answer": "B"，
-      answer key:["这个题的关键在于认真审题"，"站在父亲的角度来就可以更好的理解本题"]
-  },
-  {
-      "stem":"Lily was so ___looking at the picture that she forgot the time."
-      "options":[
-        "carefully",
-        "careful",
-        "busily",
-        "busy"
-      ],
-      "answer": "B"，
-      answer key:["这个题的关键在于认真审题"，"站在父亲的角度来就可以更好的理解本题"]
-  }，
+  "sub_que":[
+      {
+          "stem":"Lily was so ___looking at the picture that she forgot the time."
+          "options":[
+            "carefully",
+            "careful",
+            "busily",
+            "busy"
+          ],
+          "answer": "B"，
+          answer key:["这个题的关键在于认真审题"，"站在父亲的角度来就可以更好的理解本题"]
+      },
+      {
+          "stem":"Lily was so ___looking at the picture that she forgot the time."
+          "options":[
+            "carefully",
+            "careful",
+            "busily",
+            "busy"
+          ],
+          "answer": "B"，
+          answer key:["这个题的关键在于认真审题"，"站在父亲的角度来就可以更好的理解本题"]
+      }
+	]
 }
 ```
 
@@ -812,16 +799,7 @@ Cookie: sessionid=<sessionid数值>
 Content-Type: application/json
 ```
 
-**消息体**
 
-```json
-{
-  "questionid": [
-    11,
-    21
-  ]
-}
-```
 
 **参数信息**
 
