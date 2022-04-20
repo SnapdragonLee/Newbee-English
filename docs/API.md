@@ -420,7 +420,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/admin/list_question?pagenumber=2&pagesize=12&type=choice_question
+ GET /api/admin/list_question?pagenumber=2&pagesize=12&type=choice_question&title=
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -428,11 +428,12 @@ Content-Type: application/json
 
 **参数信息**
 
-| 参数名     | 示例                                                         | 必要性 | 含义               | 类型   |
-| ---------- | ------------------------------------------------------------ | ------ | ------------------ | ------ |
-| pagenumber | 2                                                            | 必有   | 获取第几页的信息   | int    |
-| pagesize   | 12                                                           | 必有   | 每页列出的题目数量 | int    |
-| type       | choice_question 选择题<br />cloze_question 完形题<br />reading_question阅读题 | 必有   | 要查看题目的类型   | string |
+| 参数名     | 示例                                                         | 必要性 | 含义                     | 类型   |
+| ---------- | ------------------------------------------------------------ | ------ | ------------------------ | ------ |
+| pagenumber | 2                                                            | 必有   | 获取第几页的信息         | int    |
+| pagesize   | 12                                                           | 必有   | 每页列出的题目数量       | int    |
+| type       | choice_question 选择题<br />cloze_question 完形题<br />reading_question阅读题 | 必有   | 要查看题目的类型         | string |
+| title      |                                                              | 可选   | 题目的标题，用于模糊查找 | string |
 
 
 
@@ -454,11 +455,11 @@ Content-Type: application/json
   "ret": 0,
     "msg": '******',
   "list": [{ 
-    "text": "Lily was so ___looking at the picture that she forgot the time",
+    "title": "Lily was so ___looking at the picture that she forgot the time",
     "sub_que_num":"2",
   },
   {
-    "text": "Lily was so ___looking at the picture that she forgot the time",
+    "title": "Lily was so ___looking at the picture that she forgot the time",
     "sub_que_num":"3",
   }]，
   ”total":32
@@ -475,10 +476,10 @@ Content-Type: application/json
 
 其中`list`是包含多个查找结果的列表，每个结果的参数信息如下所示：
 
-| 参数名      | 示例                                                         | 必要性 | 含义                                      | 类型   |
-| ----------- | ------------------------------------------------------------ | ------ | ----------------------------------------- | ------ |
-| text        | Lily was so ___looking at the picture that she forgot the time | 必有   | 阅读/完型文章第一句话或单选子题目第一句话 | string |
-| sub_que_num | 2                                                            | 必有   | 所含小题数量                              | int    |
+| 参数名      | 示例                                                         | 必要性 | 含义         | 类型   |
+| ----------- | ------------------------------------------------------------ | ------ | ------------ | ------ |
+| title       | Lily was so ___looking at the picture that she forgot the time | 必有   | 题目的标题   | string |
+| sub_que_num | 2                                                            | 必有   | 所含小题数量 | int    |
 
 
 
@@ -520,6 +521,7 @@ Content-Type: application/json
 {
   "ret": 0,
   "msg": '******',
+  "title":"",
   "text":"",
   "sub_que_num":2，
   "sub_que":[
@@ -532,7 +534,6 @@ Content-Type: application/json
             "busy"
           ],
           "answer": "B"，
-          answer key:["这个题的关键在于认真审题"，"站在父亲的角度来就可以更好的理解本题"]
       },
       {
           "stem":"Lily was so ___looking at the picture that she forgot the time."
@@ -595,6 +596,7 @@ Content-Type: application/json
 ```json
 {
   "type": "multiple",
+  "title": "",
   "text":"",
   "sub_que_num":2，
   sub_que[
