@@ -721,7 +721,7 @@ Content-Type: application/json
           },
           {
               "stem":"Lily was so ___looking at the picture that she forgot the time.",
-              "number": 1,
+              "number": 2,
               "options":[
                 "carefully",
                 "careful",
