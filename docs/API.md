@@ -526,7 +526,8 @@ Content-Type: application/json
   "sub_que_num":2，
   "sub_que":[
       {
-          "stem":"Lily was so ___looking at the picture that she forgot the time."
+          "stem":"Lily was so ___looking at the picture that she forgot the time.",
+    	  "number": 1,
           "options":[
             "carefully",
             "careful",
@@ -536,7 +537,8 @@ Content-Type: application/json
           "answer": "B"，
       },
       {
-          "stem":"Lily was so ___looking at the picture that she forgot the time."
+          "stem":"Lily was so ___looking at the picture that she forgot the time.",
+          "number": 2,
           "options":[
             "carefully",
             "careful",
@@ -573,6 +575,7 @@ Content-Type: application/json
 | 参数名     | 示例                                                         | 必要性 | 含义                       | 类型   |
 | ---------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
 | "stem"     | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
+| number     | 1                                                            | 必有   | 子问题的题号               | int    |
 | options    | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
 | answer     | "B"                                                          | 必有   | 答案                       | string |
 | answer key | ["认真审题"，"站在父亲的角度来就可以更好的理解第二小题"]     | 可选   | 子题目的题解               | list   |
@@ -601,7 +604,8 @@ Content-Type: application/json
   "sub_que_num":2，
   sub_que[
   {
-      "stem":"Lily was so ___looking at the picture that she forgot the time."
+      "stem":"Lily was so ___looking at the picture that she forgot the time.",
+      "number": 1,
       "options":[
         "carefully",
         "careful",
@@ -611,7 +615,8 @@ Content-Type: application/json
       "answer": "B"
   },
   {
-      "stem":"Lily was so ___looking at the picture that she forgot the time."
+      "stem":"Lily was so ___looking at the picture that she forgot the time.",
+      "number": 2,
       "options":[
         "carefully",
         "careful",
@@ -638,6 +643,7 @@ Content-Type: application/json
 | 参数名  | 示例                                                         | 必要性 | 含义                       | 类型   |
 | ------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
 | "stem"  | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
+| number  | 1                                                            | 必有   | 子问题的题号               | int    |
 | options | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
 | answer  | "B"                                                          | 必有   | 答案                       | string |
 
@@ -703,7 +709,8 @@ Content-Type: application/json
       text:" "
       sub_que[
           {
-              "stem":"Lily was so ___looking at the picture that she forgot the time."
+              "stem":"Lily was so ___looking at the picture that she forgot the time.",
+      		  "number": 1,
               "options":[
                 "carefully",
                 "careful",
@@ -713,7 +720,8 @@ Content-Type: application/json
               "answer": "B"
           },
           {
-              "stem":"Lily was so ___looking at the picture that she forgot the time."
+              "stem":"Lily was so ___looking at the picture that she forgot the time.",
+              "number": 2,
               "options":[
                 "carefully",
                 "careful",
