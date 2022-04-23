@@ -526,6 +526,7 @@ Content-Type: application/json
   "sub_que_num":2，
   "sub_que":[
       {
+    	 "id": 123, 
           "stem":"Lily was so ___looking at the picture that she forgot the time.",
     	  "number": 1,
           "options":[
@@ -537,6 +538,7 @@ Content-Type: application/json
           "answer": "B"，
       },
       {
+          "id": 124, 
           "stem":"Lily was so ___looking at the picture that she forgot the time.",
           "number": 2,
           "options":[
@@ -574,6 +576,7 @@ Content-Type: application/json
 
 | 参数名     | 示例                                                         | 必要性 | 含义                       | 类型   |
 | ---------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
+| id         |                                                              | 必有   | 子题目的id                 | int    |
 | "stem"     | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
 | number     | 1                                                            | 必有   | 子问题的题号               | int    |
 | options    | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
@@ -598,11 +601,11 @@ Content-Type: application/json
 
 ```json
 {
-  "type": "multiple",
-  "title": "",
-  "text":"",
-  "sub_que_num":2，
-  sub_que[
+  "type": "reading_question",
+  "title": "标题",
+  "text":"文章在这里",
+  "sub_que_num":2,
+  "sub_que":[
   {
       "stem":"Lily was so ___looking at the picture that she forgot the time.",
       "number": 1,
@@ -631,12 +634,12 @@ Content-Type: application/json
 
 **参数信息**
 
-| 参数名      | 示例                                          | 必要性 | 含义                             | 类型   |
-| ----------- | --------------------------------------------- | ------ | -------------------------------- | ------ |
-| type        | "multiple" / "cloze" / "readingcomprehension" | 必有   | 题目类型                         | string |
-| text        | " "                                           | 可选   | 阅读、完形的文章，选择题此项为空 | string |
-| sub_que_num | 4                                             | 必有   | 子题目数目                       | int    |
-| sub_que     | [{},{}]                                       | 必有   | 子题目的信息                     | list   |
+| 参数名      | 示例                                                         | 必要性 | 含义                             | 类型   |
+| ----------- | ------------------------------------------------------------ | ------ | -------------------------------- | ------ |
+| type        | choice_question 选择题<br />cloze_question 完形题<br />reading_question阅读题 | 必有   | 题目类型                         | string |
+| text        | " "                                                          | 可选   | 阅读、完形的文章，选择题此项为空 | string |
+| sub_que_num | 4                                                            | 必有   | 子题目数目                       | int    |
+| sub_que     | [{},{}]                                                      | 必有   | 子题目的信息                     | list   |
 
 其中sub_que是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
 
@@ -704,57 +707,56 @@ Content-Type: application/json
 
 ```json
 {
-  "problemid": 1,
-  "newdata": {  
-      text:" "
-      sub_que[
-          {
-              "stem":"Lily was so ___looking at the picture that she forgot the time.",
-      		  "number": 1,
-              "options":[
-                "carefully",
-                "careful",
-                "busily",
-                "busy"
-              ],
-              "answer": "B"
-          },
-          {
-              "stem":"Lily was so ___looking at the picture that she forgot the time.",
-              "number": 2,
-              "options":[
-                "carefully",
-                "careful",
-                "busily",
-                "busy"
-              ],
-              "answer": "B"
-          }
-          ]
+   "problemid": 1,  
+  "type": "reading_question",
+  "title": "修改后的题目1",
+  "text":"修改后的文章",
+  "sub_que_num":2,
+  "sub_que":[
+  {
+      "stem":"修改后的第一题第1小题",
+      "number": 1,
+      "options":[
+        "carefully",
+        "careful",
+        "busily",
+        "busy"
+      ],
+      "answer": "B"
+  },
+  {
+      "stem":"修改后的第一题第2小题.",
+      "number": 2,
+      "options":[
+        "hhhhhhhhhhh",
+        "careful",
+        "busily",
+        "busy"
+      ],
+      "answer": "C"
+  }
+  ]
 }
 ```
 
 **参数信息**
 
-| 参数名    | 示例 | 必要性 | 含义           | 类型       |
-| --------- | ---- | ------ | -------------- | ---------- |
-| problemid | 1    | 必有   | 题目id         | int        |
-| newdata   | { }  | 必有   | 需要修改的信息 | dictionary |
+| 参数名      | 示例                                                         | 必要性 | 含义                             | 类型   |
+| ----------- | ------------------------------------------------------------ | ------ | -------------------------------- | ------ |
+| problemid   |                                                              | 必有   | 题目的id                         | int    |
+| type        | choice_question 选择题<br />cloze_question 完形题<br />reading_question阅读题 | 必有   | 题目类型                         | string |
+| text        | " "                                                          | 可选   | 阅读、完形的文章，选择题此项为空 | string |
+| sub_que_num | 4                                                            | 必有   | 子题目数目                       | int    |
+| sub_que     | [{},{}]                                                      | 必有   | 子题目的信息                     | list   |
 
-其中`newdata`中的参数信息如下所示：
-
-| 参数名  | 示例    | 必要性 | 含义                             | 类型   |
-| ------- | ------- | ------ | -------------------------------- | ------ |
-| text    | ' '     | 可选   | 阅读、完形的文章，选择题此项为空 | string |
-| sub_que | [{},{}] | 可选   | 子题目的信息                     | list   |
-
-其中`sub_que`中的参数信息如下所示：
+其中sub_que是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
 
 | 参数名  | 示例                                                         | 必要性 | 含义                       | 类型   |
 | ------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
 | "stem"  | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
-| options | ["carefully","careful", "busily","busy"]                     | 可选   | 选项                       | list   |
-| answer  | "B"                                                          | 可选   | 答案                       | string |
+| number  | 1                                                            | 必有   | 子问题的题号               | int    |
+| options | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
+| answer  | "B"                                                          | 必有   | 答案                       | string |
 
 
 
@@ -853,6 +855,87 @@ Content-Type: application/json
 | 参数名 | 示例 | 必要性 | 含义         | 类型 |
 | ------ | ---- | ------ | ------------ | ---- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
+
+
+
+### 查看题解
+
+#### 请求
+
+**请求头**
+
+```
+ GET /api/admin/solution?sub_question_id=3
+ Cookie: sessionid=<sessionid数值>
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义             | 类型 |
+| ------ | ---- | ------ | ---------------- | ---- |
+| id     | 3    | 必有   | 题解对应小题的id | int  |
+
+
+
+#### 响应
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret = 0):
+
+```json
+{
+     "ret": 0,
+ 	'solutions':[
+         {
+              'id': 123,
+              'content': ,
+              'likes': 4,
+              'reports': 2
+		},
+        {
+              'id': 124,
+              'content': ,
+              'likes': 1,
+              'reports': 8
+		},
+    ],
+ 	'total': 2
+}
+```
+
+异常返回(ret ≠ 0):
+
+```json
+{
+	"ret":3，
+    "msg": '******'
+}
+```
+
+**参数信息**
+
+| 参数名    | 示例 | 必要性 | 含义             | 类型 |
+| --------- | ---- | ------ | ---------------- | ---- |
+| ret       | 0    | 必有   | 是否正常返回     | int  |
+| solutions |      | 必有   | 题解字典的列表   |      |
+| total     |      | 必有   | 该小题的题解总数 | int  |
+
+solutions结构如下
+
+| 参数名  | 示例 | 必要性 | 含义         | 类型   |
+| ------- | ---- | ------ | ------------ | ------ |
+| id      |      | 必有   | 题解id       | int    |
+| content |      | 必有   | 题解内容     | string |
+| likes   |      | 必有   | 该题解点赞数 | int    |
+| reports |      | 必有   | 该题解举报数 | int    |
 
 
 
