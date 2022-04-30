@@ -1154,15 +1154,17 @@ Content-Type: application/json
 
 ```json
 {
-  "code": xxxxx
+  "code": xxxxx,
+    "username":"微信昵称"
 }
 ```
 
 **参数信息**
 
-| 参数名 | 示例 | 必要性 | 含义                   | 类型   |
-| ------ | ---- | ------ | ---------------------- | ------ |
-| code   |      | 必须   | 小程序前端发过来的code | string |
+| 参数名   | 示例 | 必要性 | 含义                           | 类型   |
+| -------- | ---- | ------ | ------------------------------ | ------ |
+| code     |      | 必须   | 小程序端发过来的code           | string |
+| username |      | 必须   | 用户的微信昵称，作为默认用户名 | string |
 
 #### 响应
 
@@ -1196,7 +1198,7 @@ set_cookie: sessionid=<sessionid数值>
 
 
 
-### 查看用户名(lxl:这个名字应该写具体一些，可能你想描述的是昵称)
+### 查看用户名
 
 #### 请求
 
@@ -1216,20 +1218,58 @@ set_cookie: sessionid=<sessionid数值>
 Content-Type: application/json
 ```
 
+**消息体**
+
+正常返回(ret=0):
+
+```json
+{
+  "ret": 0,
+  "username":"用户名",
+  "msg": '******'
+}
+```
+
+异常返回(ret≠0):
+
+```json
+{
+  "ret": 3
+  "msg": '***'
+}
+```
+
+| 参数名   | 示例 | 必要性 | 含义   | 类型   |
+| -------- | ---- | ------ | ------ | ------ |
+| username |      | 必有   | 用户名 | string |
 
 
-### 修改用户名(lxl:和上面相同的问题)
+
+### 修改用户名
 
 #### 请求
 
 **请求头**
 
 ```
- PUT /api/user/profile
+ POST /api/user/profile
  Cookie: sessionid=<sessionid数值>
 ```
 
+**消息体**
 
+```json
+{
+  "code": xxxxx,
+    "username":"新用户名"
+}
+```
+
+**参数信息**
+
+| 参数名   | 示例 | 必要性 | 含义     | 类型   |
+| -------- | ---- | ------ | -------- | ------ |
+| username |      | 必须   | 新用户名 | string |
 
 #### 响应
 
@@ -1238,6 +1278,26 @@ Content-Type: application/json
 ```
 200 OK
 Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0):
+
+```json
+{
+  "ret": 0,
+  "msg": '******'
+}
+```
+
+异常返回(ret≠0):
+
+```json
+{
+	"ret": 3，
+    "msg": '******'
+}
 ```
 
 
