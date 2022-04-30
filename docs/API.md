@@ -548,7 +548,6 @@ Content-Type: application/json
             "busy"
           ],
           "answer": "B"，
-          answer key:["这个题的关键在于认真审题"，"站在父亲的角度来就可以更好的理解本题"]
       }
 	]
 }
@@ -568,20 +567,20 @@ Content-Type: application/json
 | 参数名      | 示例    | 必要性 | 含义                             | 类型info |
 | ----------- | ------- | ------ | -------------------------------- | -------- |
 | ret         | 0       | 必有   | 是否正常返回                     | int      |
+| title       |         | 必有   | 标题                             | string   |
 | text        | " "     | 可选   | 阅读、完形的文章，选择题此项为空 | string   |
 | sub_que_num | 4       | 必有   | 子题目数目                       | int      |
 | sub_que     | [{},{}] | 必有   | 子题目的信息                     | list     |
 
 其中sub_que是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
 
-| 参数名     | 示例                                                         | 必要性 | 含义                       | 类型   |
-| ---------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
-| id         |                                                              | 必有   | 子题目的id                 | int    |
-| "stem"     | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
-| number     | 1                                                            | 必有   | 子问题的题号               | int    |
-| options    | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
-| answer     | "B"                                                          | 必有   | 答案                       | string |
-| answer key | ["认真审题"，"站在父亲的角度来就可以更好的理解第二小题"]     | 可选   | 子题目的题解               | list   |
+| 参数名  | 示例                                                         | 必要性 | 含义                       | 类型   |
+| ------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
+| id      |                                                              | 必有   | 子题目的id                 | int    |
+| "stem"  | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
+| number  | 1                                                            | 必有   | 子问题的题号               | int    |
+| options | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
+| answer  | "B"                                                          | 必有   | 答案                       | string |
 
 
 
@@ -637,6 +636,7 @@ Content-Type: application/json
 | 参数名      | 示例                                                         | 必要性 | 含义                             | 类型   |
 | ----------- | ------------------------------------------------------------ | ------ | -------------------------------- | ------ |
 | type        | choice_question 选择题<br />cloze_question 完形题<br />reading_question阅读题 | 必有   | 题目类型                         | string |
+| title       |                                                              | 必有   | 标题                             | string |
 | text        | " "                                                          | 可选   | 阅读、完形的文章，选择题此项为空 | string |
 | sub_que_num | 4                                                            | 必有   | 子题目数目                       | int    |
 | sub_que     | [{},{}]                                                      | 必有   | 子题目的信息                     | list   |
@@ -898,13 +898,15 @@ Content-Type: application/json
               'id': 123,
               'content': ,
               'likes': 4,
-              'reports': 2
+              'reports': 2,
+              'bad_solution': 0
 		},
         {
               'id': 124,
               'content': ,
               'likes': 1,
-              'reports': 8
+              'reports': 8,
+              'bad_solution': 1
 		},
     ],
  	'total': 2
@@ -930,12 +932,13 @@ Content-Type: application/json
 
 solutions结构如下
 
-| 参数名  | 示例 | 必要性 | 含义         | 类型   |
-| ------- | ---- | ------ | ------------ | ------ |
-| id      |      | 必有   | 题解id       | int    |
-| content |      | 必有   | 题解内容     | string |
-| likes   |      | 必有   | 该题解点赞数 | int    |
-| reports |      | 必有   | 该题解举报数 | int    |
+| 参数名       | 示例 | 必要性 | 含义                                       | 类型   |
+| ------------ | ---- | ------ | ------------------------------------------ | ------ |
+| id           |      | 必有   | 题解id                                     | int    |
+| content      |      | 必有   | 题解内容                                   | string |
+| likes        |      | 必有   | 该题解点赞数                               | int    |
+| reports      |      | 必有   | 该题解举报数                               | int    |
+| bad_solution |      | 必有   | =1表示该题解被举报比例过大，需要管理员审查 | int    |
 
 
 
@@ -1440,7 +1443,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/user/que_solution
+ GET /api/user/solution
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1462,7 +1465,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- POST /api/user/que_solution
+ POST /api/user/solution
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1486,7 +1489,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- PATCH /api/user/que_soluton_like
+ POST /api/user/solution_like
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1510,7 +1513,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- PATCH /api/user/que_soluton_report
+ POST /api/user/solution_report
  Cookie: sessionid=<sessionid数值>
 ```
 
