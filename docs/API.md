@@ -1385,16 +1385,27 @@ Content-Type: application/json
 
 ### 获取题目题面
 
-待定：用户既可以随机获取题目，也可指定获取某道题，“指定获取”或许可用在错题本和刷题记录上
+用户既可以随机获取题目，也可指定获取某道题，指定获取只可用在错题本和刷题记录上
+
+完型和阅读题每次获取一道题，选择每次获取十道题
 
 #### 请求
 
 **请求头**
 
 ```
- GET /api/user/get_question
+ GET /api/user/get_question?type=CHOICE_QUE_NAME&id=1
  Cookie: sessionid=<sessionid数值>
 ```
+
+
+
+**参数信息**
+
+| 参数名 | 示例            | 必要性 | 含义           | 类型   |
+| ------ | --------------- | ------ | -------------- | ------ |
+| type   | CHOICE_QUE_NAME | 必有   | 获取题目的类型 | string |
+| id     | 2               | 不必有 | 获取题目的ID   | string |
 
 
 
@@ -1406,6 +1417,77 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
+
+**消息体**
+
+正常返回(ret=0):
+
+```json
+{
+  "ret": 0,
+  "msg": '******',
+  "title":"",
+  "text":"",
+  "sub_que_num":2，
+  "sub_que":[
+      {
+    	 "id": 123, 
+          "stem":"Lily was so ___looking at the picture that she forgot the time.",
+    	  "number": 1,
+          "options":[
+            "carefully",
+            "careful",
+            "busily",
+            "busy"
+          ],
+      },
+      {
+          "id": 124, 
+          "stem":"Lily was so ___looking at the picture that she forgot the time.",
+          "number": 2,
+          "options":[
+            "carefully",
+            "careful",
+            "busily",
+            "busy"
+          ]
+      }
+	]
+}
+```
+
+错误返回(ret>0):
+
+```json
+{
+	"ret":3，
+    "msg": '哦吼，本题已经被管理员删除啦'
+}
+```
+
+**参数信息**
+
+| 参数名      | 示例    | 必要性 | 含义                             | 类型info |
+| ----------- | ------- | ------ | -------------------------------- | -------- |
+| ret         | 0       | 必有   | 是否正常返回                     | int      |
+| text        | " "     | 可选   | 阅读、完形的文章，选择题此项为空 | string   |
+| sub_que_num | 4       | 必有   | 子题目数目                       | int      |
+| sub_que     | [{},{}] | 必有   | 子题目的信息                     | list     |
+
+其中sub_que是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
+
+| 参数名     | 示例                                                         | 必要性 | 含义                       | 类型   |
+| ---------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
+| id         |                                                              | 必有   | 子题目的id                 | int    |
+| "stem"     | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
+| number     | 1                                                            | 必有   | 子问题的题号               | int    |
+| options    | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
+| answer     | "B"                                                          | 必有   | 答案                       | string |
+| answer key | ["认真审题"，"站在父亲的角度来就可以更好的理解第二小题"]     | 可选   | 子题目的题解               | list   |
+
+
+
+
 
 
 
