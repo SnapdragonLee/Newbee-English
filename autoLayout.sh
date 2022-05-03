@@ -1,13 +1,18 @@
 git pull
 git submodule update --init --recursive --force
 
-cd backend
-git merge master
+cd backend || exit
+git checkout -b new
 git checkout master
+git merge new
+git branch -d new
 
-cd ../frontend
-git merge main
+cd ../frontend || exit
+git checkout -b new
 git checkout main
+git merge new
+git branch -d new
+
 npm run build
 cd ..
 
