@@ -455,12 +455,16 @@ Content-Type: application/json
   "ret": 0,
     "msg": '******',
   "list": [{ 
+    "id": 123,
     "title": "Lily was so ___looking at the picture that she forgot the time",
     "sub_que_num":"2",
+     "has_bad_solution": 1
   },
   {
+    "id": 124,
     "title": "Lily was so ___looking at the picture that she forgot the time",
     "sub_que_num":"3",
+     "has_bad_solution": 0 
   }]，
   ”total":32
 }
@@ -476,10 +480,12 @@ Content-Type: application/json
 
 其中`list`是包含多个查找结果的列表，每个结果的参数信息如下所示：
 
-| 参数名      | 示例                                                         | 必要性 | 含义         | 类型   |
-| ----------- | ------------------------------------------------------------ | ------ | ------------ | ------ |
-| title       | Lily was so ___looking at the picture that she forgot the time | 必有   | 题目的标题   | string |
-| sub_que_num | 2                                                            | 必有   | 所含小题数量 | int    |
+| 参数名           | 示例                                                         | 必要性 | 含义                                                         | 类型   |
+| ---------------- | ------------------------------------------------------------ | ------ | ------------------------------------------------------------ | ------ |
+| id               | 123                                                          | 必有   | 题目的id                                                     | int    |
+| title            | Lily was so ___looking at the picture that she forgot the time | 必有   | 题目的标题                                                   | string |
+| sub_que_num      | 2                                                            | 必有   | 所含小题数量                                                 | int    |
+| has_bad_solution | 1或0                                                         | 必有   | 表示该题目的所有小题中，是否有需要审查的题解，1表示有，0表示没有 | int    |
 
 
 
@@ -536,6 +542,7 @@ Content-Type: application/json
             "busy"
           ],
           "answer": "B"，
+		  "has_bad_solution":1
       },
       {
           "id": 124, 
@@ -548,6 +555,7 @@ Content-Type: application/json
             "busy"
           ],
           "answer": "B"，
+          "has_bad_solution":0
       }
 	]
 }
@@ -574,13 +582,14 @@ Content-Type: application/json
 
 其中sub_que是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
 
-| 参数名  | 示例                                                         | 必要性 | 含义                       | 类型   |
-| ------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
-| id      |                                                              | 必有   | 子题目的id                 | int    |
-| "stem"  | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
-| number  | 1                                                            | 必有   | 子问题的题号               | int    |
-| options | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
-| answer  | "B"                                                          | 必有   | 答案                       | string |
+| 参数名           | 示例                                                         | 必要性 | 含义                                   | 类型   |
+| ---------------- | ------------------------------------------------------------ | ------ | -------------------------------------- | ------ |
+| id               |                                                              | 必有   | 子题目的id                             | int    |
+| "stem"           | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空             | string |
+| number           | 1                                                            | 必有   | 子问题的题号                           | int    |
+| options          | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                                   | list   |
+| answer           | "B"                                                          | 必有   | 答案                                   | string |
+| has_bad_solution | 1或0                                                         | 必有   | 1表示该小题含有待审查的题解，0表示没有 | int    |
 
 
 
@@ -858,6 +867,55 @@ Content-Type: application/json
 
 
 
+### 是否有题解待处理
+
+#### 请求
+
+**请求头**
+
+```
+ GET /api/admin/has_bad_solution
+ Cookie: sessionid=<sessionid数值>
+```
+
+#### 响应
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret = 0):
+
+```json
+{
+     "ret": 0,
+    "msg": '******',
+ 	"has_bad_solution": 1
+}
+```
+
+异常返回(ret ≠ 0):
+
+```json
+{
+	"ret":3,
+    "msg": '******'
+}
+```
+
+**参数信息**
+
+| 参数名           | 示例 | 必要性 | 含义                                 | 类型 |
+| ---------------- | ---- | ------ | ------------------------------------ | ---- |
+| has_bad_solution | 1    | 必有   | 是否有待处理题解，1表示有，0表示没有 | int  |
+
+
+
 ### 查看题解
 
 #### 请求
@@ -917,7 +975,7 @@ Content-Type: application/json
 
 ```json
 {
-	"ret":3，
+	"ret":3,
     "msg": '******'
 }
 ```
