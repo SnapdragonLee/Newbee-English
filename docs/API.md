@@ -1086,7 +1086,8 @@ Content-Type: application/json
 {
   ret:0,
   "msg": '******',
-  "ancontent" : "welcome to NewBee English"
+  "content" : "welcome to NewBee English",
+    "time": "2022-05-07 00:26:35"
 }
 ```
 
@@ -1101,10 +1102,11 @@ Content-Type: application/json
 
 **参数信息**
 
-| 参数名    | 示例        | 必要性 | 含义         | 类型   |
-| --------- | ----------- | ------ | ------------ | ------ |
-| ret       | 1           | 必有   | 是否正常返回 | int    |
-| ancontent | welcom to.. | 必有   | 公告内容     | string |
+| 参数名  | 示例                  | 必要性 | 含义         | 类型   |
+| ------- | --------------------- | ------ | ------------ | ------ |
+| ret     | 1                     | 必有   | 是否正常返回 | int    |
+| content | welcom to..           | 必有   | 公告内容     | string |
+| time    | "2022-05-07 00:26:35" | 必有   | 发布时间     | string |
 
 
 
@@ -1115,7 +1117,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- PUT /api/admin/notice
+ POST /api/admin/notice
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1123,35 +1125,15 @@ Content-Type: application/json
 
 ```json
 {
-  "ancontent" : "welcome to NewBee English"
-  "antime": { 
-    "year": "2022",
-    "month":"5",
-    "day":"9",
-    "hour":"14"
-    "min":"23",
-    "sec":"25"
-  }
+  "content" : "welcome to NewBee English"
 }
 ```
 
 **参数信息**
 
-| 参数名    | 示例        | 必要性 | 含义     | 类型       |
-| --------- | ----------- | ------ | -------- | ---------- |
-| ancontent | welcom to.. | 必有   | 公告内容 | string     |
-| ant       | {}          | 必有   | 发布时间 | dictionary |
-
-其中`ant`中的参数信息如下所示：
-
-| 参数名 | 示例 | 必要性 | 含义     | 类型 |
-| ------ | ---- | ------ | -------- | ---- |
-| year   | 2022 | 必有   | 发布年份 | int  |
-| month  | 5    | 必有   | 发布月份 | int  |
-| day    | 9    | 必有   | 发布天   | int  |
-| hour   | 14   | 必有   | 发布小时 | int  |
-| min    | 23   | 必有   | 发布分钟 | int  |
-| sec    | 25   | 必有   | 发布秒   | int  |
+| 参数名  | 示例        | 必要性 | 含义     | 类型   |
+| ------- | ----------- | ------ | -------- | ------ |
+| content | welcom to.. | 必有   | 公告内容 | string |
 
 
 
