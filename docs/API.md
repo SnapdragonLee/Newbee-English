@@ -1086,7 +1086,8 @@ Content-Type: application/json
 {
   ret:0,
   "msg": '******',
-  "ancontent" : "welcome to NewBee English"
+  "content" : "welcome to NewBee English",
+    "time": "2022-05-07 00:26:35"
 }
 ```
 
@@ -1101,10 +1102,11 @@ Content-Type: application/json
 
 **参数信息**
 
-| 参数名    | 示例        | 必要性 | 含义         | 类型   |
-| --------- | ----------- | ------ | ------------ | ------ |
-| ret       | 1           | 必有   | 是否正常返回 | int    |
-| ancontent | welcom to.. | 必有   | 公告内容     | string |
+| 参数名  | 示例                  | 必要性 | 含义         | 类型   |
+| ------- | --------------------- | ------ | ------------ | ------ |
+| ret     | 1                     | 必有   | 是否正常返回 | int    |
+| content | welcom to..           | 必有   | 公告内容     | string |
+| time    | "2022-05-07 00:26:35" | 必有   | 发布时间     | string |
 
 
 
@@ -1115,7 +1117,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- PUT /api/admin/notice
+ POST /api/admin/notice
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1123,35 +1125,15 @@ Content-Type: application/json
 
 ```json
 {
-  "ancontent" : "welcome to NewBee English"
-  "antime": { 
-    "year": "2022",
-    "month":"5",
-    "day":"9",
-    "hour":"14"
-    "min":"23",
-    "sec":"25"
-  }
+  "content" : "welcome to NewBee English"
 }
 ```
 
 **参数信息**
 
-| 参数名    | 示例        | 必要性 | 含义     | 类型       |
-| --------- | ----------- | ------ | -------- | ---------- |
-| ancontent | welcom to.. | 必有   | 公告内容 | string     |
-| ant       | {}          | 必有   | 发布时间 | dictionary |
-
-其中`ant`中的参数信息如下所示：
-
-| 参数名 | 示例 | 必要性 | 含义     | 类型 |
-| ------ | ---- | ------ | -------- | ---- |
-| year   | 2022 | 必有   | 发布年份 | int  |
-| month  | 5    | 必有   | 发布月份 | int  |
-| day    | 9    | 必有   | 发布天   | int  |
-| hour   | 14   | 必有   | 发布小时 | int  |
-| min    | 23   | 必有   | 发布分钟 | int  |
-| sec    | 25   | 必有   | 发布秒   | int  |
+| 参数名  | 示例        | 必要性 | 含义     | 类型   |
+| ------- | ----------- | ------ | -------- | ------ |
+| content | welcom to.. | 必有   | 公告内容 | string |
 
 
 
@@ -1191,6 +1173,81 @@ Content-Type: application/json
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
 
+
+#### 查看操作记录
+
+#### 请求
+
+**请求头**
+
+```
+ GET /api/admin/op_record
+ Cookie: sessionid=<sessionid数值>
+```
+
+
+
+#### 响应
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0)
+
+```json
+{
+    "records": [
+        {
+            "name": "JTL",
+            "op_type": "删除",
+            "description": "修改后的题目1"
+        },
+        {
+            "name": "JTL",
+            "op_type": "修改",
+            "description": "修改后的题目1"
+        },
+        {
+            "name": "JTL",
+            "op_type": "添加",
+            "description": "题目1"
+        }
+    ],
+    "ret": 0,
+    "msg": "Normal operation."
+}
+```
+
+异常返回(ret ≠ 0):
+
+```json
+{
+	"ret": 3，
+    "msg": '******'
+}
+```
+
+**参数信息**
+
+| 参数名  | 示例 | 必要性 | 含义                 | 类型 |
+| ------- | ---- | ------ | -------------------- | ---- |
+| ret     | 1    | 必有   | 是否正常返回         | int  |
+| records |      | 必有   | 操作记录所组成的列表 | 列表 |
+|         |      |        |                      |      |
+
+records中的参数如下
+
+| 参数名      | 示例             | 必要性 | 含义             | 类型   |
+| ----------- | ---------------- | ------ | ---------------- | ------ |
+| name        |                  | 必有   | 管理员用户名     | string |
+| op_type     | 添加、修改、删除 | 必有   | 三种操作类型之一 | string |
+| description |                  | 必有   | 操作的对象描述   | string |
 
 
 
