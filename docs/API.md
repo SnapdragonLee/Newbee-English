@@ -1367,11 +1367,15 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/user/wrong_que_book
+ GET /api/user/wrong_que_book&pagenumber=1
  Cookie: sessionid=<sessionid数值>
 ```
 
+**参数信息**
 
+| 参数名     | 示例 | 必要性 | 含义       | 类型   |
+| ---------- | ---- | ------ | ---------- | ------ |
+| pagenumber | 1    | 必须   | 查找的页面 | string |
 
 #### 响应
 
@@ -1380,6 +1384,36 @@ Content-Type: application/json
 ```
 200 OK
 Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0):
+
+```python
+{
+	"list": [
+		{
+			"date": "2022-05-07T18:45:57.523873+08:00",
+			"question": {
+				"id": 1,
+				"title": "wanxing1",
+				"type": "cloze_question"
+			}
+		}
+	],
+	"ret": 0,
+	"msg": "Normal operation."
+}
+```
+
+异常返回(ret=3):
+
+```python
+{
+  "ret": 3,
+  "msg": '目前还没有错题加入哦'
+}
 ```
 
 
@@ -1391,11 +1425,15 @@ Content-Type: application/json
 **请求头**
 
 ```
- POST /api/user/wrong_que_book
+ POST /api/user/wrong_que_book&id=1
  Cookie: sessionid=<sessionid数值>
 ```
 
+**参数信息**
 
+| 参数名 | 示例 | 必要性 | 含义         | 类型   |
+| ------ | ---- | ------ | ------------ | ------ |
+| id     | 1    | 必须   | 添加错题的id | string |
 
 #### 响应
 
@@ -1404,6 +1442,17 @@ Content-Type: application/json
 ```
 200 OK
 Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0):
+
+```json
+{
+  "ret": 0,
+  "msg": 'Normal operation'
+}
 ```
 
 
@@ -1421,6 +1470,12 @@ Content-Type: application/json
 
 
 
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型   |
+| ------ | ---- | ------ | ------------ | ------ |
+| id     | 1    | 必须   | 删除错题的id | string |
+
 #### 响应
 
 **响应头**
@@ -1428,6 +1483,17 @@ Content-Type: application/json
 ```
 200 OK
 Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0):
+
+```json
+{
+  "ret": 0,
+  "msg": 'Normal operation'
+}
 ```
 
 
