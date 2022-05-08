@@ -1376,7 +1376,7 @@ Content-Type: application/json
 | 参数名     | 示例                                                | 必要性 | 含义           | 类型   |
 | ---------- | --------------------------------------------------- | ------ | -------------- | ------ |
 | pagenumber | 1                                                   | 必须   | 查找的页面     | string |
-| type       | CHOICE_QUE_NAME / CLOZE_QUE_NAME / READING_QUE_NAME | 可选   | 查找题目的类型 | string |
+| type       | choice_question / cloze_question / reading_question | 可选   | 查找题目的类型 | string |
 
 #### 响应
 
@@ -1395,25 +1395,42 @@ Content-Type: application/json
 {
 	"list": [
 		{
-			"date": "2022-05-07T18:45:57.523873+08:00",
+			"date": "2022-05-08T20:31:43.849349+08:00",
+			"question": {
+				"id": 9,
+				"title": "yuedu3",
+				"type": "reading_question"
+			}
+		},
+		{
+			"date": "2022-05-08T20:31:37.764765+08:00",
+			"question": {
+				"id": 5,
+				"title": "wanxing2",
+				"type": "cloze_question"
+			}
+		},
+		{
+			"date": "2022-05-08T20:28:53.850617+08:00",
 			"question": {
 				"id": 1,
-				"title": "wanxing1",
-				"type": "CLOZE_QUE_NAME"
+				"title": "xuanze1",
+				"type": "choice_question"
 			}
 		}
 	],
+	"total": 3,
 	"ret": 0,
 	"msg": "Normal operation."
-}
 ```
 
 **参数信息**
 
-| 参数名 | 示例    | 必要性 | 含义           | 类型info |
-| ------ | ------- | ------ | -------------- | -------- |
-| ret    | 0       | 必有   | 是否正常返回   | int      |
-| list   | [{},{}] | 必有   | 错题本列表信息 | list     |
+| 参数名 | 示例    | 必要性 | 含义               | 类型info |
+| ------ | ------- | ------ | ------------------ | -------- |
+| ret    | 0       | 必有   | 是否正常返回       | int      |
+| list   | [{},{}] | 必有   | 错题本列表信息     | list     |
+| total  | 3       | 必有   | 错题表显示题目总数 | int      |
 
 其中list是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
 
@@ -1469,6 +1486,12 @@ Content-Type: application/json
 }
 ```
 
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
+
 
 
 ### 删除错题本中的题
@@ -1481,8 +1504,6 @@ Content-Type: application/json
  DELETE /api/user/wrong_que_book?id=1
  Cookie: sessionid=<sessionid数值>
 ```
-
-
 
 **参数信息**
 
@@ -1510,6 +1531,12 @@ Content-Type: application/json
 }
 ```
 
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
+
 
 
 ### 查看刷题记录
@@ -1519,11 +1546,16 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/user/record
+ GET /api/user/record?pagenumber=1&type=cloze_question 
  Cookie: sessionid=<sessionid数值>
 ```
 
+**参数信息**
 
+| 参数名     | 示例                                                | 必要性 | 含义                 | 类型   |
+| ---------- | --------------------------------------------------- | ------ | -------------------- | ------ |
+| pagenumber | 1                                                   | 必须   | 历史记录页面         | string |
+| type       | choice_question / cloze_question / reading_question | 可选   | 查看的历史记录的题型 | string |
 
 #### 响应
 
@@ -1533,6 +1565,63 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
+
+```python
+{
+	"list": [
+		{
+			"date": "2022-05-08T20:51:41.735298+08:00",
+			"question": {
+				"id": 8,
+				"title": "yuedu2",
+				"type": "reading_question"
+			}
+		},
+		{
+			"date": "2022-05-08T20:51:36.033919+08:00",
+			"question": {
+				"id": 6,
+				"title": "wanxing3",
+				"type": "cloze_question"
+			}
+		},
+		{
+			"date": "2022-05-08T20:51:29.649893+08:00",
+			"question": {
+				"id": 5,
+				"title": "wanxing2",
+				"type": "cloze_question"
+			}
+		}
+	],
+	"total": 3,
+	"ret": 0,
+	"msg": "Normal operation."
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例    | 必要性 | 含义                 | 类型info |
+| ------ | ------- | ------ | -------------------- | -------- |
+| ret    | 0       | 必有   | 是否正常返回         | int      |
+| list   | [{},{}] | 必有   | 错题本列表信息       | list     |
+| total  | 3       | 必有   | 历史记录返回题目总数 | int      |
+
+其中list是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
+
+| 参数名   | 示例                             | 必要性 | 含义       | 类型   |
+| -------- | -------------------------------- | ------ | ---------- | ------ |
+| date     | 2022-05-07T18:45:57.523873+08:00 | 必有   | 加入时间   | string |
+| question | 题目详细信息                     | 必有   | 题目的信息 | list   |
+
+其中question是包含题目多个信息的列表，每个题目信息的参数信息如下所示：
+
+| 参数名 | 示例           | 必要性 | 含义       | 类型   |
+| ------ | -------------- | ------ | ---------- | ------ |
+| id     | 1              | 必有   | 题目的id   | int    |
+| title  | wanxing1       | 必有   | 题目       | string |
+| type   | cloze_question | 必有   | 题目的题型 | string |
 
 
 
@@ -1557,6 +1646,19 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
+
+```python
+{
+	"ret": 0,
+	"msg": "Normal operation."
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
 
 
 
@@ -1595,7 +1697,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/user/get_question?type=CHOICE_QUE_NAME&id=1
+ GET /api/user/get_question?type=choice_question&id=1
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1605,7 +1707,7 @@ Content-Type: application/json
 
 | 参数名 | 示例                                                | 必要性 | 含义           | 类型   |
 | ------ | --------------------------------------------------- | ------ | -------------- | ------ |
-| type   | CHOICE_QUE_NAME   CLOZE_QUE_NAME   READING_QUE_NAME | 必有   | 获取题目的类型 | string |
+| type   | choice_question / cloze_question / reading_question | 必有   | 获取题目的类型 | string |
 | id     | 2                                                   | 不必有 | 获取题目的ID   | string |
 
 
@@ -1675,10 +1777,6 @@ Content-Type: application/json
 | "stem"  | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
 | number  | 1                                                            | 必有   | 子问题的题号               | int    |
 | options | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
-
-
-
-
 
 
 
