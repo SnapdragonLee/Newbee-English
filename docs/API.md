@@ -1147,8 +1147,7 @@ Content-Type: application/json
 {
   ret:0,
   "msg": '******',
-  "content" : "welcome to NewBee English",
-    "time": "2022-05-07 00:26:35"
+  "ancontent" : "welcome to NewBee English"
 }
 ```
 
@@ -1163,11 +1162,10 @@ Content-Type: application/json
 
 **参数信息**
 
-| 参数名  | 示例                  | 必要性 | 含义         | 类型   |
-| ------- | --------------------- | ------ | ------------ | ------ |
-| ret     | 1                     | 必有   | 是否正常返回 | int    |
-| content | welcom to..           | 必有   | 公告内容     | string |
-| time    | "2022-05-07 00:26:35" | 必有   | 发布时间     | string |
+| 参数名    | 示例        | 必要性 | 含义         | 类型   |
+| --------- | ----------- | ------ | ------------ | ------ |
+| ret       | 1           | 必有   | 是否正常返回 | int    |
+| ancontent | welcom to.. | 必有   | 公告内容     | string |
 
 
 
@@ -1178,7 +1176,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- POST /api/admin/notice
+ PUT /api/admin/notice
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1186,15 +1184,35 @@ Content-Type: application/json
 
 ```json
 {
-  "content" : "welcome to NewBee English"
+  "ancontent" : "welcome to NewBee English"
+  "antime": { 
+    "year": "2022",
+    "month":"5",
+    "day":"9",
+    "hour":"14"
+    "min":"23",
+    "sec":"25"
+  }
 }
 ```
 
 **参数信息**
 
-| 参数名  | 示例        | 必要性 | 含义     | 类型   |
-| ------- | ----------- | ------ | -------- | ------ |
-| content | welcom to.. | 必有   | 公告内容 | string |
+| 参数名    | 示例        | 必要性 | 含义     | 类型       |
+| --------- | ----------- | ------ | -------- | ---------- |
+| ancontent | welcom to.. | 必有   | 公告内容 | string     |
+| ant       | {}          | 必有   | 发布时间 | dictionary |
+
+其中`ant`中的参数信息如下所示：
+
+| 参数名 | 示例 | 必要性 | 含义     | 类型 |
+| ------ | ---- | ------ | -------- | ---- |
+| year   | 2022 | 必有   | 发布年份 | int  |
+| month  | 5    | 必有   | 发布月份 | int  |
+| day    | 9    | 必有   | 发布天   | int  |
+| hour   | 14   | 必有   | 发布小时 | int  |
+| min    | 23   | 必有   | 发布分钟 | int  |
+| sec    | 25   | 必有   | 发布秒   | int  |
 
 
 
@@ -1234,81 +1252,6 @@ Content-Type: application/json
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
 
-
-#### 查看操作记录
-
-#### 请求
-
-**请求头**
-
-```
- GET /api/admin/op_record
- Cookie: sessionid=<sessionid数值>
-```
-
-
-
-#### 响应
-
-**响应头**
-
-```
-200 OK
-Content-Type: application/json
-```
-
-**消息体**
-
-正常返回(ret=0)
-
-```json
-{
-    "records": [
-        {
-            "name": "JTL",
-            "op_type": "删除",
-            "description": "修改后的题目1"
-        },
-        {
-            "name": "JTL",
-            "op_type": "修改",
-            "description": "修改后的题目1"
-        },
-        {
-            "name": "JTL",
-            "op_type": "添加",
-            "description": "题目1"
-        }
-    ],
-    "ret": 0,
-    "msg": "Normal operation."
-}
-```
-
-异常返回(ret ≠ 0):
-
-```json
-{
-	"ret": 3，
-    "msg": '******'
-}
-```
-
-**参数信息**
-
-| 参数名  | 示例 | 必要性 | 含义                 | 类型 |
-| ------- | ---- | ------ | -------------------- | ---- |
-| ret     | 1    | 必有   | 是否正常返回         | int  |
-| records |      | 必有   | 操作记录所组成的列表 | 列表 |
-|         |      |        |                      |      |
-
-records中的参数如下
-
-| 参数名      | 示例             | 必要性 | 含义             | 类型   |
-| ----------- | ---------------- | ------ | ---------------- | ------ |
-| name        |                  | 必有   | 管理员用户名     | string |
-| op_type     | 添加、修改、删除 | 必有   | 三种操作类型之一 | string |
-| description |                  | 必有   | 操作的对象描述   | string |
 
 
 
@@ -1485,11 +1428,16 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/user/wrong_que_book
+ GET /api/user/wrong_que_book&pagenumber=1
  Cookie: sessionid=<sessionid数值>
 ```
 
+**参数信息**
 
+| 参数名     | 示例                                                | 必要性 | 含义           | 类型   |
+| ---------- | --------------------------------------------------- | ------ | -------------- | ------ |
+| pagenumber | 1                                                   | 必须   | 查找的页面     | string |
+| type       | choice_question / cloze_question / reading_question | 可选   | 查找题目的类型 | string |
 
 #### 响应
 
@@ -1499,6 +1447,66 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
+
+**消息体**
+
+正常返回(ret=0):
+
+```python
+{
+	"list": [
+		{
+			"date": "2022-05-08T20:31:43.849349+08:00",
+			"question": {
+				"id": 9,
+				"title": "yuedu3",
+				"type": "reading_question"
+			}
+		},
+		{
+			"date": "2022-05-08T20:31:37.764765+08:00",
+			"question": {
+				"id": 5,
+				"title": "wanxing2",
+				"type": "cloze_question"
+			}
+		},
+		{
+			"date": "2022-05-08T20:28:53.850617+08:00",
+			"question": {
+				"id": 1,
+				"title": "xuanze1",
+				"type": "choice_question"
+			}
+		}
+	],
+	"total": 3,
+	"ret": 0,
+	"msg": "Normal operation."
+```
+
+**参数信息**
+
+| 参数名 | 示例    | 必要性 | 含义               | 类型info |
+| ------ | ------- | ------ | ------------------ | -------- |
+| ret    | 0       | 必有   | 是否正常返回       | int      |
+| list   | [{},{}] | 必有   | 错题本列表信息     | list     |
+| total  | 3       | 必有   | 错题表显示题目总数 | int      |
+
+其中list是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
+
+| 参数名   | 示例                             | 必要性 | 含义       | 类型   |
+| -------- | -------------------------------- | ------ | ---------- | ------ |
+| date     | 2022-05-07T18:45:57.523873+08:00 | 必有   | 加入时间   | string |
+| question | 题目详细信息                     | 必有   | 题目的信息 | list   |
+
+其中question是包含题目多个信息的列表，每个题目信息的参数信息如下所示：
+
+| 参数名 | 示例           | 必要性 | 含义       | 类型   |
+| ------ | -------------- | ------ | ---------- | ------ |
+| id     | 1              | 必有   | 题目的id   | int    |
+| title  | wanxing1       | 必有   | 题目       | string |
+| type   | CLOZE_QUE_NAME | 必有   | 题目的题型 | string |
 
 
 
@@ -1509,11 +1517,15 @@ Content-Type: application/json
 **请求头**
 
 ```
- POST /api/user/wrong_que_book
+ POST /api/user/wrong_que_book?id=1
  Cookie: sessionid=<sessionid数值>
 ```
 
+**参数信息**
 
+| 参数名 | 示例 | 必要性 | 含义         | 类型   |
+| ------ | ---- | ------ | ------------ | ------ |
+| id     | 1    | 必须   | 添加错题的id | string |
 
 #### 响应
 
@@ -1523,6 +1535,23 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
+
+**消息体**
+
+正常返回(ret=0):
+
+```json
+{
+  "ret": 0,
+  "msg": 'Normal operation'
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
 
 
 
@@ -1533,11 +1562,15 @@ Content-Type: application/json
 **请求头**
 
 ```
- DELETE /api/user/wrong_que_book
+ DELETE /api/user/wrong_que_book?id=1
  Cookie: sessionid=<sessionid数值>
 ```
 
+**参数信息**
 
+| 参数名 | 示例 | 必要性 | 含义         | 类型   |
+| ------ | ---- | ------ | ------------ | ------ |
+| id     | 1    | 必须   | 删除错题的id | string |
 
 #### 响应
 
@@ -1547,6 +1580,23 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
+
+**消息体**
+
+正常返回(ret=0):
+
+```json
+{
+  "ret": 0,
+  "msg": 'Normal operation'
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
 
 
 
@@ -1557,7 +1607,93 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/user/record
+ GET /api/user/record?pagenumber=1&type=cloze_question 
+ Cookie: sessionid=<sessionid数值>
+```
+
+**参数信息**
+
+| 参数名     | 示例                                                | 必要性 | 含义                 | 类型   |
+| ---------- | --------------------------------------------------- | ------ | -------------------- | ------ |
+| pagenumber | 1                                                   | 必须   | 历史记录页面         | string |
+| type       | choice_question / cloze_question / reading_question | 可选   | 查看的历史记录的题型 | string |
+
+#### 响应
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+```python
+{
+	"list": [
+		{
+			"date": "2022-05-08T20:51:41.735298+08:00",
+			"question": {
+				"id": 8,
+				"title": "yuedu2",
+				"type": "reading_question"
+			}
+		},
+		{
+			"date": "2022-05-08T20:51:36.033919+08:00",
+			"question": {
+				"id": 6,
+				"title": "wanxing3",
+				"type": "cloze_question"
+			}
+		},
+		{
+			"date": "2022-05-08T20:51:29.649893+08:00",
+			"question": {
+				"id": 5,
+				"title": "wanxing2",
+				"type": "cloze_question"
+			}
+		}
+	],
+	"total": 3,
+	"ret": 0,
+	"msg": "Normal operation."
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例    | 必要性 | 含义                 | 类型info |
+| ------ | ------- | ------ | -------------------- | -------- |
+| ret    | 0       | 必有   | 是否正常返回         | int      |
+| list   | [{},{}] | 必有   | 错题本列表信息       | list     |
+| total  | 3       | 必有   | 历史记录返回题目总数 | int      |
+
+其中list是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
+
+| 参数名   | 示例                             | 必要性 | 含义       | 类型   |
+| -------- | -------------------------------- | ------ | ---------- | ------ |
+| date     | 2022-05-07T18:45:57.523873+08:00 | 必有   | 加入时间   | string |
+| question | 题目详细信息                     | 必有   | 题目的信息 | list   |
+
+其中question是包含题目多个信息的列表，每个题目信息的参数信息如下所示：
+
+| 参数名 | 示例           | 必要性 | 含义       | 类型   |
+| ------ | -------------- | ------ | ---------- | ------ |
+| id     | 1              | 必有   | 题目的id   | int    |
+| title  | wanxing1       | 必有   | 题目       | string |
+| type   | cloze_question | 必有   | 题目的题型 | string |
+
+
+
+### 用户清空刷题记录
+
+#### 请求
+
+**请求头**
+
+```
+ DELETE /api/user/record
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1571,6 +1707,19 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
+
+```python
+{
+	"ret": 0,
+	"msg": "Normal operation."
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| ret    | 0    | 必有   | 是否正常返回 | int  |
 
 
 
@@ -1585,8 +1734,6 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
-
-
 #### 响应
 
 **响应头**
@@ -1596,29 +1743,21 @@ Content-Type: application/json
 Content-Type: application/json
 ```
 
+| 参数名 | 示例    | 必要性 | 含义           | 类型info |
+| ------ | ------- | ------ | -------------- | -------- |
+| ret    | 0       | 必有   | 是否正常返回   | int      |
+| list   | [{},{}] | 必有   | 错题本列表信息 | list     |
 
+其中list是包含题目多个信息的列表，每个题目信息的参数信息如下所示：
 
-### 用户清空刷题统计
-
-#### 请求
-
-**请求头**
-
-```
- DELETE /api/user/statistics
- Cookie: sessionid=<sessionid数值>
-```
-
-
-
-#### 响应
-
-**响应头**
-
-```
-200 OK
-Content-Type: application/json
-```
+| 参数名        | 示例 | 必要性 | 含义           | 类型 |
+| ------------- | ---- | ------ | -------------- | ---- |
+| choice_num    | 1    | 必有   | 做过的单选数量 | int  |
+| choice_right  | 1    | 必有   | 做对的单选数量 | int  |
+| cloze_num     | 1    | 必有   | 做过的完型数量 | int  |
+| cloze_right   | 1    | 必有   | 做对的完型数量 | int  |
+| reading_num   | 1    | 必有   | 做过的阅读数量 | int  |
+| reading_right | 1    | 必有   | 做对的阅读数量 | int  |
 
 
 
@@ -1633,7 +1772,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/user/get_question?type=CHOICE_QUE_NAME&id=1
+ GET /api/user/get_question?type=choice_question&id=1
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1643,7 +1782,7 @@ Content-Type: application/json
 
 | 参数名 | 示例                                                | 必要性 | 含义           | 类型   |
 | ------ | --------------------------------------------------- | ------ | -------------- | ------ |
-| type   | CHOICE_QUE_NAME   CLOZE_QUE_NAME   READING_QUE_NAME | 必有   | 获取题目的类型 | string |
+| type   | choice_question / cloze_question / reading_question | 必有   | 获取题目的类型 | string |
 | id     | 2                                                   | 不必有 | 获取题目的ID   | string |
 
 
@@ -1663,35 +1802,26 @@ Content-Type: application/json
 
 ```json
 {
-  "ret": 0,
-  "msg": '******',
-  "title":"",
-  "text":"",
-  "sub_que_num":2，
-  "sub_que":[
-      {
-    	 "id": 123, 
-          "stem":"Lily was so ___looking at the picture that she forgot the time.",
-    	  "number": 1,
-          "options":[
-            "carefully",
-            "careful",
-            "busily",
-            "busy"
-          ]
-      },
-      {
-          "id": 124, 
-          "stem":"Lily was so ___looking at the picture that she forgot the time.",
-          "number": 2,
-          "options":[
-            "carefully",
-            "careful",
-            "busily",
-            "busy"
-          ]
-      }
-	]
+	"id": 8,
+	"title": "wanxing1",
+	"text": "qwer",
+	"sub_que_num": 1,
+	"sub_que": [
+		{
+			"id": 8,
+			"number": 1,
+			"stem": null,
+			"options": [
+				"a",
+				"b",
+				"c",
+				"d"
+			]
+		}
+	],
+	"flag": 0,
+	"ret": 0,
+	"msg": "Normal operation."
 }
 ```
 
@@ -1706,27 +1836,22 @@ Content-Type: application/json
 
 **参数信息**
 
-| 参数名      | 示例    | 必要性 | 含义                             | 类型info |
-| ----------- | ------- | ------ | -------------------------------- | -------- |
-| ret         | 0       | 必有   | 是否正常返回                     | int      |
-| text        | " "     | 可选   | 阅读、完形的文章，选择题此项为空 | string   |
-| sub_que_num | 4       | 必有   | 子题目数目                       | int      |
-| sub_que     | [{},{}] | 必有   | 子题目的信息                     | list     |
+| 参数名      | 示例    | 必要性 | 含义                                            | 类型info |
+| ----------- | ------- | ------ | ----------------------------------------------- | -------- |
+| ret         | 0       | 必有   | 是否正常返回                                    | int      |
+| flag        | 0       | 必有   | 为0表示处于刷题库阶段   为1表示处于刷错题本阶段 | int      |
+| text        | " "     | 可选   | 阅读、完形的文章，选择题此项为空                | string   |
+| sub_que_num | 4       | 必有   | 子题目数目                                      | int      |
+| sub_que     | [{},{}] | 必有   | 子题目的信息                                    | list     |
 
 其中sub_que是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
 
-| 参数名     | 示例                                                         | 必要性 | 含义                       | 类型   |
-| ---------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
-| id         |                                                              | 必有   | 子题目的id                 | int    |
-| "stem"     | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
-| number     | 1                                                            | 必有   | 子问题的题号               | int    |
-| options    | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
-| answer     | "B"                                                          | 必有   | 答案                       | string |
-| answer key | ["认真审题"，"站在父亲的角度来就可以更好的理解第二小题"]     | 可选   | 子题目的题解               | list   |
-
-
-
-
+| 参数名  | 示例                                                         | 必要性 | 含义                       | 类型   |
+| ------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
+| id      |                                                              | 必有   | 子题目的id                 | int    |
+| "stem"  | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
+| number  | 1                                                            | 必有   | 子问题的题号               | int    |
+| options | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
 
 
 
@@ -1861,7 +1986,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
-
+| 参数名     | 示例                                                | 必要性 | 含义           | 类型   |
+| ---------- | --------------------------------------------------- | ------ | -------------- | ------ |
+| pagenumber | 1                                                   | 必须   | 查找的页面     | string |
+| type       | CHOICE_QUE_NAME / CLOZE_QUE_NAME / READING_QUE_NAME | 可选   | 查找题目的类型 | string |
 
 #### 响应
 
@@ -1871,6 +1999,21 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
+
+**参数信息**
+
+| 参数名 | 示例    | 必要性 | 含义           | 类型info |
+| ------ | ------- | ------ | -------------- | -------- |
+| ret    | 0       | 必有   | 是否正常返回   | int      |
+| list   | [{},{}] | 必有   | 错题本列表信息 | list     |
+
+其中list是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
+
+| 参数名 | 示例       | 必要性 | 含义     | 类型   |
+| ------ | ---------- | ------ | -------- | ------ |
+| rank   | 1          | 必要   | 排名     | int    |
+| name   | snapdragon | 必要   | 用户名   | string |
+| total  | 50         | 必要   | 做题数量 | int    |
 
 
 
