@@ -8,6 +8,69 @@
 
 
 
+## API 完成清单
+
+**管理端：**
+
+- [x] 登录
+
+- [x] 登出
+
+- [x] 查看管理员用户名
+
+- [x] 查看用户信息
+
+- [x] 搜索用户信息
+
+- [x] 删除用户信息
+
+- [x] 查看题目列表
+
+- [x] 查看题目信息
+
+- [x] 上传题目
+
+- [x] 修改题目
+
+- [x] 删除题目
+
+- [x] 是否有题解待处理
+
+- [x] 查看题解
+
+- [x] 删除题解
+
+- [x] 查看公告
+
+- [x] 修改公告
+
+  
+
+**用户端：**
+
+- [x] 登录
+- [x] 查看用户名
+- [x] 修改用户名
+- [x] 查看错题本
+- [x] 向错题本添加错题
+- [x] 删除错题本中的题
+- [x] 查看刷题记录
+- [x] 用户清空刷题记录
+- [x] 查看做题详情
+- [x] 查看刷题统计
+- [x] 获取题目题面
+- [ ] 获取题目答案
+- [x] 查看题解
+- [x] 发表题解
+- [x] 为题解点赞
+- [x] 举报题解
+- [ ] 查看排名
+- [ ] 查看公告
+
+
+
+
+
 ## 全局设置
 
 ### 返回值设置(ret)
@@ -957,16 +1020,14 @@ Content-Type: application/json
               'content': ,
               'likes': 4,
               'reports': 2,
-              'bad_solution': 0,
-              'approved': 1,
+              'bad_solution': 0
 		},
         {
               'id': 124,
               'content': ,
               'likes': 1,
               'reports': 8,
-              'bad_solution': 1,
-              'approved': 0,
+              'bad_solution': 1
 		},
     ],
  	'total': 2
@@ -992,14 +1053,13 @@ Content-Type: application/json
 
 solutions结构如下
 
-| 参数名       | 示例 | 必要性 | 含义                                                         | 类型   |
-| ------------ | ---- | ------ | ------------------------------------------------------------ | ------ |
-| id           |      | 必有   | 题解id                                                       | int    |
-| content      |      | 必有   | 题解内容                                                     | string |
-| likes        |      | 必有   | 该题解点赞数                                                 | int    |
-| reports      |      | 必有   | 该题解举报数                                                 | int    |
-| bad_solution |      | 必有   | =1表示该题解被举报比例过大，需要管理员审查                   | int    |
-| approved     |      | 必有   | =1表示管理员已经确认过该题解无误，不可重复确认，=0则表示管理员未确认 | int    |
+| 参数名       | 示例 | 必要性 | 含义                                       | 类型   |
+| ------------ | ---- | ------ | ------------------------------------------ | ------ |
+| id           |      | 必有   | 题解id                                     | int    |
+| content      |      | 必有   | 题解内容                                   | string |
+| likes        |      | 必有   | 该题解点赞数                               | int    |
+| reports      |      | 必有   | 该题解举报数                               | int    |
+| bad_solution |      | 必有   | =1表示该题解被举报比例过大，需要管理员审查 | int    |
 
 
 
@@ -1653,6 +1713,15 @@ Content-Type: application/json
 | ------ | ---- | ------ | ------------ | ---- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
 
+错误返回(ret=3):
+
+```json
+{
+	"ret":3，
+    "msg": '错题本查询不到对应题目'
+}
+```
+
 
 
 ### 查看刷题记录
@@ -1778,6 +1847,101 @@ Content-Type: application/json
 
 
 
+### 查看做题详情
+
+#### 请求
+
+**请求头**
+
+```
+ GET /api/user/detail?id=1
+ Cookie: sessionid=<sessionid数值>
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义                       | 类型   |
+| ------ | ---- | ------ | -------------------------- | ------ |
+| id     | 1    | 必须   | 该用户所查询的题目对应的id | string |
+
+
+
+#### 响应
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0):
+
+```python
+{
+	"id": 1,
+	"title": "xuanze1",
+	"text": null,
+	"sub_que_num": 1,
+	"sub_que": [
+		{
+			"sub_question": {
+				"number": 1,
+				"stem": "qwer",
+				"options": [
+					"a",
+					"b",
+					"c",
+					"d"
+				],
+				"answer": "A"
+			},
+			"option": "A"
+		}
+	],
+	"ret": 0,
+	"msg": "Normal operation."
+}
+```
+
+**参数信息**
+
+| 参数名      | 示例    | 必要性 | 含义                             | 类型info |
+| ----------- | ------- | ------ | -------------------------------- | -------- |
+| ret         | 0       | 必有   | 是否正常返回                     | int      |
+| text        | " "     | 可选   | 阅读、完形的文章，选择题此项为空 | string   |
+| sub_que_num | 4       | 必有   | 子题目数目                       | int      |
+| sub_que     | [{},{}] | 必有   | 子题目的信息                     | list     |
+
+其中sub_que是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
+
+| 参数名       | 示例 | 必要性 | 含义             | 类型   |
+| ------------ | ---- | ------ | ---------------- | ------ |
+| sub_question | {}   | 必有   | 子题目的详细信息 | int    |
+| options      | A    | 必有   | 用户选项         | string |
+
+其中sub_question是包含子题目详细信息的列表，每个子题目详细信息的参数信息如下所示：
+
+| 参数名 | 示例                 | 必要性 | 含义         | 类型   |
+| ------ | -------------------- | ------ | ------------ | ------ |
+| number | 1                    | 必有   | 子题目的题号 | int    |
+| stem   | qwer                 | 必有   | 题干         | string |
+| option | [“a”, “b”, “c”, “d”] | 必有   | 选项         | string |
+| answer | A                    | 必有   | 题目答案     | string |
+
+错误返回(ret=3):
+
+```json
+{
+	"ret": 3,
+	"msg": "查询不到该题目，可能被管理员删除了.,."
+}
+```
+
+
+
 ### 查看刷题统计
 
 #### 请求
@@ -1789,6 +1953,8 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+
+
 #### 响应
 
 **响应头**
@@ -1797,22 +1963,6 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
-
-| 参数名 | 示例    | 必要性 | 含义           | 类型info |
-| ------ | ------- | ------ | -------------- | -------- |
-| ret    | 0       | 必有   | 是否正常返回   | int      |
-| list   | [{},{}] | 必有   | 错题本列表信息 | list     |
-
-其中list是包含题目多个信息的列表，每个题目信息的参数信息如下所示：
-
-| 参数名        | 示例 | 必要性 | 含义           | 类型 |
-| ------------- | ---- | ------ | -------------- | ---- |
-| choice_num    | 1    | 必有   | 做过的单选数量 | int  |
-| choice_right  | 1    | 必有   | 做对的单选数量 | int  |
-| cloze_num     | 1    | 必有   | 做过的完型数量 | int  |
-| cloze_right   | 1    | 必有   | 做对的完型数量 | int  |
-| reading_num   | 1    | 必有   | 做过的阅读数量 | int  |
-| reading_right | 1    | 必有   | 做对的阅读数量 | int  |
 
 
 
@@ -1917,7 +2067,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/user/check_question
+ POST /api/user/check_question
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1931,6 +2081,53 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
+
+正常返回(ret=0)
+
+```python
+{
+	"sub_que": [
+		{
+			"number": 1,
+			"answer": "A"
+		},
+		{
+			"number": 2,
+			"answer": "B"
+		},
+		{
+			"number": 3,
+			"answer": "C"
+		},
+		{
+			"number": 4,
+			"answer": "D"
+		},
+		{
+			"number": 5,
+			"answer": "C"
+		}
+	],
+	"ret": 0,
+	"msg": "Normal operation."
+}
+```
+
+**参数信息**
+
+| 参数名  | 示例    | 必要性 | 含义             | 类型info |
+| ------- | ------- | ------ | ---------------- | -------- |
+| ret     | 0       | 必有   | 是否正常返回     | int      |
+| sub_que | [{},{}] | 必有   | 子题目的答案列表 | list     |
+
+其中sub_que是包含多个子题目答案的列表，每个子题目答案的参数信息如下所示：
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| number | 1    | 必有   | 子问题的题号 | int  |
+| answer | C    | 必有   | 正确选项     | list |
+
+
 
 
 
@@ -2163,10 +2360,7 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
-| 参数名     | 示例                                                | 必要性 | 含义           | 类型   |
-| ---------- | --------------------------------------------------- | ------ | -------------- | ------ |
-| pagenumber | 1                                                   | 必须   | 查找的页面     | string |
-| type       | CHOICE_QUE_NAME / CLOZE_QUE_NAME / READING_QUE_NAME | 可选   | 查找题目的类型 | string |
+
 
 #### 响应
 
@@ -2176,21 +2370,6 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
-
-**参数信息**
-
-| 参数名 | 示例    | 必要性 | 含义           | 类型info |
-| ------ | ------- | ------ | -------------- | -------- |
-| ret    | 0       | 必有   | 是否正常返回   | int      |
-| list   | [{},{}] | 必有   | 错题本列表信息 | list     |
-
-其中list是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
-
-| 参数名 | 示例       | 必要性 | 含义     | 类型   |
-| ------ | ---------- | ------ | -------- | ------ |
-| rank   | 1          | 必要   | 排名     | int    |
-| name   | snapdragon | 必要   | 用户名   | string |
-| total  | 50         | 必要   | 做题数量 | int    |
 
 
 
