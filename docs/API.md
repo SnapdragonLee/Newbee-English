@@ -957,14 +957,16 @@ Content-Type: application/json
               'content': ,
               'likes': 4,
               'reports': 2,
-              'bad_solution': 0
+              'bad_solution': 0,
+              'approved': 1,
 		},
         {
               'id': 124,
               'content': ,
               'likes': 1,
               'reports': 8,
-              'bad_solution': 1
+              'bad_solution': 1,
+              'approved': 0,
 		},
     ],
  	'total': 2
@@ -990,13 +992,14 @@ Content-Type: application/json
 
 solutions结构如下
 
-| 参数名       | 示例 | 必要性 | 含义                                       | 类型   |
-| ------------ | ---- | ------ | ------------------------------------------ | ------ |
-| id           |      | 必有   | 题解id                                     | int    |
-| content      |      | 必有   | 题解内容                                   | string |
-| likes        |      | 必有   | 该题解点赞数                               | int    |
-| reports      |      | 必有   | 该题解举报数                               | int    |
-| bad_solution |      | 必有   | =1表示该题解被举报比例过大，需要管理员审查 | int    |
+| 参数名       | 示例 | 必要性 | 含义                                                         | 类型   |
+| ------------ | ---- | ------ | ------------------------------------------------------------ | ------ |
+| id           |      | 必有   | 题解id                                                       | int    |
+| content      |      | 必有   | 题解内容                                                     | string |
+| likes        |      | 必有   | 该题解点赞数                                                 | int    |
+| reports      |      | 必有   | 该题解举报数                                                 | int    |
+| bad_solution |      | 必有   | =1表示该题解被举报比例过大，需要管理员审查                   | int    |
+| approved     |      | 必有   | =1表示管理员已经确认过该题解无误，不可重复确认，=0则表示管理员未确认 | int    |
 
 
 
@@ -1053,6 +1056,64 @@ Content-Type: application/json
 | 参数名 | 示例 | 必要性 | 含义         | 类型 |
 | ------ | ---- | ------ | ------------ | :--- |
 | ret    | 0    | 必有   | 是否正常返回 | int  |
+
+
+
+### 管理员认可题解
+
+#### 请求
+
+**请求头**
+
+```
+ POST /api/admin/solution
+ Cookie: sessionid=<sessionid数值>
+```
+
+**消息体**
+
+```json
+{
+ 	"solution_id":123
+}
+```
+
+**参数信息**
+
+| 参数名      | 示例 | 必要性 | 含义   | 类型 |
+| ----------- | ---- | ------ | ------ | ---- |
+| solution_id | 1    | 必有   | 题解id | int  |
+
+#### 响应
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0)
+
+```json
+{
+  "ret":0,
+  "msg": '******'
+}
+```
+
+异常返回(ret ≠ 0):
+
+```json
+{
+	"ret": 3，
+    "msg": '******'
+}
+```
+
+
 
 
 
