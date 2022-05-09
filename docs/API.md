@@ -1954,7 +1954,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/user/check_question
+ POST /api/user/check_question
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1968,6 +1968,53 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
+
+正常返回(ret=0)
+
+```python
+{
+	"sub_que": [
+		{
+			"number": 1,
+			"answer": "A"
+		},
+		{
+			"number": 2,
+			"answer": "B"
+		},
+		{
+			"number": 3,
+			"answer": "C"
+		},
+		{
+			"number": 4,
+			"answer": "D"
+		},
+		{
+			"number": 5,
+			"answer": "C"
+		}
+	],
+	"ret": 0,
+	"msg": "Normal operation."
+}
+```
+
+**参数信息**
+
+| 参数名  | 示例    | 必要性 | 含义             | 类型info |
+| ------- | ------- | ------ | ---------------- | -------- |
+| ret     | 0       | 必有   | 是否正常返回     | int      |
+| sub_que | [{},{}] | 必有   | 子题目的答案列表 | list     |
+
+其中sub_que是包含多个子题目答案的列表，每个子题目答案的参数信息如下所示：
+
+| 参数名 | 示例 | 必要性 | 含义         | 类型 |
+| ------ | ---- | ------ | ------------ | ---- |
+| number | 1    | 必有   | 子问题的题号 | int  |
+| answer | C    | 必有   | 正确选项     | list |
+
+
 
 
 
