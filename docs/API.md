@@ -1115,6 +1115,81 @@ Content-Type: application/json
 
 
 
+### 查看操作记录
+
+#### 请求
+
+**请求头**
+
+```
+ GET /api/admin/op_record?pagenumber=2&pagesize=12
+ Cookie: sessionid=<sessionid数值>
+```
+
+
+
+#### 响应
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0)
+
+```json
+{
+    "records": [
+        {
+            "name": "JTL",
+            "op_type": "删除",
+            "description": "修改后的题目1"
+        },
+        {
+            "name": "JTL",
+            "op_type": "修改",
+            "description": "修改后的题目1"
+        },
+        {
+            "name": "JTL",
+            "op_type": "添加",
+            "description": "题目1"
+        }
+    "total": 12,
+    "ret": 0,
+    "msg": "Normal operation."
+}
+```
+
+异常返回(ret ≠ 0):
+
+```json
+{
+	"ret": 3，
+    "msg": '******'
+}
+```
+
+**参数信息**
+
+| 参数名  | 示例 | 必要性 | 含义                 | 类型 |
+| ------- | ---- | ------ | -------------------- | ---- |
+| ret     | 1    | 必有   | 是否正常返回         | int  |
+| records |      | 必有   | 操作记录所组成的列表 | 列表 |
+|         |      |        |                      |      |
+
+records中的参数如下
+
+| 参数名      | 示例             | 必要性 | 含义             | 类型   |
+| ----------- | ---------------- | ------ | ---------------- | ------ |
+| name        |                  | 必有   | 管理员用户名     | string |
+| op_type     | 添加、修改、删除 | 必有   | 三种操作类型之一 | string |
+| description |                  | 必有   | 操作的对象描述   | string |
+
 
 
 ### 查看公告
@@ -1147,7 +1222,8 @@ Content-Type: application/json
 {
   ret:0,
   "msg": '******',
-  "ancontent" : "welcome to NewBee English"
+  "content" : "welcome to NewBee English",
+   "time": "2022-05-07 00:26:35"
 }
 ```
 
@@ -1162,10 +1238,11 @@ Content-Type: application/json
 
 **参数信息**
 
-| 参数名    | 示例        | 必要性 | 含义         | 类型   |
-| --------- | ----------- | ------ | ------------ | ------ |
-| ret       | 1           | 必有   | 是否正常返回 | int    |
-| ancontent | welcom to.. | 必有   | 公告内容     | string |
+| 参数名  | 示例                  | 必要性 | 含义         | 类型   |
+| ------- | --------------------- | ------ | ------------ | ------ |
+| ret     | 1                     | 必有   | 是否正常返回 | int    |
+| content | welcom to..           | 必有   | 公告内容     | string |
+| time    | "2022-05-07 00:26:35" | 必有   | 发布时间     | string |
 
 
 
@@ -1176,7 +1253,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- PUT /api/admin/notice
+ POST /api/admin/notice
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1184,37 +1261,15 @@ Content-Type: application/json
 
 ```json
 {
-  "ancontent" : "welcome to NewBee English"
-  "antime": { 
-    "year": "2022",
-    "month":"5",
-    "day":"9",
-    "hour":"14"
-    "min":"23",
-    "sec":"25"
-  }
+  "content" : "welcome to NewBee English"
 }
 ```
 
 **参数信息**
 
-| 参数名    | 示例        | 必要性 | 含义     | 类型       |
-| --------- | ----------- | ------ | -------- | ---------- |
-| ancontent | welcom to.. | 必有   | 公告内容 | string     |
-| ant       | {}          | 必有   | 发布时间 | dictionary |
-
-其中`ant`中的参数信息如下所示：
-
-| 参数名 | 示例 | 必要性 | 含义     | 类型 |
-| ------ | ---- | ------ | -------- | ---- |
-| year   | 2022 | 必有   | 发布年份 | int  |
-| month  | 5    | 必有   | 发布月份 | int  |
-| day    | 9    | 必有   | 发布天   | int  |
-| hour   | 14   | 必有   | 发布小时 | int  |
-| min    | 23   | 必有   | 发布分钟 | int  |
-| sec    | 25   | 必有   | 发布秒   | int  |
-
-
+| 参数名  | 示例        | 必要性 | 含义     | 类型   |
+| ------- | ----------- | ------ | -------- | ------ |
+| content | welcom to.. | 必有   | 公告内容 | string |
 
 #### 响应
 
@@ -1886,9 +1941,17 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/user/solution
+ GET /api/user/solution?id=123
  Cookie: sessionid=<sessionid数值>
 ```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义       | 类型 |
+| ------ | ---- | ------ | ---------- | ---- |
+| id     | 2    | 必有   | 子题目的ID | int  |
+
+
 
 #### 响应
 
@@ -1898,6 +1961,49 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
+
+**消息体**
+
+正常返回(ret=0):
+
+```js
+{
+    "solution_num": 2,
+    "solution":[
+        {
+            "id": 111,
+            "content": "题解内容",
+            "likes": 3,
+            "reports": 1,
+            "approved": 0
+        },
+        {
+            "id": 112,
+            "content": "题解内容",
+            "likes": 5,
+            "reports": 11,
+            "approved": 1
+        },
+    ]
+},
+```
+
+**参数信息**
+
+| 参数名       | 示例 | 必要性 | 含义                   | 类型 |
+| ------------ | ---- | ------ | ---------------------- | ---- |
+| solution_num |      | 必有   | 题解数量               | int  |
+| solution     |      | 必有   | 题解信息字典组成的列表 | 数组 |
+
+​	题解信息字典格式如下
+
+| 参数名   | 示例    | 必要性 | 含义                                                     | 类型   |
+| -------- | ------- | ------ | -------------------------------------------------------- | ------ |
+| id       |         | 必有   | 该题解的id                                               | int    |
+| content  |         | 必有   | 该题解内容                                               | string |
+| likes    |         | 必有   | 该题解点赞数                                             | int    |
+| reports  |         | 必有   | 该题解举报数                                             | int    |
+| approved | 1或0或2 | 必有   | =1表示用户已经点赞过此题解，=2表示举报过此题解，=0则没有 | int    |
 
 
 
@@ -1912,7 +2018,21 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+**消息体**
 
+```js
+{
+	"id":1,
+    "solution":"这个是题解内容"
+}
+```
+
+**参数信息**
+
+| 参数名   | 示例           | 必要性 | 含义       | 类型   |
+| -------- | -------------- | ------ | ---------- | ------ |
+| id       | 2              | 必有   | 子题目的ID | int    |
+| solution | 这个是题解内容 | 必有   | 题解内容   | string |
 
 #### 响应
 
@@ -1921,6 +2041,17 @@ Content-Type: application/json
 ```
 200 OK
 Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0):
+
+```json
+{
+    "ret"=0,
+    "msg"="***"
+}
 ```
 
 
@@ -1936,7 +2067,19 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+**消息体**
 
+```js
+{
+	"id":1
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义   | 类型 |
+| ------ | ---- | ------ | ------ | ---- |
+| id     |      | 必有   | 题解id | int  |
 
 #### 响应
 
@@ -1945,6 +2088,17 @@ Content-Type: application/json
 ```
 200 OK
 Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0):
+
+```json
+{
+    "ret"=0,
+    "msg"="***"
+}
 ```
 
 
@@ -1960,7 +2114,19 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
+**消息体**
 
+```js
+{
+	"id":1
+}
+```
+
+**参数信息**
+
+| 参数名 | 示例 | 必要性 | 含义   | 类型 |
+| ------ | ---- | ------ | ------ | ---- |
+| id     |      | 必有   | 题解id | int  |
 
 #### 响应
 
@@ -1969,6 +2135,17 @@ Content-Type: application/json
 ```
 200 OK
 Content-Type: application/json
+```
+
+**消息体**
+
+正常返回(ret=0):
+
+```json
+{
+    "ret"=0,
+    "msg"="***"
+}
 ```
 
 
