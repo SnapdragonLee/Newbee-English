@@ -60,10 +60,10 @@
 - [x] 查看刷题统计
 - [x] 获取题目题面
 - [ ] 获取题目答案
-- [x] 查看题解
-- [x] 发表题解
-- [x] 为题解点赞
-- [x] 举报题解
+- [ ] 查看题解
+- [ ] 发表题解
+- [ ] 为题解点赞
+- [ ] 举报题解
 - [ ] 查看排名
 - [x] 查看公告
 
@@ -1119,139 +1119,6 @@ Content-Type: application/json
 
 
 
-### 管理员认可题解
-
-#### 请求
-
-**请求头**
-
-```
- POST /api/admin/solution
- Cookie: sessionid=<sessionid数值>
-```
-
-**消息体**
-
-```json
-{
- 	"solution_id":123
-}
-```
-
-**参数信息**
-
-| 参数名      | 示例 | 必要性 | 含义   | 类型 |
-| ----------- | ---- | ------ | ------ | ---- |
-| solution_id | 1    | 必有   | 题解id | int  |
-
-#### 响应
-
-**响应头**
-
-```
-200 OK
-Content-Type: application/json
-```
-
-**消息体**
-
-正常返回(ret=0)
-
-```json
-{
-  "ret":0,
-  "msg": '******'
-}
-```
-
-异常返回(ret ≠ 0):
-
-```json
-{
-	"ret": 3，
-    "msg": '******'
-}
-```
-
-
-
-### 查看操作记录
-
-#### 请求
-
-**请求头**
-
-```
- GET /api/admin/op_record?pagenumber=2&pagesize=12
- Cookie: sessionid=<sessionid数值>
-```
-
-
-
-#### 响应
-
-**响应头**
-
-```
-200 OK
-Content-Type: application/json
-```
-
-**消息体**
-
-正常返回(ret=0)
-
-```json
-{
-    "records": [
-        {
-            "name": "JTL",
-            "op_type": "删除",
-            "description": "修改后的题目1"
-        },
-        {
-            "name": "JTL",
-            "op_type": "修改",
-            "description": "修改后的题目1"
-        },
-        {
-            "name": "JTL",
-            "op_type": "添加",
-            "description": "题目1"
-        }
-    "total": 12,
-    "ret": 0,
-    "msg": "Normal operation."
-}
-```
-
-异常返回(ret ≠ 0):
-
-```json
-{
-	"ret": 3，
-    "msg": '******'
-}
-```
-
-**参数信息**
-
-| 参数名  | 示例 | 必要性 | 含义                 | 类型 |
-| ------- | ---- | ------ | -------------------- | ---- |
-| ret     | 1    | 必有   | 是否正常返回         | int  |
-| records |      | 必有   | 操作记录所组成的列表 | 列表 |
-|         |      |        |                      |      |
-
-records中的参数如下
-
-| 参数名      | 示例             | 必要性 | 含义             | 类型   |
-| ----------- | ---------------- | ------ | ---------------- | ------ |
-| name        |                  | 必有   | 管理员用户名     | string |
-| op_type     | 添加、修改、删除 | 必有   | 三种操作类型之一 | string |
-| description |                  | 必有   | 操作的对象描述   | string |
-
-
-
 ### 查看公告
 
 #### 请求
@@ -1282,8 +1149,7 @@ Content-Type: application/json
 {
   ret:0,
   "msg": '******',
-  "content" : "welcome to NewBee English",
-   "time": "2022-05-07 00:26:35"
+  "ancontent" : "welcome to NewBee English"
 }
 ```
 
@@ -1298,11 +1164,10 @@ Content-Type: application/json
 
 **参数信息**
 
-| 参数名  | 示例                  | 必要性 | 含义         | 类型   |
-| ------- | --------------------- | ------ | ------------ | ------ |
-| ret     | 1                     | 必有   | 是否正常返回 | int    |
-| content | welcom to..           | 必有   | 公告内容     | string |
-| time    | "2022-05-07 00:26:35" | 必有   | 发布时间     | string |
+| 参数名    | 示例        | 必要性 | 含义         | 类型   |
+| --------- | ----------- | ------ | ------------ | ------ |
+| ret       | 1           | 必有   | 是否正常返回 | int    |
+| ancontent | welcom to.. | 必有   | 公告内容     | string |
 
 
 
@@ -1313,7 +1178,7 @@ Content-Type: application/json
 **请求头**
 
 ```
- POST /api/admin/notice
+ PUT /api/admin/notice
  Cookie: sessionid=<sessionid数值>
 ```
 
@@ -1321,15 +1186,37 @@ Content-Type: application/json
 
 ```json
 {
-  "content" : "welcome to NewBee English"
+  "ancontent" : "welcome to NewBee English"
+  "antime": { 
+    "year": "2022",
+    "month":"5",
+    "day":"9",
+    "hour":"14"
+    "min":"23",
+    "sec":"25"
+  }
 }
 ```
 
 **参数信息**
 
-| 参数名  | 示例        | 必要性 | 含义     | 类型   |
-| ------- | ----------- | ------ | -------- | ------ |
-| content | welcom to.. | 必有   | 公告内容 | string |
+| 参数名    | 示例        | 必要性 | 含义     | 类型       |
+| --------- | ----------- | ------ | -------- | ---------- |
+| ancontent | welcom to.. | 必有   | 公告内容 | string     |
+| ant       | {}          | 必有   | 发布时间 | dictionary |
+
+其中`ant`中的参数信息如下所示：
+
+| 参数名 | 示例 | 必要性 | 含义     | 类型 |
+| ------ | ---- | ------ | -------- | ---- |
+| year   | 2022 | 必有   | 发布年份 | int  |
+| month  | 5    | 必有   | 发布月份 | int  |
+| day    | 9    | 必有   | 发布天   | int  |
+| hour   | 14   | 必有   | 发布小时 | int  |
+| min    | 23   | 必有   | 发布分钟 | int  |
+| sec    | 25   | 必有   | 发布秒   | int  |
+
+
 
 #### 响应
 
@@ -1810,6 +1697,42 @@ Content-Type: application/json
 
 
 
+### 删除单条历史记录
+
+#### 请求
+
+**请求头**
+
+```
+ DELETE /api/user/single_history?id=1&date=2022-05-10T13:12:04.317702+08:00
+ Cookie: sessionid=<sessionid数值>
+```
+
+**参数信息**
+
+| 参数名 | 示例                             | 必要性 | 含义         | 类型info |
+| ------ | -------------------------------- | ------ | ------------ | -------- |
+| id     | 1                                | 必有   | 题目题号     | int      |
+| date   | 2022-05-10T13:12:04.317702+08:00 | 必有   | 历史记录时间 | string   |
+
+#### 响应
+
+**响应头**
+
+```
+200 OK
+Content-Type: application/json
+```
+
+```python
+{
+	"ret": 0,
+	"msg": "Normal operation."
+}
+```
+
+
+
 ### 用户清空刷题记录
 
 #### 请求
@@ -2138,17 +2061,9 @@ Content-Type: application/json
 **请求头**
 
 ```
- GET /api/user/solution?id=123
+ GET /api/user/solution
  Cookie: sessionid=<sessionid数值>
 ```
-
-**参数信息**
-
-| 参数名 | 示例 | 必要性 | 含义       | 类型 |
-| ------ | ---- | ------ | ---------- | ---- |
-| id     | 2    | 必有   | 子题目的ID | int  |
-
-
 
 #### 响应
 
@@ -2158,49 +2073,6 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
-
-**消息体**
-
-正常返回(ret=0):
-
-```js
-{
-    "solution_num": 2,
-    "solution":[
-        {
-            "id": 111,
-            "content": "题解内容",
-            "likes": 3,
-            "reports": 1,
-            "approved": 0
-        },
-        {
-            "id": 112,
-            "content": "题解内容",
-            "likes": 5,
-            "reports": 11,
-            "approved": 1
-        },
-    ]
-},
-```
-
-**参数信息**
-
-| 参数名       | 示例 | 必要性 | 含义                   | 类型 |
-| ------------ | ---- | ------ | ---------------------- | ---- |
-| solution_num |      | 必有   | 题解数量               | int  |
-| solution     |      | 必有   | 题解信息字典组成的列表 | 数组 |
-
-​	题解信息字典格式如下
-
-| 参数名   | 示例    | 必要性 | 含义                                                     | 类型   |
-| -------- | ------- | ------ | -------------------------------------------------------- | ------ |
-| id       |         | 必有   | 该题解的id                                               | int    |
-| content  |         | 必有   | 该题解内容                                               | string |
-| likes    |         | 必有   | 该题解点赞数                                             | int    |
-| reports  |         | 必有   | 该题解举报数                                             | int    |
-| approved | 1或0或2 | 必有   | =1表示用户已经点赞过此题解，=2表示举报过此题解，=0则没有 | int    |
 
 
 
@@ -2215,21 +2087,7 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
-**消息体**
 
-```js
-{
-	"id":1,
-    "solution":"这个是题解内容"
-}
-```
-
-**参数信息**
-
-| 参数名   | 示例           | 必要性 | 含义       | 类型   |
-| -------- | -------------- | ------ | ---------- | ------ |
-| id       | 2              | 必有   | 子题目的ID | int    |
-| solution | 这个是题解内容 | 必有   | 题解内容   | string |
 
 #### 响应
 
@@ -2238,17 +2096,6 @@ Content-Type: application/json
 ```
 200 OK
 Content-Type: application/json
-```
-
-**消息体**
-
-正常返回(ret=0):
-
-```json
-{
-    "ret"=0,
-    "msg"="***"
-}
 ```
 
 
@@ -2264,19 +2111,7 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
-**消息体**
 
-```js
-{
-	"id":1
-}
-```
-
-**参数信息**
-
-| 参数名 | 示例 | 必要性 | 含义   | 类型 |
-| ------ | ---- | ------ | ------ | ---- |
-| id     |      | 必有   | 题解id | int  |
 
 #### 响应
 
@@ -2285,17 +2120,6 @@ Content-Type: application/json
 ```
 200 OK
 Content-Type: application/json
-```
-
-**消息体**
-
-正常返回(ret=0):
-
-```json
-{
-    "ret"=0,
-    "msg"="***"
-}
 ```
 
 
@@ -2311,19 +2135,7 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
-**消息体**
 
-```js
-{
-	"id":1
-}
-```
-
-**参数信息**
-
-| 参数名 | 示例 | 必要性 | 含义   | 类型 |
-| ------ | ---- | ------ | ------ | ---- |
-| id     |      | 必有   | 题解id | int  |
 
 #### 响应
 
@@ -2332,17 +2144,6 @@ Content-Type: application/json
 ```
 200 OK
 Content-Type: application/json
-```
-
-**消息体**
-
-正常返回(ret=0):
-
-```json
-{
-    "ret"=0,
-    "msg"="***"
-}
 ```
 
 
