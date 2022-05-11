@@ -57,11 +57,11 @@
 - [x] 查看刷题记录
 - [x] 用户清空刷题记录
 - [x] 查看做题详情
-- [x] 查看刷题统计
+- [ ] 查看刷题统计
 - [x] 获取题目题面
 - [ ] 获取题目答案
-- [ ] 查看题解
-- [ ] 发表题解
+- [x] 查看题解
+- [x] 发表题解
 - [ ] 为题解点赞
 - [ ] 举报题解
 - [ ] 查看排名
@@ -1976,7 +1976,7 @@ Content-Type: application/json
 
 | 参数名  | 示例                                                         | 必要性 | 含义                       | 类型   |
 | ------- | ------------------------------------------------------------ | ------ | -------------------------- | ------ |
-| id      |                                                              | 必有   | 子题目的id                 | int    |
+| id      | 6                                                            | 必有   | 子题目的id                 | int    |
 | "stem"  | Lily was so ___looking at the picture that she forgot the time. | 可选   | 子题目的题面，完型此项为空 | string |
 | number  | 1                                                            | 必有   | 子问题的题号               | int    |
 | options | ["carefully","careful", "busily","busy"]                     | 必有   | 选项                       | list   |
@@ -1993,6 +1993,23 @@ Content-Type: application/json
  POST /api/user/check_question
  Cookie: sessionid=<sessionid数值>
 ```
+
+
+
+**参数信息**
+
+| 参数名 | 示例                                                | 必要性 | 含义           | 类型   |
+| ------ | --------------------------------------------------- | ------ | -------------- | ------ |
+| type   | choice_question / cloze_question / reading_question | 必有   | 获取题目的类型 | string |
+| id     | 2                                                   | 必有   | 获取题目的ID   | string |
+| data   | [{},{}]                                             | 必有   | 用户的作答信息 | list   |
+
+其中 data 是包含多个用户提交信息的列表，每个提交信息的参数信息如下所示：
+
+| 参数名 | 示例 | 必要性 | 含义                     | 类型   |
+| ------ | ---- | ------ | ------------------------ | ------ |
+| sub_id | 40   | 必有   | 子题目的id               | int    |
+| submit | B    | 必有   | 用户在该子题目提交的选项 | string |
 
 
 
