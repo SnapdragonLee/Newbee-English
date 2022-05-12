@@ -235,7 +235,7 @@ kill -9 $(ps -w | grep npm | awk '$0 !~/grep/ {print $1}'）
 
 
 
-配置 Mysql-Community无人值守的 nohup 使用
+#### 无人值守的 nohup 使用
 
 无人值守的设置，即将服务器的后端一直放在 CentOS 的后台运行。我们可以使用以下样例指令进行服务部署：
 
@@ -583,7 +583,9 @@ mysql> flush privileges; //3.刷新
 
 #### 5.12 配置 MySQL
 
-将 SQLite 数据库中的数据清洗，洗掉没有离谱的数据，无错误的导出数据至 MySQL，并配置好和 Django 的连接 [配置 MySQL-Community](###配置 Mysql-Community) 
+将 SQLite 数据库中的数据清洗，洗掉没有离谱的数据，无错误的导出数据至 MySQL，并配置好和 Django 的连接 [配置 MySQL-Community](###配置 Mysql-Community) 。
+
+
 
 #### 4.17 配置更新
 
