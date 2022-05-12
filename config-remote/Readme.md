@@ -235,7 +235,7 @@ kill -9 $(ps -w | grep npm | awk '$0 !~/grep/ {print $1}'）
 
 
 
-#### 无人值守的 nohup 使用
+配置 Mysql-Community无人值守的 nohup 使用
 
 无人值守的设置，即将服务器的后端一直放在 CentOS 的后台运行。我们可以使用以下样例指令进行服务部署：
 
@@ -365,6 +365,8 @@ python3 ~/Project/backend/src/mysite/manage.py runserver (8000)
 
 
 
+
+
 ### 安装 npm
 
 直接安装 centOS 8 最新的 node.js 10.24.0-1 发现版本不够，只能手动下载。
@@ -468,6 +470,91 @@ npm run dev
 
 
 
+### 配置 MySQL-Community
+
+#### 安装 MySQL
+
+直接安装 centOS 本身 yum 的版本比较低，可能会有特性不同，为了防止bug产生，所以手动安装了 MySQL 8.0.29，需要手动配置。
+
+```bash
+cd ~
+wget https://repo.mysql.com//mysql80-community-release-el8-4.noarch.rpm
+rpm -Uvh mysql80-community-release-el8-4.noarch.rpm
+
+# disable default mysql from yum
+yum module disable mysql
+
+yum install mysql80-community-release-el8-4.noarch.rpm
+```
+
+此时，查看 MySQL 是否检查到了需要安装的包，键入以下指令并得到下面的结果：
+
+```bash
+[root@2022-buaa-bj-8 ~]# yum repolist enabled | grep "mysql.*-community.*"
+mysql-connectors-community              MySQL Connectors Community
+mysql-tools-community                   MySQL Tools Community
+mysql80-community                       MySQL 8.0 Community Server
+```
+
+下一步，安装 MySQL，并启动 MySQL 服务：
+
+```bash
+yum install mysql-community-server
+systemctl start mysqld
+```
+
+这时，MySQL 服务器已经启动成功了，处在 `localhost:3306` 上，你可以查看 mysqld 服务的启动情况，用以下指令：
+
+```bash
+systemctl status mysqld
+```
+
+
+
+#### 配置 MySQL
+
+经常用 MySQL， 只要它的服务成功启动了，那离数据库成功迁移已经不远了。首先先找到临时密码用于登录，使用如下的指令：
+
+```bash
+grep 'temporary password' /var/log/mysqld.log
+```
+
+登录数据库，并更改密码：
+
+```bash
+mysql -u root -p
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'Root_root79'
+mysql> SHOW VARIABLES LIKE 'validate_password%'
+mysql> set global validate_password.length=1;
+mysql> set global validate_password.policy=0;
+mysql> set global validate_password.number_count=0;
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'xxx(你想要的密码)';
+```
+
+
+
+#### 开放远程连接
+
+除了配置本地的东西以外，你还可以配置远程链接，例如让别人本地的 Navicat 连接到数据库，这时只需要三个命令就可以即时完成：
+
+```SQL
+mysql> create user 'root'@'%' identified by 'xxx(你想设置的密码)'; //1.创建权限记录
+mysql> grant all privileges on *.* to 'root'@'%' with grant option; //2.授权
+mysql> flush privileges; //3.刷新
+```
+
+
+
+#### 数据库迁移
+
+如果确实需要进行数据迁移，建议首先从源数据库迁移出来 json，之后导入 MySQL。这个部分有很多种做法，但是由于种种原因，经常会失败。这里我写了一些手动改动的 SQL 语句，由于原生 SQLite 的数据导出也会经常出错，所以我改用了生成的 SQL，并进行格式更改导入 MySQL。这个部分复杂繁琐，不具有可复制性，因此不在这里做分享。
+
+有人告诉过我使用 Navicat，我这也是接触数据库以来第一次接触可视化的数据库软件，体验感觉一般，有的时候刷新不及时，以及远程连接也会有相当明显的卡顿。不过也有好的一面，和陌生的数据库进行数据迁移的时候，它可以提供批量运行导入，这一点还算可以（至少对于 SQLite 来说好的很多）。
+
+具体的思路：将 SQLite 数据无错误的导出成成批的 sql 文件，再检查错误后按照引用的关系先后导入数据库，要不然会报错。一次性导入后，后期再如何出错，都可以通过 MySQL 方便的工具进行改动了。
+
+
+
 
 
 ------
@@ -494,6 +581,10 @@ npm run dev
 
 
 
+#### 5.12 配置 MySQL
+
+将 SQLite 数据库中的数据清洗，洗掉没有离谱的数据，无错误的导出数据至 MySQL，并配置好和 Django 的连接 [配置 MySQL-Community](###配置 Mysql-Community) 
+
 #### 4.17 配置更新
 
 在最新的服务器配置中，我们更改了前后端联合启动的方式，由 Django 后端启动代替双服务启动。因此 Nginx 启动服务中，我只监听了 8000 一个端口即可完成代理工作。
@@ -501,5 +592,4 @@ npm run dev
 
 
 新增了使用 nohup 无人值守的服务配置，具体配置 **请参考** [Nohup 无人值守](####无人值守的 nohup 使用) 。
-
 
