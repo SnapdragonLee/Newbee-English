@@ -14,7 +14,7 @@
 | ------------------- | ------------------------------------------------------------ |
 | Backend             | [SnapdragonLee/Newbee-backend (github.com)](https://github.com/SnapdragonLee/Newbee-backend) |
 | Frontend            | [zrjzrj0403/Newbee-Frontend (github.com)](https://github.com/zrjzrj0403/Newbee-Frontend) |
-| Weixin Mini Program | Not created                                                  |
+| Weixin Mini Program | [杨佳豪/miniprogram_Newbee English (gitee.com)](https://gitee.com/edwardyangjh/newbee-english) |
 
 
 
@@ -87,7 +87,7 @@
 
    
 
-   **\*已知异常错误1：如果主仓库无法检测到子仓库的更改，即 git status 命令后显示没有任何更改，此时启动任务管理器 kill 掉 Git 的所有进程，再次 git status 即可看到更改。**
+   **\*已知异常错误：如果主仓库无法检测到子仓库的更改，即 git status 命令后显示没有任何更改，此时查看进程 kill 掉 Git 的所有进程，再次 git status 即可看到更改。**
 
    
 
@@ -107,7 +107,7 @@
 
    这个时候就可以发现在主仓库目录下的 `.gitmodules` 中出现了相关的子仓库引用配置。
 
-   ③ 同 “3. 中的②” 进行正常的 commit 操作后，push 到主仓库即可。
+   ③ 同 “3. 中的 ②” 进行正常的 commit 操作后，push 到主仓库即可。
 
    
 
