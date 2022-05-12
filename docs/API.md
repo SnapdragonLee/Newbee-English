@@ -1865,6 +1865,8 @@ Content-Type: application/json
 
 
 
+
+
 ### 查看刷题统计
 
 #### 请求
@@ -1876,8 +1878,6 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
-
-
 #### 响应
 
 **响应头**
@@ -1886,6 +1886,22 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
+
+| 参数名 | 示例    | 必要性 | 含义         | 类型info |
+| ------ | ------- | ------ | ------------ | -------- |
+| ret    | 0       | 必有   | 是否正常返回 | int      |
+| list   | [{},{}] | 必有   | 列表信息     | list     |
+
+其中list是包含题目多个信息的列表，每个题目信息的参数信息如下所示：
+
+| 参数名        | 示例 | 必要性 | 含义           | 类型 |
+| ------------- | ---- | ------ | -------------- | ---- |
+| choice_num    | 1    | 必有   | 做过的单选数量 | int  |
+| choice_right  | 1    | 必有   | 做对的单选数量 | int  |
+| cloze_num     | 1    | 必有   | 做过的完型数量 | int  |
+| cloze_right   | 1    | 必有   | 做对的完型数量 | int  |
+| reading_num   | 1    | 必有   | 做过的阅读数量 | int  |
+| reading_right | 1    | 必有   | 做对的阅读数量 | int  |
 
 
 
@@ -2178,7 +2194,10 @@ Content-Type: application/json
  Cookie: sessionid=<sessionid数值>
 ```
 
-
+| 参数名     | 示例                                                | 必要性 | 含义           | 类型   |
+| ---------- | --------------------------------------------------- | ------ | -------------- | ------ |
+| pagenumber | 1                                                   | 必须   | 查找的页面     | string |
+| type       | CHOICE_QUE_NAME / CLOZE_QUE_NAME / READING_QUE_NAME | 可选   | 查找题目的类型 | string |
 
 #### 响应
 
@@ -2188,6 +2207,21 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json
 ```
+
+**参数信息**
+
+| 参数名 | 示例    | 必要性 | 含义           | 类型info |
+| ------ | ------- | ------ | -------------- | -------- |
+| ret    | 0       | 必有   | 是否正常返回   | int      |
+| list   | [{},{}] | 必有   | 错题本列表信息 | list     |
+
+其中list是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
+
+| 参数名 | 示例       | 必要性 | 含义     | 类型   |
+| ------ | ---------- | ------ | -------- | ------ |
+| rank   | 1          | 必要   | 排名     | int    |
+| name   | snapdragon | 必要   | 用户名   | string |
+| total  | 50         | 必要   | 做题数量 | int    |
 
 
 
