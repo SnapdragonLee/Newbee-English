@@ -2427,14 +2427,22 @@ Content-Type: application/json
       "content": "题解内容",
       "likes": 3,
       "reports": 1,
-      "approved": 0
+      "approved": 0,
+      "author_username":"小明",
+      "author_solution_sum":10,
+      "author_likes": 34,
+       "author_reports": 2
     },
     {
       "id": 112,
       "content": "题解内容",
       "likes": 5,
       "reports": 11,
-      "approved": 1
+      "approved": 1,
+      "author_username":"小红",
+      "author_solution_sum":10,
+      "author_likes": 15,
+       "author_reports": 12
     }
   ]
 }
@@ -2449,13 +2457,17 @@ Content-Type: application/json
 
 ​	题解信息字典格式如下
 
-| 参数名   | 示例    | 必要性 | 含义                                                     | 类型   |
-| -------- | ------- | ------ | -------------------------------------------------------- | ------ |
-| id       |         | 必有   | 该题解的id                                               | int    |
-| content  |         | 必有   | 该题解内容                                               | string |
-| likes    |         | 必有   | 该题解点赞数                                             | int    |
-| reports  |         | 必有   | 该题解举报数                                             | int    |
-| approved | 1或0或2 | 必有   | =1表示用户已经点赞过此题解，=2表示举报过此题解，=0则没有 | int    |
+| 参数名              | 示例    | 必要性 | 含义                                                     | 类型   |
+| ------------------- | ------- | ------ | -------------------------------------------------------- | ------ |
+| id                  |         | 必有   | 该题解的id                                               | int    |
+| content             |         | 必有   | 该题解内容                                               | string |
+| likes               |         | 必有   | 该题解点赞数                                             | int    |
+| reports             |         | 必有   | 该题解举报数                                             | int    |
+| approved            | 1或0或2 | 必有   | =1表示用户已经点赞过此题解，=2表示举报过此题解，=0则没有 | int    |
+| author_username     |         | 必有   | 发布此题解的用户的用户名                                 | string |
+| author_solution_sum |         | 必有   | 发布此题解的用户所发表的题解总数                         | int    |
+| author_likes        |         | 必有   | 发布此题解的用户所发表题解被点赞的总数                   | int    |
+| author_reports      |         | 必有   | 发布此题解的用户所发表题解被举报的总数                   | int    |
 
 
 
