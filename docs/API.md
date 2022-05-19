@@ -299,7 +299,10 @@ Content-Type: application/json
       "numr": "666",
       "right_choice_que": "542",
       "right_reading_que": "245",
-      "right_cloze_que": "335"
+      "right_cloze_que": "335",
+      "solution_sum":12,
+       "likes": 14,
+      "reports":5
     },
     {
       "name": "小李",
@@ -308,7 +311,10 @@ Content-Type: application/json
       "numr": "555",
       "right_choice_que": "342",
       "right_reading_que": "515",
-      "right_cloze_que": "235"
+      "right_cloze_que": "235",
+      "solution_sum":16,
+       "likes": 2,
+      "reports":1
     }
   ],
   "total": 32
@@ -325,15 +331,20 @@ Content-Type: application/json
 
 其中 `list` 是包含多个查找结果的列表，每个结果的参数信息如下所示：
 
-| 参数名            | 示例 | 必要性 | 含义               | 类型   |
-| ----------------- | ---- | ------ | ------------------ | ------ |
-| name              | 小赵 | 必有   | 用户名             | string |
-| numm              | 888  | 必有   | 用户做过的单选数量 | int    |
-| numc              | 777  | 必有   | 用户做过的完型数量 | int    |
-| numr              | 666  | 必有   | 用户做过的阅读数量 | int    |
-| right_choice_que  | 542  | 必有   | 用户做对的选择数量 | int    |
-| right_reading_que | 254  | 必有   | 用户做对的阅读数量 | int    |
-| right_cloze_que   | 335  | 必有   | 用户做对的完型数量 | int    |
+| 参数名            | 示例 | 必要性 | 含义                         | 类型   |
+| ----------------- | ---- | ------ | ---------------------------- | ------ |
+| name              | 小赵 | 必有   | 用户名                       | string |
+| numm              | 888  | 必有   | 用户做过的单选数量           | int    |
+| numc              | 777  | 必有   | 用户做过的完型数量           | int    |
+| numr              | 666  | 必有   | 用户做过的阅读数量           | int    |
+| right_choice_que  | 542  | 必有   | 用户做对的选择数量           | int    |
+| right_reading_que | 254  | 必有   | 用户做对的阅读数量           | int    |
+| right_cloze_que   | 335  | 必有   | 用户做对的完型数量           | int    |
+| solution_sum      |      | 必有   | 用户发表的题解总数           | int    |
+| likes             |      | 必有   | 用户发表的题解收到的点赞总数 | int    |
+| reports           |      | 必有   | 用户发表的题解收到的举报总数 | int    |
+
+
 
 ### 搜索用户信息
 
@@ -387,16 +398,28 @@ Content-Type: application/json
   "msg": "******",
   "list": [
     {
-      "name": "test",
+      "name": "小明",
       "numm": "888",
       "numc": "777",
-      "numr": "666"
+      "numr": "666",
+       "right_choice_que": "542",
+      "right_reading_que": "245",
+      "right_cloze_que": "335",
+      "solution_sum":20,
+       "likes": 33,
+      "reports":10
     },
     {
-      "name": "test",
+      "name": "小红",
       "numm": "888",
       "numc": "999",
-      "numr": "555"
+      "numr": "555",
+      "right_choice_que": "542",
+      "right_reading_que": "245",
+      "right_cloze_que": "335",
+      "solution_sum":12,
+       "likes": 9,
+      "reports":5
     }
   ],
   "total": 32
@@ -413,12 +436,18 @@ Content-Type: application/json
 
 其中 `list` 是包含多个查找结果的列表，每个结果的参数信息如下所示：
 
-| 参数名 | 示例 | 必要性 | 含义     | 类型   |
-| ------ | ---- | ------ | -------- | ------ |
-| name   | test | 必有   | 用户名   | string |
-| numm   | 888  | 必有   | 单选数量 | string |
-| numc   | 777  | 必有   | 完型数量 | string |
-| numr   | 666  | 必有   | 阅读数量 | string |
+| 参数名            | 示例 | 必要性 | 含义                         | 类型   |
+| ----------------- | ---- | ------ | ---------------------------- | ------ |
+| name              | test | 必有   | 用户名                       | string |
+| numm              | 888  | 必有   | 单选数量                     | string |
+| numc              | 777  | 必有   | 完型数量                     | string |
+| numr              | 666  | 必有   | 阅读数量                     | string |
+| right_choice_que  | 542  | 必有   | 用户做对的选择数量           | int    |
+| right_reading_que | 254  | 必有   | 用户做对的阅读数量           | int    |
+| right_cloze_que   | 335  | 必有   | 用户做对的完型数量           | int    |
+| solution_sum      |      | 必有   | 用户发表的题解总数           | int    |
+| likes             |      | 必有   | 用户发表的题解收到的点赞总数 | int    |
+| reports           |      | 必有   | 用户发表的题解收到的举报总数 | int    |
 
 
 
@@ -1183,17 +1212,25 @@ Content-Type: application/json
   "solutions": [
     {
       "id": 123,
-      "content": ,
+      "content": "",
       "likes": 4,
       "reports": 2,
-      "bad_solution": 0
+      "bad_solution": 0,
+        "author_username":"小明",
+      "author_solution_sum":10,
+      "author_likes": 34,
+       "author_reports": 2
     },
     {
       "id": 124,
-      "content": ,
+      "content": "",
       "likes": 1,
       "reports": 8,
-      "bad_solution": 1
+      "bad_solution": 1,
+        "author_username":"小红",
+      "author_solution_sum":10,
+      "author_likes": 17,
+       "author_reports": 10
     }
   ],
   "total": 2
@@ -1219,13 +1256,17 @@ Content-Type: application/json
 
 solutions结构如下
 
-| 参数名       | 示例 | 必要性 | 含义                                       | 类型   |
-| ------------ | ---- | ------ | ------------------------------------------ | ------ |
-| id           |      | 必有   | 题解id                                     | int    |
-| content      |      | 必有   | 题解内容                                   | string |
-| likes        |      | 必有   | 该题解点赞数                               | int    |
-| reports      |      | 必有   | 该题解举报数                               | int    |
-| bad_solution |      | 必有   | =1表示该题解被举报比例过大，需要管理员审查 | int    |
+| 参数名              | 示例 | 必要性 | 含义                                       | 类型   |
+| ------------------- | ---- | ------ | ------------------------------------------ | ------ |
+| id                  |      | 必有   | 题解id                                     | int    |
+| content             |      | 必有   | 题解内容                                   | string |
+| likes               |      | 必有   | 该题解点赞数                               | int    |
+| reports             |      | 必有   | 该题解举报数                               | int    |
+| bad_solution        |      | 必有   | =1表示该题解被举报比例过大，需要管理员审查 | int    |
+| author_username     |      | 必有   | 该题解的作者的用户名                       | string |
+| author_solution_sum |      | 必有   | 该题解作者所发表的所有题解的总数           | int    |
+| author_likes        |      | 必有   | 该题解作者所发表的题解收到的点赞总数       | int    |
+| author_reports      |      | 必有   | 该题解作者所发表的题解收到的举报总数       | int    |
 
 
 
