@@ -2097,7 +2097,7 @@ Content-Type: application/json
 Content-Type: application/json
 ```
 
-```python
+```json
 {
   "ret": 0,
   "msg": "Normal operation."
@@ -2144,7 +2144,7 @@ Content-Type: application/json
 
 正常返回(ret=0):
 
-```python
+```json
 {
   "id": 1,
   "title": "xuanze1",
@@ -2152,7 +2152,6 @@ Content-Type: application/json
   "sub_que_num": 1,
   "sub_que": [
     {
-      "sub_question": {
         "number": 1,
         "stem": "qwer",
         "options": [
@@ -2161,10 +2160,9 @@ Content-Type: application/json
           "c",
           "d"
         ],
-        "answer": "A"
-      },
-      "option": "A"
-    }
+        "answer": "A",
+      	"option": "A"
+    },
   ],
   "ret": 0,
   "msg": "Normal operation."
@@ -2182,19 +2180,13 @@ Content-Type: application/json
 
 其中sub_que是包含多个子题目信息的列表，每个子题目信息的参数信息如下所示：
 
-| 参数名       | 示例 | 必要性 | 含义             | 类型   |
-| ------------ | ---- | ------ | ---------------- | ------ |
-| sub_question | {}   | 必有   | 子题目的详细信息 | int    |
-| options      | A    | 必有   | 用户选项         | string |
-
-其中sub_question是包含子题目详细信息的列表，每个子题目详细信息的参数信息如下所示：
-
-| 参数名 | 示例                 | 必要性 | 含义         | 类型   |
-| ------ | -------------------- | ------ | ------------ | ------ |
-| number | 1                    | 必有   | 子题目的题号 | int    |
-| stem   | qwer                 | 必有   | 题干         | string |
-| option | [“a”, “b”, “c”, “d”] | 必有   | 选项         | string |
-| answer | A                    | 必有   | 题目答案     | string |
+| 参数名  | 示例                 | 必要性 | 含义         | 类型   |
+| ------- | -------------------- | ------ | ------------ | ------ |
+| number  | 1                    | 必有   | 子题目的题号 | int    |
+| stem    | qwer                 | 必有   | 题干         | string |
+| options | [“a”, “b”, “c”, “d”] | 必有   | 选项         | string |
+| answer  | A                    | 必有   | 题目答案     | string |
+| option  | A                    | 必有   | 用户选项     | string |
 
 错误返回(ret=3):
 
@@ -2294,7 +2286,7 @@ Content-Type: application/json
   "sub_que_num": 1,
   "sub_que": [
     {
-      "id": 8,
+      "id": 6,
       "number": 1,
       "stem": null,
       "options": [
