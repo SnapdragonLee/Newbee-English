@@ -2432,9 +2432,9 @@ Content-Type: application/json
 
 **参数信息**
 
-| 参数名 | 示例 | 必要性 | 含义       | 类型 |
-| ------ | ---- | ------ | ---------- | ---- |
-| id     | 2    | 必有   | 子题目的ID | int  |
+| 参数名 | 示例 | 必要性 | 含义     | 类型 |
+| ------ | ---- | ------ | -------- | ---- |
+| id     | 2    | 必有   | 大题的ID | int  |
 
 
 
@@ -2454,30 +2454,34 @@ Content-Type: application/json
 ```js
 {
   "solution_num": 2,
-  "solution": [
-    {
-      "id": 111,
-      "content": "题解内容",
-      "likes": 3,
-      "reports": 1,
-      "approved": 0,
-      "author_username":"小明",
-      "author_solution_sum":10,
-      "author_likes": 34,
-       "author_reports": 2
-    },
-    {
-      "id": 112,
-      "content": "题解内容",
-      "likes": 5,
-      "reports": 11,
-      "approved": 1,
-      "author_username":"小红",
-      "author_solution_sum":10,
-      "author_likes": 15,
-       "author_reports": 12
-    }
+  "solution": 
+  [
+      {
+          "number": 1,
+          "id": 111,
+          "content": "题解内容",
+          "likes": 3,
+          "reports": 1,
+          "approved": 0,
+          "author_username":"小明",
+          "author_solution_sum":10,
+          "author_likes": 34,
+          "author_reports": 2
+      },
+      {
+          "number": 2,
+          "id": 112,
+          "content": "题解内容",
+          "likes": 5,
+          "reports": 11,
+          "approved": 1,
+          "author_username":"小红",
+          "author_solution_sum":10,
+          "author_likes": 15,
+          "author_reports": 12
+      }
   ]
+  
 }
 ```
 
@@ -2485,13 +2489,14 @@ Content-Type: application/json
 
 | 参数名       | 示例 | 必要性 | 含义                   | 类型 |
 | ------------ | ---- | ------ | ---------------------- | ---- |
-| solution_num |      | 必有   | 题解数量               | int  |
+| solution_num |      | 必有   | 该大题所有题解的总数   | int  |
 | solution     |      | 必有   | 题解信息字典组成的列表 | 数组 |
 
 ​	题解信息字典格式如下
 
 | 参数名              | 示例    | 必要性 | 含义                                                     | 类型   |
 | ------------------- | ------- | ------ | -------------------------------------------------------- | ------ |
+| number              |         | 必有   | 该题解所属小题的序号                                     | int    |
 | id                  |         | 必有   | 该题解的id                                               | int    |
 | content             |         | 必有   | 该题解内容                                               | string |
 | likes               |         | 必有   | 该题解点赞数                                             | int    |
