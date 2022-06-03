@@ -64,7 +64,7 @@
 - [x] 发表题解
 - [x] 为题解点赞
 - [x] 举报题解
-- [ ] 查看排名
+- [x] 查看排名
 - [x] 查看公告
 
 
@@ -2647,18 +2647,22 @@ Content-Type: application/json
 
 ### 查看做题积分排名
 
-前端不需要提供任何数据，只需要按照返回的数据格式进行解读即可。
+前端需要提供页码，只需要按照返回的数据格式进行解读即可。
 
 #### 请求
 
 **请求头**
 
 ```
- GET /api/user/rank_que
+ GET /api/user/rank_que?pagenumber=1
  Cookie: sessionid=<sessionid数值>
 ```
 
+**参数信息**
 
+| 参数名     | 示例 | 必要性 | 含义       | 类型   |
+| ---------- | ---- | ------ | ---------- | ------ |
+| pagenumber | 1    | 必须   | 查找的页面 | string |
 
 #### 响应
 
@@ -2685,6 +2689,7 @@ Content-Type: application/json
       "rank_question": "0"
     }
   ],
+  "page_all": "1",
   "ret ": "0",
   "msg": "Normal operation."
 }
@@ -2703,23 +2708,29 @@ Content-Type: application/json
 
 | 参数名        | 示例 | 必要性 | 含义           | 类型   |
 | ------------- | ---- | ------ | -------------- | ------ |
-| name          | eexx | 必要   | 用户名         | string |
+| user_name     | eexx | 必要   | 用户名         | string |
 | rank_question | 6    | 必要   | 获得的做题积分 | int    |
 
 
 
 ### 查看题解积分排名
 
-前端不需要提供任何数据，只需要按照返回的数据格式进行解读即可。
+前端需要提供页码，只需要按照返回的数据格式进行解读即可。
 
 #### 请求
 
 **请求头**
 
 ```
- GET /api/user/rank_sol
+ GET /api/user/rank_sol?pagenumber=1
  Cookie: sessionid=<sessionid数值>
 ```
+
+**参数信息**
+
+| 参数名     | 示例 | 必要性 | 含义       | 类型   |
+| ---------- | ---- | ------ | ---------- | ------ |
+| pagenumber | 1    | 必须   | 查找的页面 | string |
 
 
 
@@ -2748,6 +2759,7 @@ Content-Type: application/json
       "rank_solution": "0"
     }
   ],
+  "page_all": "1",
   "ret ": "0",
   "msg": "Normal operation."
 }
@@ -2766,7 +2778,7 @@ Content-Type: application/json
 
 | 参数名        | 示例 | 必要性 | 含义           | 类型   |
 | ------------- | ---- | ------ | -------------- | ------ |
-| name          | eexx | 必要   | 用户名         | string |
+| user_name     | eexx | 必要   | 用户名         | string |
 | rank_solution | 6    | 必要   | 获得的题解积分 | int    |
 
 
