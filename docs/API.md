@@ -271,9 +271,7 @@ Cookie: sessionid=<sessionid数值>
 | pagesize   | 12       | 必有   | 每页列出的账号数量                                           | int    |
 | sorttype   | 1        | 必有   | 排序方式（正序为 1，倒序为 0）                               | int    |
 | sortname   | numc     | 必有   | 按照哪个属性排序（查看信息则为空，numc为做过的完型数量，numm为做过的选择题数量，numr为做过的阅读题数量） | string |
-| name       | xiaohong | 必有   | 需要搜索的用户名                                             | string |
-
-
+| name       | xiaohong | 可选   | 需要搜索的用户名                                             | string |
 
 #### 响应
 
@@ -346,109 +344,6 @@ Content-Type: application/json
 | reports           |      | 必有   | 用户发表的题解收到的举报总数 | int    |
 
 
-
-### 搜索用户信息
-
-管理员通过此api根据用户的用户名搜索用户信息。
-
-#### 请求
-
-**请求头**
-
-```
-GET /api/admin/designated_user?name=test&pagesize=12&pagenumber=1
-Cookie: sessionid=<sessionid数值>
-```
-
-**消息体**
-
-```json
-{
-  "username" : "test",
-  "pagenumber" : "2",
-  "pagesize" : "12"
-}
-```
-
-**参数信息**
-
-| 参数名     | 示例 | 必要性 | 含义               | 类型   |
-| ---------- | ---- | ------ | ------------------ | ------ |
-| username   | test | 必有   | 待搜索的用户名     | string |
-| pagenumber | 2    | 必有   | 获取第几页的信息   | int    |
-| pagesize   | 12   | 必有   | 每页列出的账号数量 | int    |
-
-
-
-#### 响应
-
-**响应头**
-
-```
-200 OK
-Content-Type: application/json
-```
-
-**消息体**
-
-正常返回(ret=0):
-
-```json
-{
-  "ret": 0,
-  "msg": "******",
-  "list": [
-    {
-      "name": "小明",
-      "numm": "888",
-      "numc": "777",
-      "numr": "666",
-       "right_choice_que": "542",
-      "right_reading_que": "245",
-      "right_cloze_que": "335",
-      "solution_sum":20,
-       "likes": 33,
-      "reports":10
-    },
-    {
-      "name": "小红",
-      "numm": "888",
-      "numc": "999",
-      "numr": "555",
-      "right_choice_que": "542",
-      "right_reading_que": "245",
-      "right_cloze_que": "335",
-      "solution_sum":12,
-       "likes": 9,
-      "reports":5
-    }
-  ],
-  "total": 32
-}
-```
-
-**参数信息**
-
-| 参数名 | 示例    | 必要性 | 含义               | 类型info |
-| ------ | ------- | ------ | ------------------ | -------- |
-| ret    | 0       | 必有   | 是否正常返回       | int      |
-| list   | [{},{}] | 必有   | 搜索到的用户的信息 | list     |
-| total  | 32      | 必有   | 搜索到的用户的数量 | int      |
-
-其中 `list` 是包含多个查找结果的列表，每个结果的参数信息如下所示：
-
-| 参数名            | 示例 | 必要性 | 含义                         | 类型   |
-| ----------------- | ---- | ------ | ---------------------------- | ------ |
-| name              | test | 必有   | 用户名                       | string |
-| numm              | 888  | 必有   | 单选数量                     | string |
-| numc              | 777  | 必有   | 完型数量                     | string |
-| numr              | 666  | 必有   | 阅读数量                     | string |
-| right_choice_que  | 542  | 必有   | 用户做对的选择数量           | int    |
-| right_reading_que | 254  | 必有   | 用户做对的阅读数量           | int    |
-| right_cloze_que   | 335  | 必有   | 用户做对的完型数量           | int    |
-| solution_sum      |      | 必有   | 用户发表的题解总数           | int    |
-| likes             |      | 必有   | 用户发表的题解收到的点赞总数 | int    |
-| reports           |      | 必有   | 用户发表的题解收到的举报总数 | int    |
 
 
 
@@ -1705,62 +1600,6 @@ Content-Type: application/json
 | 参数名   | 示例 | 必要性 | 含义   | 类型   |
 | -------- | ---- | ------ | ------ | ------ |
 | username |      | 必有   | 用户名 | string |
-
-
-
-### 修改用户名
-
-#### 请求
-
-**请求头**
-
-```
- POST /api/user/profile
- Cookie: sessionid=<sessionid数值>
-```
-
-**消息体**
-
-```json
-{
-  "username": "新用户名"
-}
-```
-
-**参数信息**
-
-| 参数名   | 示例 | 必要性 | 含义     | 类型   |
-| -------- | ---- | ------ | -------- | ------ |
-| username |      | 必须   | 新用户名 | string |
-
-#### 响应
-
-**响应头**
-
-```
-200 OK
-Content-Type: application/json
-```
-
-**消息体**
-
-正常返回(ret=0):
-
-```json
-{
-  "ret": 0,
-  "msg": "******"
-}
-```
-
-异常返回(ret≠0):
-
-```json
-{
-  "ret": 3,
-  "msg": "***"
-}
-```
 
 
 
