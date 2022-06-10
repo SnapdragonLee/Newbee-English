@@ -257,7 +257,7 @@ Content-Type: application/json
 **请求头**
 
 ```
-GET /api/admin/list_user?pagenumber=2&pagesize=12&sorttype=1&sortname=numc
+GET /api/admin/list_user?pagenumber=2&pagesize=12&sorttype=1&sortname=numc&name=abc
 Cookie: sessionid=<sessionid数值>
 ```
 
@@ -265,12 +265,13 @@ Cookie: sessionid=<sessionid数值>
 
 **参数信息**
 
-| 参数名     | 示例 | 必要性 | 含义                                                         | 类型   |
-| ---------- | ---- | ------ | ------------------------------------------------------------ | ------ |
-| pagenumber | 2    | 必有   | 获取第几页的信息                                             | int    |
-| pagesize   | 12   | 必有   | 每页列出的账号数量                                           | int    |
-| sorttype   | 1    | 必有   | 排序方式（正序为 1，倒序为 0）                               | int    |
-| sortname   | numc | 必有   | 按照哪个属性排序（查看信息则为空，numc为做过的完型数量，numm为做过的选择题数量，numr为做过的阅读题数量） | string |
+| 参数名     | 示例     | 必要性 | 含义                                                         | 类型   |
+| ---------- | -------- | ------ | ------------------------------------------------------------ | ------ |
+| pagenumber | 2        | 必有   | 获取第几页的信息                                             | int    |
+| pagesize   | 12       | 必有   | 每页列出的账号数量                                           | int    |
+| sorttype   | 1        | 必有   | 排序方式（正序为 1，倒序为 0）                               | int    |
+| sortname   | numc     | 必有   | 按照哪个属性排序（查看信息则为空，numc为做过的完型数量，numm为做过的选择题数量，numr为做过的阅读题数量） | string |
+| name       | xiaohong | 必有   | 需要搜索的用户名                                             | string |
 
 
 
@@ -1722,7 +1723,6 @@ Content-Type: application/json
 
 ```json
 {
-  "code": "xxxxx",
   "username": "新用户名"
 }
 ```
