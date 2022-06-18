@@ -4,3 +4,6 @@
 [submodule "frontend"]
 	path = frontend
 	url = https://github.com/zrjzrj0403/Newbee-Frontend
+[submodule "miniProgram"]
+	path = miniProgram
+	url = https://github.com/SnapdragonLee/Newbee-MiniProgram.git
